@@ -143,6 +143,13 @@ const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
+
+const userProfile = async(req:any, res:Response) => {
+  const {user} = req
+  res.status(200).json(user)
+}
+
+
 export {
   register,
   login,
@@ -150,4 +157,5 @@ export {
   recoverPasssword,
   verifyToken,
   updatePassword,
+  userProfile,
 };

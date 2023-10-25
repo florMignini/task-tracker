@@ -23,7 +23,7 @@ const projectSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    colaborators: [
+    collaborator: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

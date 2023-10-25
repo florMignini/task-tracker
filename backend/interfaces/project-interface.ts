@@ -3,5 +3,5 @@ export interface project extends Document{
     description: String,
     deadline: String | null,
     creator: String,
-    colaborators: Boolean,
+    collaborator: Boolean,
 }

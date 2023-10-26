@@ -17,7 +17,7 @@ export const checkAuth = async (req: any, res: Response, next: any) => {
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
         const error = new Error(`Invalid authorization`);
-        res.status(401).json({
+       return res.status(401).json({
           msg: error.message,
         });
       }

@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { project } from "../interfaces";
 
-const projectSchema = new mongoose.Schema(
+const projectSchema = new Schema(
   {
     name: {
       type: String,
@@ -36,6 +36,6 @@ const projectSchema = new mongoose.Schema(
 );
 
 
-const Project = mongoose.models.Project || mongoose.model<project>("User", projectSchema);
+ const Project = mongoose.models.Project || mongoose.model<project>("Project", projectSchema);
 
 export default Project;

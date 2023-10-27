@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import Project from "../models/Project";
+import Project  from "../models/Project";
+
 
 const createProject = async (req: any, res: Response) => {
   const newProject = new Project(req.body);

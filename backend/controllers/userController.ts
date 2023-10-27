@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 //model import
-import User from "../models/User.ts";
 import { confirmationToken, generateJWT } from "../helpers/index.ts";
+import { User } from "../models/User.ts";
 
 const register = async (req: Request, res: Response) => {
   //aviod duplicated register user

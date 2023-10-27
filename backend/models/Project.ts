@@ -16,8 +16,12 @@ const projectSchema = new Schema(
     deadline: {
       type: {
         Date,
-        default: Date.now(),
       },
+    },
+    client: {
+      type: String,
+      trim: true,
+      require: true,
     },
     creator: {
       type: mongoose.Schema.Types.ObjectId,

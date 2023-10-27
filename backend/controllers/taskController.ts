@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
 import { Task } from "../models/Task";
-import { Project } from "../models/Project";
+import Project from "../models/Project";
+
 
 const addTask = async (req:any, res:Response) => {
 const {project} = req.body;

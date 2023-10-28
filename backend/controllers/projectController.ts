@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Project  from "../models/Project";
-
+import Project from "../models/Project";
+import { Task } from "../models/Task";
 
 const createProject = async (req: any, res: Response) => {
   const newProject = new Project(req.body);
@@ -32,7 +32,11 @@ const getSingleProject = async (req: any, res: Response) => {
     const error = new Error(`user unauthorized`);
     return res.status(401).json({ msg: error.message });
   }
-  res.status(200).json(singleProject);
+
+  //get project tasks
+  const tasks = await Task.find().where("project").equals(singleProject._id);
+
+  res.status(200).json({ singleProject, tasks });
 };
 
 const editProject = async (req: any, res: Response) => {
@@ -87,8 +91,6 @@ const addCollaborator = async (req: Request, res: Response) => {};
 
 const deleteCollaborator = async (req: Request, res: Response) => {};
 
-const getTasksByProject = async (req: Request, res: Response) => {};
-
 export {
   createProject,
   getAllProjects,
@@ -97,5 +99,4 @@ export {
   deleteProject,
   addCollaborator,
   deleteCollaborator,
-  getTasksByProject,
 };

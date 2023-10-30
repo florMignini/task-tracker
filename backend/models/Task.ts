@@ -20,7 +20,10 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "In-Progress", "Complete"]
+      enum: {
+       values: ["Pending", "In-Progress", "Complete"],
+        message: `{VALUES} is not a valid status`
+      }
     },
     priority: {
         type: String,

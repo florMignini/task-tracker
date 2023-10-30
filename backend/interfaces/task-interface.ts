@@ -5,7 +5,9 @@ export interface task extends Document{
     name: String,
     description: String,
     deadline: Date | null,
-    status: String,
+    status: TaskStatus,
     priority: String,
     project: project
 }
+
+export type TaskStatus = 'pending' | 'In-Progress' | 'Completed'

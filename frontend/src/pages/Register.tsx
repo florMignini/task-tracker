@@ -19,8 +19,29 @@ const Register = () => {
       setAlert({
         msg: "All fields are required",
         error: true,
-      });
+      })
+      return;
     }
+    /* comparing passwords and password confirm */
+    if(password !== repeatPassword){
+      setAlert({
+        msg: "Passwords do not match",
+        error: true,
+      })
+      return;
+    }
+    /* minimal password length validation */
+    if(password.length < 8 ){
+      setAlert({
+        msg: "The password must be at least 8 characters",
+        error: true,
+      })
+      return;
+    }
+    /* reset alert state */
+    setAlert({})
+    /* once all validation are successfully passed proceed to create user */
+    
   };
   const { msg } = alert;
   return (

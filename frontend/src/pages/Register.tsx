@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Toaster } from "../components/Toaster";
+import axios from "axios";
 export interface alertType {
   msg?: string;
   error?: boolean;
@@ -12,36 +13,44 @@ const Register = () => {
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [alert, setAlert] = useState<alertType>({});
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     //all fields are required validation
     if ([name, email, password, repeatPassword].includes("")) {
       setAlert({
         msg: "All fields are required",
         error: true,
-      })
+      });
       return;
     }
     /* comparing passwords and password confirm */
-    if(password !== repeatPassword){
+    if (password !== repeatPassword) {
       setAlert({
         msg: "Passwords do not match",
         error: true,
-      })
+      });
       return;
     }
     /* minimal password length validation */
-    if(password.length < 8 ){
+    if (password.length < 8) {
       setAlert({
         msg: "The password must be at least 8 characters",
         error: true,
-      })
+      });
       return;
     }
     /* reset alert state */
-    setAlert({})
+    setAlert({});
     /* once all validation are successfully passed proceed to create user */
-    
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3000/user/register`,
+        {name, email, password}
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const { msg } = alert;
   return (

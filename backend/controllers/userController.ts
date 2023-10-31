@@ -20,7 +20,9 @@ const register = async (req: Request, res: Response) => {
     newUser.token = confirmationToken();
     const newUserCreated = await newUser.save();
 
-    return res.status(201).json(newUserCreated);
+    return res.status(201).json({
+      msg: "User created successfully",
+    });
   } catch (error) {
     console.log(error);
   }

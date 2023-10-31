@@ -6,7 +6,6 @@ import {
   editProject,
   deleteProject,
   addCollaborator,
-  getTasksByProject,
   deleteCollaborator,
 } from "../controllers/index.ts";
 import { checkAuth } from "../middleware/check-auth.ts";
@@ -21,7 +20,6 @@ router
   .put(checkAuth, editProject)
   .delete(checkAuth, deleteProject);
 
-router.get("/tasks/:id", checkAuth, getTasksByProject);
 
 router.post("/add-collaborator/:id", checkAuth, addCollaborator);
 

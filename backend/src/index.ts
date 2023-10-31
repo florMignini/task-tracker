@@ -1,5 +1,6 @@
 
 import express from "express";
+import cors from 'cors'
 //db import
 import connectDB from "../config/db";
 //routes imports
@@ -13,6 +14,22 @@ const app = express();
 app.use(express.json());
 //DB connection 
 connectDB()
+
+//cors config
+const whiteList = ["http://localhost:5173"]
+const corsOptions = {
+    origin: (origin:any, callback:any) => {
+        if (whiteList.includes(origin)) {
+            /* is allow to consult */
+            callback(null, true)
+        } else {
+            /* is not allowed */
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+app.use(cors(corsOptions))
+
 
 //Router configuration
 app.use("/user", userRoutes )

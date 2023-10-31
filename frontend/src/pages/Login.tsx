@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -22,6 +27,8 @@ const Login = () => {
                       type="text"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Email address"
+                      value={email}
+                      onChange={({target})=>setEmail(target.value)}
                     />
                     <label
                       htmlFor="email"
@@ -38,6 +45,8 @@ const Login = () => {
                       type="password"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Password"
+                      value={password}
+                      onChange={({target})=>setPassword(target.value)}
                     />
                     <label
                       htmlFor="password"

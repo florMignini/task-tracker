@@ -47,12 +47,12 @@ const Login = () => {
                     </label>
                   </div>
                   <div className="relative">
-                    <input
-                      className="bg-blue-500 w-full text-white rounded-md px-2 py-1 hover:cursor-pointer
-							hover:bg-blue-600 transition-colors"
+                    <button
+                      className="bg-blue-500 w-full text-white text-sm font-bold rounded-md px-2 py-1 hover:cursor-pointer
+							hover:bg-blue-600 transition-colors uppercase"
                       type="submit"
                       placeholder="submit"
-                    />
+                    >submit</button>
                   </div>
                 </form>
                 <nav className="justify-start lg:flex lg:justify-between">
@@ -61,7 +61,7 @@ const Login = () => {
 				to="/register">Not registered yet?</Link>
 				<Link 
 				className="block lg:text-center font-light text-sm my-5 text-slate-500" 
-				to="/register">forget the password?</Link>
+				to="/forgotten-password">forgotten password?</Link>
                 </nav>
               </div>
             </div>

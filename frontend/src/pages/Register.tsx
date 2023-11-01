@@ -47,9 +47,16 @@ const Register = () => {
         `http://localhost:3000/user/register`,
         {name, email, password}
       );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      setAlert({
+        msg: data.msg,
+        error: false,
+      })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      setAlert({
+        msg: error.response.data.msg,
+        error: true,
+      });
     }
   };
   const { msg } = alert;

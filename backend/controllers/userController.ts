@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 //model import
-import { confirmationToken, generateJWT } from "../helpers/index.ts";
+import { confirmationToken, generateJWT, registerVerification } from "../helpers/index.ts";
 import { User } from "../models/User.ts";
 
 const register = async (req: Request, res: Response) => {
@@ -20,8 +20,15 @@ const register = async (req: Request, res: Response) => {
     newUser.token = confirmationToken();
     const newUserCreated = await newUser.save();
 
+    /* send account verification email */
+    registerVerification({
+      email: newUserCreated.email,
+      name: newUserCreated.name,
+      token: newUserCreated.token
+    })
+
     return res.status(201).json({
-      msg: "User successfully created, check your email and verify your account",
+      msg: "Account successfully created, check your email and verify it.",
     });
   } catch (error) {
     console.log(error);
@@ -145,12 +152,10 @@ const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
-
-const userProfile = async(req:any, res:Response) => {
-  const {user} = req
-  res.status(200).json(user)
-}
-
+const userProfile = async (req: any, res: Response) => {
+  const { user } = req;
+  res.status(200).json(user);
+};
 
 export {
   register,

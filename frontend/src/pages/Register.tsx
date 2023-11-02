@@ -44,7 +44,7 @@ const Register = () => {
     /* once all validation are successfully passed proceed to create user */
     try {
       const { data } = await axios.post(
-        `http://localhost:3000/user/register`,
+        `${import.meta.env.VITE_SERVER_URL}/user/register`,
         {name, email, password}
       );
       setAlert({

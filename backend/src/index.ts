@@ -16,7 +16,7 @@ app.use(express.json());
 connectDB()
 
 //cors config
-const whiteList = ["http://localhost:5173"]
+const whiteList = [process.env.FRONTEND_URL]
 const corsOptions = {
     origin: (origin:any, callback:any) => {
         if (whiteList.includes(origin)) {

@@ -81,7 +81,7 @@ const confirmSession = async (req: Request, res: Response) => {
     userToConfirm.token = null;
     await userToConfirm.save();
     res.status(200).json({
-      msg: `Account successfully confirmed`,
+      msg: `Account successfully verified, Welcome to task-tracker app`,
     });
   } catch (error: any) {
     res.status(403).json({ message: error.message });

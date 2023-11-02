@@ -21,12 +21,12 @@ export const registerVerification = async({email, name, token}: personalInfoType
         text: `Verify your email account`,
         html: 
         `
-        <p> Hi! ${name} - verify your task-tracker account, click on the link below</p>
+        <p> <strong>Hi! ${name}</strong> - verify your task-tracker account, click on the link below</p>
 
         <a href="${process.env.FRONTEND_URL}/confirm-account/${token}"> Verify Account</a>
 
-        <p>If you did not create an account, no further action is required.
-        You are receiving this email because this is an important message regarding your account.</p>
+        <small>If you did not create an account, no further action is required.
+        You are receiving this email because this is an important message regarding your account.</small>
         `
 })
 };

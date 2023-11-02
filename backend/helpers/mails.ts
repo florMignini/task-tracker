@@ -23,7 +23,7 @@ export const registerVerification = async({email, name, token}: personalInfoType
         `
         <p> Hi! ${name} - verify your task-tracker account, click on the link below</p>
 
-        <a href="${process.env.FRONTEND_URL}/confirm/${token}"> Verify Account</a>
+        <a href="${process.env.FRONTEND_URL}/confirm-account/${token}"> Verify Account</a>
 
         <p>If you did not create an account, no further action is required.
         You are receiving this email because this is an important message regarding your account.</p>

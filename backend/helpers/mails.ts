@@ -54,7 +54,7 @@ export const forgottenPasswordVerification = async({email, name, token}: persona
       <p> <strong>Hi! ${name}</strong> - this email is being sent to you because you asked for a recovery password action</p>
 <p>Follow the link belog and reset your password</p>
         
-        <a href="${process.env.FRONTEND_URL}/recover-password/${token}"> Reset password</a>
+        <a href="${process.env.FRONTEND_URL}/forgotten-password/${token}"> Reset password</a>
 
         <p>If you did not asked for a recovery password action please dismiss this email</p>
       

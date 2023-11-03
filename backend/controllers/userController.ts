@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 //model import
-import { confirmationToken, generateJWT, registerVerification } from "../helpers/index.ts";
+import { confirmationToken, forgottenPasswordVerification, generateJWT, registerVerification } from "../helpers/index.ts";
 import { User } from "../models/User.ts";
 
 const register = async (req: Request, res: Response) => {
@@ -102,6 +102,12 @@ const recoverPasssword = async (req: Request, res: Response) => {
   try {
     userExist.token = generateJWT(userExist._id);
     await userExist.save();
+      /* send recovery password email */
+      forgottenPasswordVerification({
+        email: userExist.email,
+        name: userExist.name,
+        token: userExist.token
+      })
    return res.status(200).json({
       msg: `Password recovery link sent to ${email}`,
     });

@@ -71,7 +71,7 @@ const confirmSession = async (req: Request, res: Response) => {
 
   if (!userToConfirm) {
     const error = new Error(`Access denied`);
-    res.status(403).json({ message: error.message });
+   return res.status(403).json({ message: error.message });
   }
 
   try {
@@ -80,11 +80,11 @@ const confirmSession = async (req: Request, res: Response) => {
     //reset token on user model
     userToConfirm.token = null;
     await userToConfirm.save();
-    res.status(200).json({
+   return res.status(200).json({
       msg: `Account successfully verified, Welcome to task-tracker app`,
     });
   } catch (error: any) {
-    res.status(403).json({ message: error.message });
+   return res.status(403).json({ message: error.message });
   }
 };
 
@@ -102,10 +102,12 @@ const recoverPasssword = async (req: Request, res: Response) => {
   try {
     userExist.token = generateJWT(userExist._id);
     await userExist.save();
-    res.status(200).json({
+   return res.status(200).json({
       msg: `Password recovery link sent to ${email}`,
     });
-  } catch (error) {}
+  } catch (error:any) {
+    return res.status(403).json({ message: error.message });
+  }
 };
 
 const verifyToken = async (req: Request, res: Response) => {

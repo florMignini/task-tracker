@@ -16,7 +16,7 @@ const ConfirmAccount = () => {
     const confirmAccount = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/confirm/${token}`
+          `${import.meta.env.VITE_SERVER_URL}/user/confirm/${token}`
         );
         setAlert({
         msg: data.msg,
@@ -51,7 +51,7 @@ const ConfirmAccount = () => {
                    {
                    verified && (
                     <Link
-                    className="block lg:text-center font-light text-sm my-5 text-slate-500"
+                    className="block lg:text-center font-bold text-sm my-5 cursor-pointer hover:underline-8"
                     to="/"
                   >
                     Let's login!

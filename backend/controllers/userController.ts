@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 //model import
-import { confirmationToken, forgottenPasswordVerification, generateJWT, registerVerification } from "../helpers/index.ts";
+import {
+  confirmationToken,
+  forgottenPasswordVerification,
+  generateJWT,
+  registerVerification,
+} from "../helpers/index.ts";
 import { User } from "../models/User.ts";
 
 const register = async (req: Request, res: Response) => {
@@ -24,8 +29,8 @@ const register = async (req: Request, res: Response) => {
     registerVerification({
       email: newUserCreated.email,
       name: newUserCreated.name,
-      token: newUserCreated.token
-    })
+      token: newUserCreated.token,
+    });
 
     return res.status(201).json({
       msg: "Account successfully created, check your email and verify it.",
@@ -71,7 +76,7 @@ const confirmSession = async (req: Request, res: Response) => {
 
   if (!userToConfirm) {
     const error = new Error(`Access denied`);
-   return res.status(403).json({ message: error.message });
+    return res.status(403).json({ message: error.message });
   }
 
   try {
@@ -80,11 +85,11 @@ const confirmSession = async (req: Request, res: Response) => {
     //reset token on user model
     userToConfirm.token = null;
     await userToConfirm.save();
-   return res.status(200).json({
+    return res.status(200).json({
       msg: `Account successfully verified, Welcome to task-tracker app`,
     });
   } catch (error: any) {
-   return res.status(403).json({ message: error.message });
+    return res.status(403).json({ message: error.message });
   }
 };
 
@@ -102,16 +107,16 @@ const recoverPasssword = async (req: Request, res: Response) => {
   try {
     userExist.token = generateJWT(userExist._id);
     await userExist.save();
-      /* send recovery password email */
-      forgottenPasswordVerification({
-        email: userExist.email,
-        name: userExist.name,
-        token: userExist.token
-      })
-   return res.status(200).json({
+    /* send recovery password email */
+    forgottenPasswordVerification({
+      email: userExist.email,
+      name: userExist.name,
+      token: userExist.token,
+    });
+    return res.status(200).json({
       msg: `Password recovery link sent to ${email}`,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return res.status(403).json({ message: error.message });
   }
 };

@@ -7,16 +7,21 @@ import { Toaster } from "../components/Toaster";
 const ChangePassword = () => {
   const [alert, setAlert] = useState<alertType>({});
   const [validToken, setValidToken] = useState<boolean>(false);
+  const [verified, setVerified] = useState<boolean>(false);
+  //get token from url
   const { search } = useLocation();
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const tokenParam = query.get("token");
-console.log(tokenParam);
+  //new password state
+  const [password, setPassword] = useState<string>("");
   //verify if token is valid
   useEffect(() => {
     const verifyToken = async () => {
       try {
-       await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/user/recover-password/${tokenParam}`
+        await axios.get(
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/user/recover-password/${tokenParam}`
         );
         setValidToken(true);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,10 +31,42 @@ console.log(tokenParam);
           error: true,
         });
       }
-    }
-    verifyToken()
+    };
+    verifyToken();
   }, [tokenParam]);
-console.log(validToken)
+  //submit new password action
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    /* minimal password length validation */
+    if (password.length < 8) {
+      setAlert({
+        msg: "The password must be at least 8 characters",
+        error: true,
+      });
+      return;
+    }
+    try {
+      const { data } = await axios.post(
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/user/recover-password/${tokenParam}`,
+        { password }
+      );
+      setAlert({
+      msg: data.msg,
+      error: false,
+      })
+      setVerified(true)
+      setValidToken(false)
+      setPassword('')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setAlert({
+        msg: error.response.data.msg,
+        error: true,
+      });
+    }
+  };
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -41,10 +78,13 @@ console.log(validToken)
                 <h1 className="text-2xl font-semibold">Reset password!</h1>
               </div>
               <div className="divide-y divide-gray-200">
-                 {/* toast msg */}
-                 {alert.msg && <Toaster {...alert} />}
+                {/* toast msg */}
+                {alert.msg && <Toaster {...alert} />}
                 {validToken && (
-                  <form className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <form
+                    className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="relative">
                       <input
                         autoComplete="off"
@@ -53,6 +93,10 @@ console.log(validToken)
                         type="password"
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Set new password"
+                        value={password}
+                        onChange={({ target }) => {
+                          setPassword(target.value);
+                        }}
                       />
                       <label
                         htmlFor="password"
@@ -73,19 +117,18 @@ console.log(validToken)
                     </div>
                   </form>
                 )}
-                <nav className="justify-start lg:flex lg:justify-between">
-                  <Link
-                    className="block lg:text-center font-light text-sm my-5 text-slate-500"
-                    to="/register"
-                  >
-                    Not registered yet?
-                  </Link>
-                  <Link
-                    className="block lg:text-center font-light text-sm my-5 text-slate-500"
+                <nav className="justify-center lg:flex lg:justify-between">
+                  {/* signIn redirect link */}
+                  {
+                   verified && (
+                    <Link
+                    className="block lg:text-center font-bold text-sm my-5 cursor-pointer hover:underline-8"
                     to="/"
                   >
-                    Login
+                    Let's login!
                   </Link>
+                    )
+                   }
                 </nav>
               </div>
             </div>

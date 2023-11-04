@@ -93,7 +93,7 @@ const confirmSession = async (req: Request, res: Response) => {
   }
 };
 
-const recoverPasssword = async (req: Request, res: Response) => {
+const recoverPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   const userExist = await User.findOne({ email });
@@ -174,7 +174,7 @@ export {
   register,
   login,
   confirmSession,
-  recoverPasssword,
+  recoverPassword,
   verifyToken,
   updatePassword,
   userProfile,

@@ -1,11 +1,55 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { alertType } from "./Register";
+import { Toaster } from "../components/Toaster";
+import axios from "axios";
 
 const Login = () => {
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+const [alert, setAlert] = useState<alertType>({})
 
+//Login form submit action
+const handleSubmit = async(e: { preventDefault: () => void; }) => {
+e.preventDefault()
+//all fields are required validation
+if ([email, password].includes("")) {
+  setAlert({
+    msg: "All fields are required",
+    error: true,
+  });
+  return;
+}
+/* minimal password length validation */
+if (password.length < 8) {
+  setAlert({
+    msg: "The password must be at least 8 characters",
+    error: true,
+  });
+  return;
+}
+try {
+  const { data } = await axios.post(
+    `${
+      import.meta.env.VITE_SERVER_URL
+    }/user/login`,
+    {email, password }
+  );
+  setAlert({
+  msg: data.msg,
+  error: false,
+  })
+  setPassword('') 
+  setEmail('') 
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} catch (error: any) {
+  setAlert({
+    msg: error.response.data.msg,
+    error: true,
+  });
+}
+}
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -18,7 +62,13 @@ const Login = () => {
                 <p className="text-sm font-thin">Welcome back</p>
               </div>
               <div className="divide-y divide-gray-200">
-                <form className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                <form className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+                onSubmit={handleSubmit}
+                >
+                   {/* toast msg */}
+                   <div className="mb-1">
+                  {alert.msg && <Toaster {...alert} />}
+                  </div>
                   <div className="relative">
                     <input
                       autoComplete="off"

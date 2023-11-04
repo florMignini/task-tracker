@@ -11,7 +11,7 @@ const App = () => {
           <Route index element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgotten-password" element={<ForgottenPassword />} />
-          <Route path="forgotten-password/:token" element={<ChangePassword />} />
+          <Route path="forgotten-password/recovery" element={<ChangePassword />} />
           <Route path="confirm-account/:token" element={<ConfirmAccount />} />
         </Route>
       </Routes>

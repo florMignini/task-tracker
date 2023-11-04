@@ -1,8 +1,14 @@
-import { Link, useParams } from "react-router-dom";
+
+
+import { useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 
 const ChangePassword = () => {
-  const params = useParams()
-  console.log(params)
+  const {search} = useLocation();
+ const query = useMemo(() => new URLSearchParams(search), [search]);
+//  console.log(query.get("token"))
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -37,16 +43,24 @@ const ChangePassword = () => {
 							hover:bg-blue-600 transition-colors uppercase"
                       type="submit"
                       placeholder="submit"
-                    >save new password</button>
+                    >
+                      save new password
+                    </button>
                   </div>
                 </form>
                 <nav className="justify-start lg:flex lg:justify-between">
-                  <Link 
-				className="block lg:text-center font-light text-sm my-5 text-slate-500" 
-				to="/register">Not registered yet?</Link>
-				<Link 
-				className="block lg:text-center font-light text-sm my-5 text-slate-500" 
-				to="/forgotten-password">forgotten password?</Link>
+                  <Link
+                    className="block lg:text-center font-light text-sm my-5 text-slate-500"
+                    to="/register"
+                  >
+                    Not registered yet?
+                  </Link>
+                  <Link
+                    className="block lg:text-center font-light text-sm my-5 text-slate-500"
+                    to="/forgotten-password"
+                  >
+                    forgotten password?
+                  </Link>
                 </nav>
               </div>
             </div>

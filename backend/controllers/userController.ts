@@ -167,6 +167,7 @@ const updatePassword = async (req: Request, res: Response) => {
 
 const userProfile = async (req: any, res: Response) => {
   const { user } = req;
+  // console.log(user)
   res.status(200).json(user);
 };
 

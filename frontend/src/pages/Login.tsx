@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import { alertType } from "./Register";
 import { Toaster } from "../components/Toaster";
 import axios from "axios";
+//importing auth context hook 
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 const [alert, setAlert] = useState<alertType>({})
+
+//auth context hook
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {setAuth}:any = useAuth();
 
 //Login form submit action
 const handleSubmit = async(e: { preventDefault: () => void; }) => {
@@ -42,6 +48,8 @@ try {
   })
   setPassword('') 
   setEmail('') 
+  localStorage.setItem("token", data.token)
+  setAuth(data)
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   setAlert({

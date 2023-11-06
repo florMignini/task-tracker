@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { alertType } from "./Register";
 import { Toaster } from "../components/Toaster";
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 import useAuth from "../hooks/useAuth";
 
 const Login = () => {
-
+const navigate = useNavigate()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 const [alert, setAlert] = useState<alertType>({})
@@ -50,6 +50,7 @@ try {
   setEmail('') 
   localStorage.setItem("token", data.token)
   setAuth(data)
+  navigate("/projects")
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   setAlert({

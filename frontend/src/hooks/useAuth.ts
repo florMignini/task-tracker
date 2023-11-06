@@ -1,8 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
-const useAuth = () => {
-    return useContext(AuthContext)
+
+export interface useAuthType {
+  auth ?: {
+    createdAt: string;
+    email: string;
+    name: string;
+    updatedAt: string;
+    _id?: string;
+  };
+  loading?: boolean;
+  setAuth?: any;
+  setLoading?: any;
 }
+
+const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export default useAuth;

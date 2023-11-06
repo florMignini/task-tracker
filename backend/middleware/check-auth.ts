@@ -16,8 +16,6 @@ export const checkAuth = async (req: any, res: Response, next: any) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      console.log(`estoy aca`)
-
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
         const error = new Error(`Invalid authorization`);

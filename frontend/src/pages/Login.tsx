@@ -50,7 +50,7 @@ try {
   setEmail('') 
   localStorage.setItem("token", data.token)
   setAuth(data)
-  navigate("/projects")
+  navigate("/dashboard")
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
   setAlert({

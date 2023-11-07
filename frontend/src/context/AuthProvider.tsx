@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: Props) => {
         );
 
         setAuth(data);
-        navigate(`/projects`);
+
       } catch (error: any) {
         setAuth({});
       }

@@ -28,9 +28,9 @@ const App = () => {
             <Route path="confirm-account/:token" element={<ConfirmAccount />} />
           </Route>
           {/* private routes */}
-          <Route path="/projects" element={<ProtectedLayout/>}>
-            <Route index element={<Projects/>} />
-            <Route path="new-project" element={<NewProject/>} />
+          <Route path="/dashboard" element={<ProtectedLayout />}>
+            <Route index element={<Projects />} />
+            <Route path="new-project" element={<NewProject />} />
           </Route>
         </Routes>
       </AuthProvider>

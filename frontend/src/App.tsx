@@ -9,6 +9,7 @@ import {
   Projects,
   Register,
 } from "./pages";
+import { NewProject } from "./pages/privates";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           {/* private routes */}
           <Route path="/projects" element={<ProtectedLayout/>}>
             <Route index element={<Projects/>} />
+            <Route path="new-project" element={<NewProject/>} />
           </Route>
         </Routes>
       </AuthProvider>

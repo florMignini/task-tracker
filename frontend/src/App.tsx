@@ -10,29 +10,38 @@ import {
   Register,
 } from "./pages";
 import { NewProject } from "./pages/privates";
+import { ProjectProvider } from "./context/ProjectProvider";
 
 const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          {/* public routes */}
-          <Route path="/" element={<AuthLayout />}>
-            <Route index element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="forgotten-password" element={<ForgottenPassword />} />
-            <Route
-              path="forgotten-password/recovery"
-              element={<ChangePassword />}
-            />
-            <Route path="confirm-account/:token" element={<ConfirmAccount />} />
-          </Route>
-          {/* private routes */}
-          <Route path="/dashboard" element={<ProtectedLayout />}>
-            <Route index element={<Projects />} />
-            <Route path="new-project" element={<NewProject />} />
-          </Route>
-        </Routes>
+        <ProjectProvider>
+          <Routes>
+            {/* public routes */}
+            <Route path="/" element={<AuthLayout />}>
+              <Route index element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route
+                path="forgotten-password"
+                element={<ForgottenPassword />}
+              />
+              <Route
+                path="forgotten-password/recovery"
+                element={<ChangePassword />}
+              />
+              <Route
+                path="confirm-account/:token"
+                element={<ConfirmAccount />}
+              />
+            </Route>
+            {/* private routes */}
+            <Route path="/dashboard" element={<ProtectedLayout />}>
+              <Route index element={<Projects />} />
+              <Route path="new-project" element={<NewProject />} />
+            </Route>
+          </Routes>
+        </ProjectProvider>
       </AuthProvider>
     </BrowserRouter>
   );

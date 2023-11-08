@@ -1,15 +1,40 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactNode, createContext, /* useEffect */ useState } from "react";
+import { alertType } from "../pages/Register";
 type Props = {
-    children: ReactNode;
-  };
+  children: ReactNode;
+};
+interface IProject {
+  name?: string;
+  description?: string;
+  deadline?: string;
+  client?: string;
+}
+export interface IProjectProvider {
+  projects?: IProject[];
+  loading?: boolean;
+  showAlert?: any;
+  alert?: alertType;
+  submitProject?: any;
+}
 const ProjectContext = createContext({});
 
-export const ProjectProvider = ({ children }:Props) => {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export const ProjectProvider = ({ children }: Props) => {
+  const [projects /* setProjects */] = useState([]);
+  const [loading /* setLoading */] = useState(true);
+  const [alert, setAlert] = useState<alertType>({});
+  const showAlert = (alert: alertType) => {
+    setAlert(alert);
 
-   /*  const fetchProjects = async () => {
+    setTimeout(() => {
+      showAlert({});
+    }, 4000);
+  };
+
+  const submitProject = async (project:IProject) => {
+    console.log(project)
+  };
+  /*  const fetchProjects = async () => {
       try {
         const {data} = await axios.get(`${
       import.meta.env.VITE_SERVER_URL
@@ -26,13 +51,13 @@ export const ProjectProvider = ({ children }:Props) => {
       fetchProjects();
     }, []);
  */
-    return (
-      <ProjectContext.Provider value={{ projects, loading, error }}>
-        {children}
-      </ProjectContext.Provider>
-    );
-   
+  return (
+    <ProjectContext.Provider
+      value={{ projects, loading, showAlert, alert, submitProject }}
+    >
+      {children}
+    </ProjectContext.Provider>
+  );
 };
-
 
 export default ProjectContext;

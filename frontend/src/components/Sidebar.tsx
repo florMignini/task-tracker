@@ -1,18 +1,25 @@
 import { Link } from "react-router-dom"
-import {AiOutlineAppstoreAdd} from "react-icons/ai"
+import {AiOutlineProject} from "react-icons/ai"
+import {LuLayoutDashboard} from "react-icons/lu"
 export const Sidebar = () => {
   return (
     <aside className="md:w-56 lg:w-72 pt-5 p-1">
         <h2 className="text-4xl text-gray-400 font-black text-center">Task Tracker</h2>
         {/* links section */}
-        <div className="w-full mt-20 flex items-center justify-center flex-col">
+        <div className="w-full mt-20 gap-2 flex items-center justify-center flex-col">
           
-            <Link
-            to="new-project"
-            className="w-[80%] flex items-center justify-center py-2 gap-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white text-center font-md"
+        <Link
+            to=""
+            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#3dcbb1] hover:bg-blue-400 text-white text-center font-md"
             >
-              <AiOutlineAppstoreAdd/>
-              Add Project</Link>
+              <LuLayoutDashboard/>
+              Dashboard</Link>
+              <Link
+            to="projects"
+            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#3dcbb1] hover:bg-blue-400 text-white text-center font-md"
+            >
+              <AiOutlineProject/>
+              Projects</Link>
   
         </div>
         {/* actions section */}

@@ -9,7 +9,7 @@ import {
   Projects,
   Register,
 } from "./pages";
-import { NewProject } from "./pages/privates";
+import { Dashboard, NewProject } from "./pages/privates";
 import { ProjectProvider } from "./context/ProjectProvider";
 
 const App = () => {
@@ -37,8 +37,9 @@ const App = () => {
             </Route>
             {/* private routes */}
             <Route path="/dashboard" element={<ProtectedLayout />}>
-              <Route index element={<Projects />} />
-              <Route path="new-project" element={<NewProject />} />
+              <Route index element={<Dashboard />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="projects/new-project" element={<NewProject />} />
             </Route>
           </Routes>
         </ProjectProvider>

@@ -6,7 +6,11 @@ const ProtectedLayout = () => {
   //user session information
   const { auth, loading }: useAuthType = useAuth();
 
-  if (loading) return <HashLoader color="#1ea7fd" />;
+  if (loading) return(
+    <div className="w-full max-h-screen flex items-center justify-center">
+      <HashLoader color="#1ea7fd" />
+    </div>
+    );
   return (
     <>
       {auth && auth._id ? (

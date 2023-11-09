@@ -15,7 +15,7 @@ const projectSchema = new Schema(
     },
     deadline: {
       type: {
-        Date,
+        String,
       },
     },
     client: {

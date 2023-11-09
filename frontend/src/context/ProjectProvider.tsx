@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, createContext, /* useEffect */ useState } from "react";
 import { alertType } from "../pages/Register";
+import axios from "axios";
 type Props = {
   children: ReactNode;
 };
@@ -32,7 +33,25 @@ export const ProjectProvider = ({ children }: Props) => {
   };
 
   const submitProject = async (project:IProject) => {
-    console.log(project)
+
+    try {
+      const token = localStorage.getItem("token")
+      if(!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/projects`,
+        project,
+        config
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error)
+    }
   };
   /*  const fetchProjects = async () => {
       try {

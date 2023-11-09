@@ -3,11 +3,15 @@ import Project from "../models/Project";
 import { Task } from "../models/Task";
 
 const createProject = async (req: any, res: Response) => {
+  const { newDeadline } = req.body
   const newProject = new Project(req.body);
-  newProject.creator = req.user._id;
 
+  newProject.creator = req.user._id;
+  newProject.deadline = newDeadline;
+console.log(req.body)
   try {
     const newProjectSaved = await newProject.save();
+    console.log(newProjectSaved)
     res.status(201).json(newProjectSaved);
   } catch (error) {
     console.log(error);

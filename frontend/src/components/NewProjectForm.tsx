@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useProjects } from "../hooks";
 import { Toaster } from ".";
 import { IProjectProvider } from "../context/ProjectProvider";
+import { format, parseISO } from "date-fns";
 
 export const NewProjectForm = () => {
   const [name, setName] = useState<string>("");
@@ -21,8 +22,10 @@ export const NewProjectForm = () => {
       });
       return;
     }
+    const newDeadline = format(parseISO(deadline), "dd/MM/yyyy")
+    console.log(newDeadline)
     //send data to project provider
-    submitProject({ name, description, deadline, client });
+    submitProject({ name, description, newDeadline, client });
   };
 
   return (
@@ -72,7 +75,7 @@ export const NewProjectForm = () => {
           Deadline
         </label>
         <input
-          id="name"
+          id="deadline"
           type="date"
           className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none"
           value={deadline}

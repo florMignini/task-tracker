@@ -3,12 +3,11 @@ import Project from "../models/Project";
 import { Task } from "../models/Task";
 
 const createProject = async (req: any, res: Response) => {
-  const { newDeadline } = req.body
-  const newProject = new Project(req.body);
 
+  const newProject = new Project(req.body);
   newProject.creator = req.user._id;
-  newProject.deadline = newDeadline;
-console.log(req.body)
+  console.log(req.body.deadline);
+
   try {
     const newProjectSaved = await newProject.save();
     console.log(newProjectSaved)
@@ -104,3 +103,7 @@ export {
   addCollaborator,
   deleteCollaborator,
 };
+  function ISODate(): any {
+    throw new Error("Function not implemented.");
+  }
+

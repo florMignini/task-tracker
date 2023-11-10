@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useProjects } from "../hooks";
 import { Toaster } from ".";
 import { IProjectProvider } from "../context/ProjectProvider";
-import { format, parseISO } from "date-fns";
+// import { format } from "date-fns";
+
 
 export const NewProjectForm = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [deadline, setDeadline] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [deadline, setDeadline] = useState<any>(new Date());
   const [client, setClient] = useState<string>("");
 
   const { showAlert, alert, submitProject }: IProjectProvider = useProjects();
@@ -22,10 +27,13 @@ export const NewProjectForm = () => {
       });
       return;
     }
-    const newDeadline = format(parseISO(deadline), "dd/MM/yyyy")
-    console.log(newDeadline)
+    // console.log(format(deadline, "dd/MM/yyyy"));
     //send data to project provider
-    submitProject({ name, description, newDeadline, client });
+    submitProject({
+      name,
+      description , deadline/* :format(deadline, "dd/MM/yyyy") */,
+      client,
+    });
   };
 
   return (
@@ -67,19 +75,19 @@ export const NewProjectForm = () => {
         />
       </div>
       {/* deadline */}
-      <div className="mt-5">
+      <div className="mt-5 flex flex-col">
         <label
           className="text-gray-700 capitalize font-thin text-lg"
           htmlFor="deadline"
         >
           Deadline
         </label>
-        <input
+        <DatePicker
           id="deadline"
-          type="date"
+          dateFormat="dd/MM/yyyy"
           className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none"
-          value={deadline}
-          onChange={({ target }) => setDeadline(target.value)}
+          selected={deadline}
+          onChange={(date: any) => setDeadline(date)}
         />
       </div>
       {/* client */}

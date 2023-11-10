@@ -13,11 +13,11 @@ const projectSchema = new Schema(
       trim: true,
       require: true,
     },
-    deadline: {
-      type: {
-        String,
-      },
-    },
+   deadline: {
+    type: String,
+    trim: true,
+    require: true,
+   },
     client: {
       type: String,
       trim: true,

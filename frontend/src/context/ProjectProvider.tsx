@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, createContext, /* useEffect */ useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  /* useEffect */ useState,
+} from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 type Props = {
   children: ReactNode;
 };
-interface IProject {
+export interface IProject {
   name?: string;
   description?: string;
   deadline?: string;
@@ -21,36 +26,59 @@ export interface IProjectProvider {
 const ProjectContext = createContext({});
 
 export const ProjectProvider = ({ children }: Props) => {
-  const [projects /* setProjects */] = useState([]);
-  const [loading /* setLoading */] = useState(true);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>({});
   const showAlert = (alert: alertType) => {
     setAlert(alert);
-
     setTimeout(() => {
       showAlert({});
     }, 4000);
   };
+  // get all projects by user action
+  useEffect(() => {
+    const getProjectsByUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/projects`,
+          config
+        );
+        setProjects(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProjectsByUser();
+  }, []);
 
-  const submitProject = async (project:IProject) => {
-
+  // submit project action
+  const submitProject = async (project: IProject) => {
     try {
-      const token = localStorage.getItem("token")
-      if(!token) return;
+      const token = localStorage.getItem("token");
+      if (!token) return;
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      };
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/projects`,
         project,
         config
       );
-      console.log(data);
+      setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   /*  const fetchProjects = async () => {

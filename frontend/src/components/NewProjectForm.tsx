@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useProjects } from "../hooks";
 import { Toaster } from ".";
 import { IProjectProvider } from "../context/ProjectProvider";
-// import { format } from "date-fns";
 
 
 export const NewProjectForm = () => {
@@ -27,13 +26,16 @@ export const NewProjectForm = () => {
       });
       return;
     }
-    // console.log(format(deadline, "dd/MM/yyyy"));
-    //send data to project provider
+    
     submitProject({
       name,
-      description , deadline/* :format(deadline, "dd/MM/yyyy") */,
+      description , deadline,
       client,
     });
+    setName("")
+    setDescription("")
+    setDeadline("")
+    setClient("")
   };
 
   return (

@@ -10,13 +10,13 @@ export const Sidebar = () => {
           
         <Link
             to=""
-            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#3dcbb1] hover:bg-blue-400 text-white text-center font-md"
+            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#39c7ad] hover:bg-[#0bcfab] transition-colors text-white text-center font-md"
             >
               <LuLayoutDashboard/>
               Dashboard</Link>
               <Link
             to="projects"
-            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#3dcbb1] hover:bg-blue-400 text-white text-center font-md"
+            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#39c7ad] hover:bg-[#0bcfab] transition-colors text-white text-center font-md"
             >
               <AiOutlineProject/>
               Projects</Link>

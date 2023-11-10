@@ -7,10 +7,12 @@ import {
 } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 type Props = {
   children: ReactNode;
 };
 export interface IProject {
+  _id:string;
   name?: string;
   description?: string;
   deadline?: string;
@@ -26,6 +28,8 @@ export interface IProjectProvider {
 const ProjectContext = createContext({});
 
 export const ProjectProvider = ({ children }: Props) => {
+const navigate = useNavigate()
+
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>({});
@@ -71,33 +75,22 @@ export const ProjectProvider = ({ children }: Props) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post(
+      /* const { data } = */ await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/projects`,
         project,
         config
       );
+      setAlert({
+        msg: "Project created successfully",
+        error: false,
+      })
       setLoading(false);
+      navigate("/dashboard/projects")
     } catch (error) {
       console.log(error);
     }
   };
-  /*  const fetchProjects = async () => {
-      try {
-        const {data} = await axios.get(`${
-      import.meta.env.VITE_SERVER_URL
-    }/projects`);
-        setProjects(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
 
-    useEffect(() => {
-      fetchProjects();
-    }, []);
- */
   return (
     <ProjectContext.Provider
       value={{ projects, loading, showAlert, alert, submitProject }}

@@ -75,11 +75,13 @@ const navigate = useNavigate()
           Authorization: `Bearer ${token}`,
         },
       };
-      /* const { data } = */ await axios.post(
+      const { data }: never = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/projects`,
         project,
         config
       );
+      // update state once project is added
+      setProjects([...projects, data])
       setAlert({
         msg: "Project created successfully",
         error: false,

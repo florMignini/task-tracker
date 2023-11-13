@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ReactNode,
-  createContext,
-  useEffect,
-  /* useEffect */ useState,
-} from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +7,8 @@ type Props = {
   children: ReactNode;
 };
 export interface IProject {
-  _id:string;
+  _id: string;
+  id?:string;
   name?: string;
   description?: string;
   deadline?: string;
@@ -24,14 +20,15 @@ export interface IProjectProvider {
   showAlert?: any;
   alert?: alertType;
   submitProject?: any;
-  project?: IProject
+  EditProject?: any;
+  project?: IProject;
 }
 const ProjectContext = createContext({});
 
 export const ProjectProvider = ({ children }: Props) => {
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>({});
   const [project, setProject] = useState<IProject>();
@@ -66,7 +63,7 @@ const navigate = useNavigate()
     getProjectsByUser();
   }, []);
 
-  // SUBMIT PROJECT 
+  // SUBMIT PROJECT
   const submitProject = async (project: IProject) => {
     try {
       const token = localStorage.getItem("token");
@@ -83,42 +80,85 @@ const navigate = useNavigate()
         config
       );
       // update state once project is added
-      setProjects([...projects, data])
+      setProjects([...projects, data]);
       setAlert({
         msg: "Project created successfully",
         error: false,
-      })
+      });
       setLoading(false);
-      navigate("/dashboard/projects")
+      navigate("/dashboard/projects");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // EDIT PROJECT
+  const EditProject = async (project: IProject) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data }: any = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/projects/${project.id}`,
+        project,
+        config
+      );
+    
+      // update state once project is edited
+      const updatedProjects = projects.map((projectToUpdate: IProject) =>
+      projectToUpdate._id === data._id ? data : projectToUpdate
+      );
+    
+      setProjects(updatedProjects);
+      setAlert({
+        msg: "Project edited successfully",
+        error: false,
+      });
+      setLoading(false);
+      navigate("/dashboard/projects");
     } catch (error) {
       console.log(error);
     }
   };
 
   //GET SINGLE PROJECT
-const getSingleProject = async(id:string) => {
-try {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+  const getSingleProject = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/projects/${id}`,
+        config
+      );
+      setProject(data?.singleProject);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const { data } = await axios.get(
-    `${import.meta.env.VITE_SERVER_URL}/projects/${id}`,
-    config
-  );
-  setProject(data?.singleProject)
-  setLoading(false)
-} catch (error) {
-  console.log(error);
-}
-}
   return (
     <ProjectContext.Provider
-      value={{ projects, loading, showAlert, alert, submitProject, getSingleProject, project }}
+      value={{
+        projects,
+        loading,
+        showAlert,
+        alert,
+        submitProject,
+        EditProject,
+        getSingleProject,
+        project,
+      }}
     >
       {children}
     </ProjectContext.Provider>

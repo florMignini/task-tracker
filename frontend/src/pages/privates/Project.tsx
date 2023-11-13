@@ -7,11 +7,12 @@ export const Project = () => {
   // get single project ID from params;
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { getSingleProject, project, loading }:any = useProjects();
+  const { getSingleProject, loading }:any = useProjects();
 
   useEffect(() => {
     getSingleProject(id);
-  }, [getSingleProject, id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading)
     return (

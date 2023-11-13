@@ -10,10 +10,16 @@ import { format, parseISO } from "date-fns";
 
 export const ProjectForm = () => {
   //context project import
-  const { showAlert, alert, submitProject, project }: IProjectProvider =
-    useProjects();
+  const {
+    showAlert,
+    alert,
+    submitProject,
+    EditProject,
+    project,
+  }: IProjectProvider = useProjects();
 
   //form states
+  const [id, setId] = useState<any>(null);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,12 +37,17 @@ export const ProjectForm = () => {
       project.deadline &&
       project.client
     ) {
+      setId(project?._id)
       setName(project?.name);
       setDescription(project?.description);
       setClient(project?.client);
-      setDeadline(new Date(format(parseISO(project?.deadline.split("T")[0]),'MM-dd-yyyy')));
+      setDeadline(
+        new Date(
+          format(parseISO(project?.deadline.split("T")[0]), "MM-dd-yyyy")
+        )
+      );
     }
-  }, [params, project?.client, project?.deadline, project?.description, project?.name]);
+  }, [params, project?._id, project?.client, project?.deadline, project?.description, project?.name]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -49,17 +60,32 @@ export const ProjectForm = () => {
       return;
     }
 
-    submitProject({
-      name,
-      description,
-      deadline,
-      client,
-    });
+    if (params.id) {
+      EditProject({
+        id,
+        name,
+        description,
+        deadline,
+        client,
+      });
+    } else {
+      submitProject({
+        name,
+        description,
+        deadline,
+        client,
+      });
+    }
     setName("");
     setDescription("");
     setDeadline("");
     setClient("");
   };
+  //reset toaster after 3s
+  setTimeout(() => {
+    showAlert({})
+  }, 3000);
+
   return (
     <form
       className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg"
@@ -133,7 +159,7 @@ export const ProjectForm = () => {
       </div>
       <input
         type="submit"
-        value={params.id ? "Update project" : "Create project"}
+        value={id ? "Update project" : "Create project"}
         className="w-full mt-3 p-2 uppercase text-white rounded cursor-pointer bg-[#3dcbb1] hover:bg-[#5dc7b3] transition-colors"
       />
     </form>

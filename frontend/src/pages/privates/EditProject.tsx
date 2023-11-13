@@ -8,7 +8,8 @@ export const EditProject = () => {
     const {getSingleProject} = useProjects()
     useEffect(() => {
       getSingleProject(params?.id)
-    }, [getSingleProject, params])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params])
     
   return (
     <main className="w-full flex items-center justify-center">

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 type Props = {
   children: ReactNode;
@@ -12,7 +12,6 @@ const AuthProvider = ({ children }: Props) => {
   const [auth, setAuth] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const authUser = async () => {
@@ -42,7 +41,7 @@ const AuthProvider = ({ children }: Props) => {
       setLoading(false);
     };
     authUser();
-  }, [navigate]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth, loading }}>

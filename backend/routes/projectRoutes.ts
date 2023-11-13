@@ -2,7 +2,7 @@ import express from "express";
 import {
   createProject,
   getAllProjects,
-  getSingleProject,
+  getSingleProjectServer,
   editProject,
   deleteProject,
   addCollaborator,
@@ -16,7 +16,7 @@ router.route("/").get(checkAuth, getAllProjects).post(checkAuth, createProject);
 
 router
   .route("/:id")
-  .get(checkAuth, getSingleProject)
+  .get(checkAuth, getSingleProjectServer)
   .put(checkAuth, editProject)
   .delete(checkAuth, deleteProject);
 

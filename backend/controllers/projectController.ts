@@ -22,7 +22,7 @@ const getAllProjects = async (req: any, res: Response) => {
   res.status(200).json(projectsByUser);
 };
 
-const getSingleProject = async (req: any, res: Response) => {
+const getSingleProjectServer = async (req: any, res: Response) => {
   const { id } = req.params;
 
   const singleProject = await Project.findById(id);
@@ -97,7 +97,7 @@ const deleteCollaborator = async (req: Request, res: Response) => {};
 export {
   createProject,
   getAllProjects,
-  getSingleProject,
+  getSingleProjectServer,
   editProject,
   deleteProject,
   addCollaborator,

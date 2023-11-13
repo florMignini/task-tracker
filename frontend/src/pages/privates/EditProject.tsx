@@ -11,9 +11,8 @@ export const EditProject = () => {
     }, [getSingleProject, params])
     
   return (
-    <>
-    <div>EditProject</div>
+    <main className="w-full flex items-center justify-center">
     <ProjectForm/>
-    </>
+    </main>
   )
 }

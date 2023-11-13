@@ -19,11 +19,13 @@ export const ProjectForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [deadline, setDeadline] = useState<any>(new Date());
   const [client, setClient] = useState<string>("");
-console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
+
   // checking if editing or creating a project
   const params = useParams();
+
   useEffect(() => {
     if (
+      params.id &&
       project?.name &&
       project?.description &&
       project.deadline &&
@@ -32,11 +34,9 @@ console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
       setName(project?.name);
       setDescription(project?.description);
       setClient(project?.client);
-      /* setDeadline(format(parseISO(project?.deadline), "MM-dd-yyyy")); */
+      setDeadline(new Date(format(parseISO(project?.deadline.split("T")[0]),'MM-dd-yyyy')));
     }
-  }, [
-    params
-  ]);
+  }, [params, project?.client, project?.deadline, project?.description, project?.name]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -60,7 +60,6 @@ console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
     setDeadline("");
     setClient("");
   };
-
   return (
     <form
       className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg"
@@ -109,7 +108,7 @@ console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
         </label>
         <DatePicker
           id="deadline"
-          dateFormat="dd/MM/yyyy"
+          dateFormat="dd-MM-yyyy"
           className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none"
           selected={deadline}
           onChange={(date: any) => setDeadline(date)}
@@ -134,7 +133,7 @@ console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
       </div>
       <input
         type="submit"
-        value="Create project"
+        value={params.id ? "Update project" : "Create project"}
         className="w-full mt-3 p-2 uppercase text-white rounded cursor-pointer bg-[#3dcbb1] hover:bg-[#5dc7b3] transition-colors"
       />
     </form>

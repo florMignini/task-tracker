@@ -5,6 +5,8 @@ import { BsCalendarWeek, BsPencilSquare } from "react-icons/bs";
 import { format, parseISO } from "date-fns";
 export const ProjectPreview = (project: IProject) => {
   const { _id, name, description, client, deadline } = project;
+
+  
   return (
     <Link
       to={`${_id}`}
@@ -12,19 +14,18 @@ export const ProjectPreview = (project: IProject) => {
     >
       {/* title */}
       <div className="w-full h-[100px] flex items-center justify-between p-2 ">
-        <div className="w-[80%] flex flex-col items-center justify-between">
-        <p className="text-sm font-semibold">{name}</p>
-        <span className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-violet-300/80 border-violet-400">
-          {client}
-        </span>
+        <div className="w-[80%] flex flex-col items-start justify-between">
+          <p className="text-sm font-semibold">{name}</p>
+          <span className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-violet-300/80 border-violet-400">
+            {client}
+          </span>
         </div>
+
         <Link
-        className="w-[20%] h-[50%] flex items-start justify-center text-violet-400"
-        to={`/dashboard/projects/edit/${_id}`}
+          to={`/dashboard/projects/edit/${_id}`}
+          className="w-[20%] h-[50%] flex items-start justify-end text-violet-400"
         >
-        <BsPencilSquare
-        className="flex items-center justify-center text-violet-400"
-        />
+          <BsPencilSquare className="flex items-center justify-center text-violet-400" />
         </Link>
       </div>
       {/* description */}
@@ -39,9 +40,7 @@ export const ProjectPreview = (project: IProject) => {
           <BsCalendarWeek />
           <p className="text-xs">{format(parseISO(deadline), "ho, eeee")}</p>
         </div>
-        <FaRegComments
-        className="text-sm w-[20%]" 
-        />
+        <FaRegComments className="text-sm w-[20%]" />
       </div>
     </Link>
   );

@@ -155,6 +155,38 @@ export const ProjectProvider = ({ children }: Props) => {
     }
   };
 
+  //DELETE PROJECT
+  const deleteProject = async(id:string)=>{
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/projects/${id}`,
+        config
+      );
+      //sync the new state
+      const updatedState = projects.filter((project: IProject)=> project._id !== id)
+      setProjects(updatedState)
+      showAlert({
+        msg: data.msg,
+        error: false,
+      });
+      setTimeout(() => {
+        showAlert({})
+        navigate("/dashboard/projects");
+      }, 3000);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <ProjectContext.Provider
       value={{
@@ -166,6 +198,7 @@ export const ProjectProvider = ({ children }: Props) => {
         EditProject,
         getSingleProject,
         project,
+        deleteProject
       }}
     >
       {children}

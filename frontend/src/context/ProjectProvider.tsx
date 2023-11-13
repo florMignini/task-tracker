@@ -33,13 +33,14 @@ const navigate = useNavigate()
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>({});
+  const [project, setProject] = useState<IProject>();
   const showAlert = (alert: alertType) => {
     setAlert(alert);
     setTimeout(() => {
       showAlert({});
     }, 4000);
   };
-  // get all projects by user action
+  // GET ALL PROJECTS
   useEffect(() => {
     const getProjectsByUser = async () => {
       try {
@@ -64,7 +65,7 @@ const navigate = useNavigate()
     getProjectsByUser();
   }, []);
 
-  // submit project action
+  // SUBMIT PROJECT 
   const submitProject = async (project: IProject) => {
     try {
       const token = localStorage.getItem("token");
@@ -93,9 +94,30 @@ const navigate = useNavigate()
     }
   };
 
+  //GET SINGLE PROJECT
+const getSingleProject = async(id:string) => {
+try {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_SERVER_URL}/projects/${id}`,
+    config
+  );
+  setProject(data?.singleProject)
+  setLoading(false)
+} catch (error) {
+  console.log(error);
+}
+}
   return (
     <ProjectContext.Provider
-      value={{ projects, loading, showAlert, alert, submitProject }}
+      value={{ projects, loading, showAlert, alert, submitProject, getSingleProject, project }}
     >
       {children}
     </ProjectContext.Provider>

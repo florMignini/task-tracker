@@ -8,7 +8,7 @@ const ProtectedLayout = () => {
 
   if (loading) return(
     <div className="w-full h-screen flex items-center justify-center">
-      <HashLoader color="#1ea7fd" />
+      <HashLoader color="#39c7ad" />
     </div>
     );
   return (

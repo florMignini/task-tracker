@@ -1,9 +1,8 @@
-import { Navigate } from "react-router-dom"
-import { useAuth } from "../../hooks"
+// import { useAuth } from "../../hooks"
 
 const Dashboard = () => {
-const {auth} = useAuth()
-console.log(auth)
+// const {auth} = useAuth()
+
   return (
     <div>Dashboard</div>
   )

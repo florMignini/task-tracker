@@ -1,0 +1,19 @@
+import { useParams } from "react-router-dom"
+import { ProjectForm } from "../../components"
+import { useEffect } from "react"
+import { useProjects } from "../../hooks"
+
+export const EditProject = () => {
+    const params = useParams()
+    const {getSingleProject} = useProjects()
+    useEffect(() => {
+      getSingleProject(params?.id)
+    }, [getSingleProject, params])
+    
+  return (
+    <>
+    <div>EditProject</div>
+    <ProjectForm/>
+    </>
+  )
+}

@@ -24,6 +24,7 @@ export interface IProjectProvider {
   showAlert?: any;
   alert?: alertType;
   submitProject?: any;
+  project?: IProject
 }
 const ProjectContext = createContext({});
 

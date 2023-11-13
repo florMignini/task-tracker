@@ -9,7 +9,7 @@ import {
   Projects,
   Register,
 } from "./pages";
-import { Dashboard, NewProject, Project } from "./pages/privates";
+import { Dashboard, EditProject, NewProject, Project } from "./pages/privates";
 import { ProjectProvider } from "./context/ProjectProvider";
 
 const App = () => {
@@ -41,6 +41,7 @@ const App = () => {
               <Route path="projects" element={<Projects />} />
               <Route path="projects/new-project" element={<NewProject />} />
               <Route path="projects/:id" element={<Project/>}/>
+              <Route path="projects/edit/:id" element={<EditProject />} />
             </Route>
           </Routes>
         </ProjectProvider>

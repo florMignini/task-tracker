@@ -1,9 +1,9 @@
-import { NewProjectForm } from "../../components"
+import { ProjectForm } from "../../components"
 
 export const NewProject = () => {
   return (
     <main className="w-full flex items-center justify-center">
-      <NewProjectForm/>
+      <ProjectForm/>
     </main>
   )
 }

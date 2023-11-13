@@ -1,20 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useProjects } from "../hooks";
 import { Toaster } from ".";
 import { IProjectProvider } from "../context/ProjectProvider";
+import { format, parseISO } from "date-fns";
 
+export const ProjectForm = () => {
+  //context project import
+  const { showAlert, alert, submitProject, project }: IProjectProvider =
+    useProjects();
 
-export const NewProjectForm = () => {
+  //form states
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [deadline, setDeadline] = useState<any>(new Date());
   const [client, setClient] = useState<string>("");
-
-  const { showAlert, alert, submitProject }: IProjectProvider = useProjects();
+console.log(format(parseISO(project?.deadline), "MM-dd-yyyy"))
+  // checking if editing or creating a project
+  const params = useParams();
+  useEffect(() => {
+    if (
+      project?.name &&
+      project?.description &&
+      project.deadline &&
+      project.client
+    ) {
+      setName(project?.name);
+      setDescription(project?.description);
+      setClient(project?.client);
+      /* setDeadline(format(parseISO(project?.deadline), "MM-dd-yyyy")); */
+    }
+  }, [
+    params
+  ]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -26,16 +48,17 @@ export const NewProjectForm = () => {
       });
       return;
     }
-    
+
     submitProject({
       name,
-      description , deadline,
+      description,
+      deadline,
       client,
     });
-    setName("")
-    setDescription("")
-    setDeadline("")
-    setClient("")
+    setName("");
+    setDescription("");
+    setDeadline("");
+    setClient("");
   };
 
   return (

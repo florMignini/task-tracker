@@ -61,7 +61,7 @@ export const ProjectForm = () => {
     }
 
     if (params.id) {
-      EditProject({
+     await EditProject({
         id,
         name,
         description,
@@ -69,7 +69,7 @@ export const ProjectForm = () => {
         client,
       });
     } else {
-      submitProject({
+     await submitProject({
         name,
         description,
         deadline,
@@ -81,11 +81,7 @@ export const ProjectForm = () => {
     setDeadline("");
     setClient("");
   };
-  //reset toaster after 3s
-  setTimeout(() => {
-    showAlert({})
-  }, 3000);
-
+  
   return (
     <form
       className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg"

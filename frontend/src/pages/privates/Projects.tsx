@@ -37,7 +37,7 @@ const Projects = () => {
             <HashLoader color="#39c7ad" />
           </div>
         ) : (
-          <div className="w-[95%] flex gap-2">
+          <div className="w-[95%] flex flex-wrap items-start justify-evenly">
             {projects.length > 0 ? (
               projects.map((project: IProject) => (
                 <ProjectPreview key={project._id} {...project} />

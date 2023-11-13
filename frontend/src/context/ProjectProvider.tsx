@@ -8,7 +8,7 @@ type Props = {
 };
 export interface IProject {
   _id: string;
-  id?:string;
+  id?: string;
   name?: string;
   description?: string;
   deadline?: string;
@@ -30,13 +30,14 @@ export const ProjectProvider = ({ children }: Props) => {
 
   const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [alert, setAlert] = useState<alertType>({});
+  const [alert, setAlert] = useState<alertType>();
   const [project, setProject] = useState<IProject>();
+
   const showAlert = (alert: alertType) => {
     setAlert(alert);
     setTimeout(() => {
-      showAlert({});
-    }, 4000);
+      setAlert({})
+    }, 3000);
   };
   // GET ALL PROJECTS
   useEffect(() => {
@@ -81,12 +82,15 @@ export const ProjectProvider = ({ children }: Props) => {
       );
       // update state once project is added
       setProjects([...projects, data]);
-      setAlert({
-        msg: "Project created successfully",
+      showAlert({
+        msg: "Project successfully created",
         error: false,
       });
+      setTimeout(() => {
+        showAlert({})
+        navigate("/dashboard/projects");
+      }, 3000);
       setLoading(false);
-      navigate("/dashboard/projects");
     } catch (error) {
       console.log(error);
     }
@@ -108,19 +112,22 @@ export const ProjectProvider = ({ children }: Props) => {
         project,
         config
       );
-    
+
       // update state once project is edited
       const updatedProjects = projects.map((projectToUpdate: IProject) =>
-      projectToUpdate._id === data._id ? data : projectToUpdate
+        projectToUpdate._id === data._id ? data : projectToUpdate
       );
-    
+
       setProjects(updatedProjects);
-      setAlert({
-        msg: "Project edited successfully",
+      showAlert({
+        msg: "Project successfully updated",
         error: false,
       });
+      setTimeout(() => {
+        showAlert({})
+        navigate("/dashboard/projects");
+      }, 3000);
       setLoading(false);
-      navigate("/dashboard/projects");
     } catch (error) {
       console.log(error);
     }
@@ -147,6 +154,7 @@ export const ProjectProvider = ({ children }: Props) => {
       console.log(error);
     }
   };
+
   return (
     <ProjectContext.Provider
       value={{

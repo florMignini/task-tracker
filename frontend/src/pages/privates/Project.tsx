@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useProjects } from "../../hooks";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
 import { ModalTaskForm } from "../../components";
+import { IProjectProvider } from "../../context/ProjectProvider";
 
 export const Project = () => {
 
-  const [modalTask, setModalTask] = useState(false);
   // get single project ID from params;
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { getSingleProject, project, loading }:any = useProjects();
+  const { getSingleProject, project, loading, handleModalTask }:IProjectProvider = useProjects();
 
   useEffect(() => {
     getSingleProject(id);
@@ -31,7 +31,7 @@ export const Project = () => {
       >
         <h3 className="font-bold text-lg"> {project?.name}</h3>
         <button
-        onClick={()=> setModalTask(true)}
+        onClick={handleModalTask}
        className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
       >
         <p className="flex font-light text-sm w-auto"> New task</p>
@@ -60,10 +60,7 @@ export const Project = () => {
           </div>
         </div>
       </div>
-      <ModalTaskForm
-      modalTask={modalTask}
-      setModalTask={setModalTask}
-      />
+      <ModalTaskForm />
     </main>
   )
 };

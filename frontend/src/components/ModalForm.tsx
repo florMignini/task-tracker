@@ -1,14 +1,15 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment/* , useState, useEffect */ } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {modalTask} from '../../interfaces'
+import { useProjects } from '../hooks'
+import { IProjectProvider } from '../context/ProjectProvider'
 
 
 
-export const ModalTaskForm = ({modalTask, setModalTask}:modalTask) => {
- 
+export const ModalTaskForm = () => {
+ const {modalTask, handleModalTask}:IProjectProvider = useProjects()
     return (
         <Transition.Root show={ modalTask } as={Fragment}>
-            <Dialog as="div" className="fixed z-10 backdrop-blur-sm inset-0 overflow-y-auto" onClose={() => setModalTask(false) }>
+            <Dialog as="div" className="fixed z-10 backdrop-blur-sm inset-0 overflow-y-auto" onClose={handleModalTask}>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -45,7 +46,7 @@ export const ModalTaskForm = ({modalTask, setModalTask}:modalTask) => {
                                 <button
                                     type="button"
                                     className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={() => setModalTask(false) }
+                                    onClick={handleModalTask}
                                 >
                                 <span className="sr-only">Cerrar</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">

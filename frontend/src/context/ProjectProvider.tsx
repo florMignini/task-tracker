@@ -21,22 +21,32 @@ export interface IProjectProvider {
   alert?: alertType;
   submitProject?: any;
   EditProject?: any;
+  getSingleProject?: any;
   project?: IProject;
+  modalTask?: boolean;
+  handleModalTask?: any;
 }
 const ProjectContext = createContext({});
 
 export const ProjectProvider = ({ children }: Props) => {
   const navigate = useNavigate();
-
+  //project states
   const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>();
   const [project, setProject] = useState<IProject>();
 
+  //task states
+  const [modalTask, setModalTask] = useState(false);
+
+  const handleModalTask = ()=>{
+  setModalTask(!modalTask);
+  }
+
   const showAlert = (alert: alertType) => {
     setAlert(alert);
     setTimeout(() => {
-      setAlert({})
+      setAlert({});
     }, 3000);
   };
   // GET ALL PROJECTS
@@ -87,7 +97,7 @@ export const ProjectProvider = ({ children }: Props) => {
         error: false,
       });
       setTimeout(() => {
-        showAlert({})
+        showAlert({});
         navigate("/dashboard/projects");
       }, 3000);
       setLoading(false);
@@ -124,7 +134,7 @@ export const ProjectProvider = ({ children }: Props) => {
         error: false,
       });
       setTimeout(() => {
-        showAlert({})
+        showAlert({});
         navigate("/dashboard/projects");
       }, 3000);
       setLoading(false);
@@ -156,7 +166,7 @@ export const ProjectProvider = ({ children }: Props) => {
   };
 
   //DELETE PROJECT
-  const deleteProject = async(id:string)=>{
+  const deleteProject = async (id: string) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -171,25 +181,28 @@ export const ProjectProvider = ({ children }: Props) => {
         config
       );
       //sync the new state
-      const updatedState = projects.filter((project: IProject)=> project._id !== id)
-      setProjects(updatedState)
+      const updatedState = projects.filter(
+        (project: IProject) => project._id !== id
+      );
+      setProjects(updatedState);
       showAlert({
         msg: data.msg,
         error: false,
       });
       setTimeout(() => {
-        showAlert({})
+        showAlert({});
         navigate("/dashboard/projects");
       }, 3000);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <ProjectContext.Provider
       value={{
+        //project state
         projects,
         loading,
         showAlert,
@@ -198,7 +211,10 @@ export const ProjectProvider = ({ children }: Props) => {
         EditProject,
         getSingleProject,
         project,
-        deleteProject
+        deleteProject,
+        //modal state
+        modalTask,
+        handleModalTask
       }}
     >
       {children}

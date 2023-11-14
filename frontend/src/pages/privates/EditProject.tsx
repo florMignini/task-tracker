@@ -23,7 +23,7 @@ export const EditProject = () => {
       <div
        className="w-full flex items-center justify-between px-4 h-10 text-violet-500"
       >
-        <h3> {project.name}</h3>
+        <h3> {project?.name}</h3>
       <button
         onClick={handleDelete}
        className="flex items-center justify-end p-1 mb-2 gap-2 border border-violet-500 rounded-xl hover:bg-violet-200"

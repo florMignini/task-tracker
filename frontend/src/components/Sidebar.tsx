@@ -3,20 +3,21 @@ import {AiOutlineProject} from "react-icons/ai"
 import {LuLayoutDashboard} from "react-icons/lu"
 export const Sidebar = () => {
   return (
-    <aside className="md:w-56 lg:w-72 pt-5 p-1">
-        <h2 className="text-4xl text-gray-400 font-black text-center">Task Tracker</h2>
+    <aside className="md:w-56 lg:w-72 pt-5 p-2 bg-slate-400 m-[6px] rounded-l-lg">
+        <h2 className="text-3xl lg:text-4xl text-white font-black text-center">Task Tracker</h2>
         {/* links section */}
-        <div className="w-full mt-20 gap-2 flex items-center justify-center flex-col">
+        <div className="w-full h-screen mt-10 py-2 gap-2 flex items-center justify-start flex-col text-white">
           
         <Link
             to=""
-            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#39c7ad] hover:bg-[#0bcfab] transition-colors text-white text-center font-md"
+            className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md 
+            hover:bg-slate-500"
             >
               <LuLayoutDashboard/>
               Dashboard</Link>
               <Link
             to="projects"
-            className="w-[80%] flex items-center justify-center py-3 gap-2 rounded-lg bg-[#39c7ad] hover:bg-[#0bcfab] transition-colors text-white text-center font-md"
+            className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md hover:bg-slate-500"
             >
               <AiOutlineProject/>
               Projects</Link>

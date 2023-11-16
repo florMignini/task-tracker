@@ -7,6 +7,7 @@ import { useProjects } from "../hooks";
 import { Toaster } from ".";
 import { IProjectProvider } from "../context/ProjectProvider";
 import { format, parseISO } from "date-fns";
+import { BsCalendar2Date } from "react-icons/bs";
 
 export const ProjectForm = () => {
   //context project import
@@ -37,7 +38,7 @@ export const ProjectForm = () => {
       project.deadline &&
       project.client
     ) {
-      setId(project?._id)
+      setId(project?._id);
       setName(project?.name);
       setDescription(project?.description);
       setClient(project?.client);
@@ -47,7 +48,14 @@ export const ProjectForm = () => {
         )
       );
     }
-  }, [params, project?._id, project?.client, project?.deadline, project?.description, project?.name]);
+  }, [
+    params,
+    project?._id,
+    project?.client,
+    project?.deadline,
+    project?.description,
+    project?.name,
+  ]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -61,7 +69,7 @@ export const ProjectForm = () => {
     }
 
     if (params.id) {
-     await EditProject({
+      await EditProject({
         id,
         name,
         description,
@@ -69,7 +77,7 @@ export const ProjectForm = () => {
         client,
       });
     } else {
-     await submitProject({
+      await submitProject({
         name,
         description,
         deadline,
@@ -81,7 +89,7 @@ export const ProjectForm = () => {
     setDeadline("");
     setClient("");
   };
-  
+
   return (
     <form
       className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg"
@@ -128,13 +136,16 @@ export const ProjectForm = () => {
         >
           Deadline
         </label>
-        <DatePicker
-          id="deadline"
-          dateFormat="dd-MM-yyyy"
-          className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none"
-          selected={deadline}
-          onChange={(date: any) => setDeadline(date)}
-        />
+        <div className="border flex items-center justify-between w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600">
+          <DatePicker
+            id="deadline"
+            dateFormat="dd-MM-yyyy"
+            selected={deadline}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(date: any) => setDeadline(date)}
+          />
+          <BsCalendar2Date />
+        </div>
       </div>
       {/* client */}
       <div className="mt-5">

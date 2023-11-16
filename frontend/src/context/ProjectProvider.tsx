@@ -3,6 +3,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ITask } from "../../interfaces";
 type Props = {
   children: ReactNode;
 };
@@ -22,6 +23,7 @@ export interface IProjectProvider {
   submitProject?: any;
   EditProject?: any;
   getSingleProject?: any;
+  submitTask?:any;
   project?: IProject;
   modalTask?: boolean;
   handleModalTask?: any;
@@ -74,7 +76,7 @@ export const ProjectProvider = ({ children }: Props) => {
     getProjectsByUser();
   }, []);
 
-  // SUBMIT PROJECT
+  // CREATE NEW PROJECT
   const submitProject = async (project: IProject) => {
     try {
       const token = localStorage.getItem("token");
@@ -199,6 +201,11 @@ export const ProjectProvider = ({ children }: Props) => {
     }
   };
 
+  //CREATE NEW TASK
+  const submitTask = async(task: ITask) => {
+    console.log(task)
+  }
+
   return (
     <ProjectContext.Provider
       value={{
@@ -206,15 +213,18 @@ export const ProjectProvider = ({ children }: Props) => {
         projects,
         loading,
         showAlert,
+        project,
         alert,
+        //project actions
         submitProject,
         EditProject,
         getSingleProject,
-        project,
         deleteProject,
         //modal state
         modalTask,
-        handleModalTask
+        handleModalTask,
+        //task actions
+        submitTask,
       }}
     >
       {children}

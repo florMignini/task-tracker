@@ -7,6 +7,7 @@ import { IProjectProvider } from "../context/ProjectProvider";
 import { /* ITask,  */ TaskPriority, TaskStatus } from "../../interfaces";
 import { Toaster } from ".";
 import { BsCalendar2Date } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 
 //status
 const STATUS: TaskStatus[] = ["pending", "in-progress", "complete"];
@@ -15,7 +16,13 @@ const STATUS: TaskStatus[] = ["pending", "in-progress", "complete"];
 const PRIORITY: TaskPriority[] = ["High", "Low", "Medium"];
 
 export const ModalTaskForm = () => {
-  const { modalTask, handleModalTask }: IProjectProvider = useProjects();
+  const {
+    modalTask,
+    handleModalTask,
+    showAlert,
+    alert,
+    submitTask,
+  }: IProjectProvider = useProjects();
 
   //task form states
   //form states
@@ -26,6 +33,20 @@ export const ModalTaskForm = () => {
   const [deadline, setDeadline] = useState<any>(new Date());
   const [status, setStatus] = useState<TaskStatus>();
   const [priority, setPriority] = useState<TaskPriority>();
+  // get project id from params
+const params = useParams()
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    // form validations
+    if ([name, priority, status, description, deadline].includes("")) {
+      showAlert({
+        msg: `All fields are required`,
+        error: true,
+      });
+      return;
+    }
+   await submitTask({ name, priority, status, description, deadline, project: params.id });
+  };
 
   return (
     <Transition.Root show={modalTask} as={Fragment}>
@@ -97,9 +118,9 @@ export const ModalTaskForm = () => {
                   </Dialog.Title>
                   <form
                     className="w-full bg-white py-10 px-5 md:w-[90%] rounded-lg"
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                   >
-                    {/* {alert?.msg && <Toaster {...alert} />} */}
+                    {alert?.msg && <Toaster {...alert} />}
                     <div className="mt-5">
                       <label
                         className="text-gray-700 capitalize font-thin text-lg"
@@ -140,17 +161,15 @@ export const ModalTaskForm = () => {
                       >
                         Deadline
                       </label>
-                      <div
-                      className="border flex items-center justify-between w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
-                      >
-                      <DatePicker
-                        id="deadline"
-                        dateFormat="dd-MM-yyyy"
-                        selected={deadline}
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={(date: any) => setDeadline(date)}
-                      />
-                      <BsCalendar2Date/>
+                      <div className="border flex items-center justify-between w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600">
+                        <DatePicker
+                          id="deadline"
+                          dateFormat="dd-MM-yyyy"
+                          selected={deadline}
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          onChange={(date: any) => setDeadline(date)}
+                        />
+                        <BsCalendar2Date />
                       </div>
                     </div>
                     {/* status */}
@@ -168,13 +187,11 @@ export const ModalTaskForm = () => {
                         onChange={({ target }) => setStatus(target.value)}
                       >
                         <option value="">-- select --</option>
-                        {STATUS.map(status => (
-                        <option key={status}
-                        value={status}
-                        >
+                        {STATUS.map((status) => (
+                          <option key={status} value={status}>
                             {status}
-                        </option>
-                            ))}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     {/* priority */}
@@ -191,14 +208,12 @@ export const ModalTaskForm = () => {
                         value={priority}
                         onChange={({ target }) => setPriority(target.value)}
                       >
-                         <option value="">-- select --</option>
-                        {PRIORITY.map(priority => (
-                        <option key={priority}
-                        value={priority}
-                        >
+                        <option value="">-- select --</option>
+                        {PRIORITY.map((priority) => (
+                          <option key={priority} value={priority}>
                             {priority}
-                        </option>
-                            ))}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <input

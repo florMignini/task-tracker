@@ -203,7 +203,20 @@ export const ProjectProvider = ({ children }: Props) => {
 
   //CREATE NEW TASK
   const submitTask = async(task: ITask) => {
-    console.log(task)
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/tasks`, task, config)
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

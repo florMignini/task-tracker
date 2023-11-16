@@ -10,7 +10,7 @@ import { BsCalendar2Date } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 
 //status
-const STATUS: TaskStatus[] = ["pending", "in-progress", "complete"];
+const STATUS: TaskStatus[] = ["To do", "In-progress", "Done"];
 
 //priority
 const PRIORITY: TaskPriority[] = ["High", "Low", "Medium"];
@@ -182,11 +182,12 @@ const params = useParams()
                       </label>
                       <select
                         id="status"
-                        className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
+                        className="border capitalize w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
                         value={status}
-                        onChange={({ target }) => setStatus(target.value)}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onChange={({ target }:any) => setStatus(target.value)}
                       >
-                        <option value="">-- select --</option>
+                        <option value=""> -- select -- </option>
                         {STATUS.map((status) => (
                           <option key={status} value={status}>
                             {status}
@@ -204,9 +205,10 @@ const params = useParams()
                       </label>
                       <select
                         id="priority"
-                        className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
+                        className="border capitalize w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
                         value={priority}
-                        onChange={({ target }) => setPriority(target.value)}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onChange={({ target }:any) => setPriority(target.value)}
                       >
                         <option value="">-- select --</option>
                         {PRIORITY.map((priority) => (

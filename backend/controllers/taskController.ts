@@ -22,6 +22,9 @@ if(projectFound.creator.toString() !== req.user._id.toString()) {
 
 try {
     const newTask = await Task.create(req.body)
+    //keep task id in project task arr
+    projectFound.tasks.push(newTask._id)
+    await projectFound.save()
     res.status(201).json(newTask)
 } catch (error) {
     console.log(error)

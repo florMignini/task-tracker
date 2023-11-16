@@ -16,14 +16,14 @@ const createProject = async (req: any, res: Response) => {
 };
 
 const getAllProjects = async (req: any, res: Response) => {
-  const projectsByUser = await Project.find().where("creator").equals(req.user);
+  const projectsByUser = await Project.find().where("creator").equals(req.user).select("-tasks");
   res.status(200).json(projectsByUser);
 };
 
 const getSingleProjectServer = async (req: any, res: Response) => {
   const { id } = req.params;
 
-  const singleProject = await Project.findById(id);
+  const singleProject = await Project.findById(id).populate("tasks");
   if (!singleProject) {
     const error = new Error(`Project not found`);
     return res.status(404).json({ msg: error.message });

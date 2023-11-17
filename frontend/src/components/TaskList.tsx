@@ -19,7 +19,7 @@ export const TaskList:FC<Props> = ({status}) => {
       {
      taskByStatus && taskByStatus.length > 0 ? (
         
-      <div className="w-full flex items-center justify-center opacity-100">
+      <div className="w-full flex flex-col gap-2 items-center justify-center opacity-100">
       {
       taskByStatus.map((task:ITask)=>(
           <Task key={task._id} {...task} />

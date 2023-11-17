@@ -51,9 +51,9 @@ export const Project = () => {
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
         <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
-            <p className="text-lg font-light"> In In progress</p>
+            <p className="text-lg font-light"> In Progress</p>
           </div>
-          <TaskList status="In-progress"/>
+          <TaskList status="In-Progress"/>
         </div>
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">

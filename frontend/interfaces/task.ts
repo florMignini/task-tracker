@@ -9,6 +9,6 @@ priority: TaskPriority;
 project: IProject;
 }
 
-export type TaskStatus = 'To do' | 'In-progress' | 'Done';
+export type TaskStatus = 'To do' | 'In-Progress' | 'Done';
 
 export type TaskPriority = "Low"| "High"| "Medium"

@@ -10,7 +10,7 @@ import { BsCalendar2Date } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 
 //status
-const STATUS: TaskStatus[] = ["To do", "In-progress", "Done"];
+const STATUS: TaskStatus[] = ["To do", "In-Progress", "Done"];
 
 //priority
 const PRIORITY: TaskPriority[] = ["High", "Low", "Medium"];
@@ -37,7 +37,7 @@ export const ModalTaskForm = () => {
 const params = useParams()
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(`aca`)
+
     // form validations
     if ([name, priority, status, description, deadline].includes("")) {
       showAlert({

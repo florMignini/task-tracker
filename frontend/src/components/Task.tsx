@@ -1,10 +1,9 @@
 import { format, parseISO } from "date-fns";
-import { ITask } from "../../interfaces";
 import { BsCalendar2Date } from "react-icons/bs";
+import { ITask } from "../../interfaces";
 
-export const Task = (task:ITask) => {
-
-    const { name, description, deadline, status, priority }= task;
+export const Task = ({name, description, deadline, status, priority}:ITask) => {
+console.log(name, description, deadline, status, priority);
   return (
     <div className="w-[95%] lg:w-[70%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 p-2">
       <div className="w-[100%] h-[100px] flex flex-col gap-2">

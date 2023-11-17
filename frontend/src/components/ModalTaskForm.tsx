@@ -37,6 +37,7 @@ export const ModalTaskForm = () => {
 const params = useParams()
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    console.log(`aca`)
     // form validations
     if ([name, priority, status, description, deadline].includes("")) {
       showAlert({
@@ -45,7 +46,8 @@ const params = useParams()
       });
       return;
     }
-   await submitTask({ name, priority, status, description, deadline, project: params.id });
+   const result = await submitTask({ name, priority, status, description, deadline, project: params.id });
+   console.log(result);
   };
 
   return (

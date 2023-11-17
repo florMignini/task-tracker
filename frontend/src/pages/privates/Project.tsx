@@ -3,10 +3,8 @@ import { useProjects } from "../../hooks";
 import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
-import { ModalTaskForm } from "../../components";
+import { ModalTaskForm, TaskList } from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
-import { Task } from "../../components/Task";
-import { ITask } from "../../../interfaces";
 
 export const Project = () => {
 
@@ -46,25 +44,23 @@ export const Project = () => {
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
         <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
-            <p className="text-lg font-light"> Pending</p>
+            <p className="text-lg font-light"> To do</p>
           </div>
+          <TaskList status="To do"/>
         </div>
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
         <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
-            <p className="text-lg font-light"> In progress</p>
+            <p className="text-lg font-light"> In In progress</p>
           </div>
-          {
-              project?.tasks.map((task:ITask) => (
-                <Task {...task} />
-              ))
-            }
+          <TaskList status="In-progress"/>
         </div>
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
         <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
-            <p className="text-lg font-light"> Completed</p>
+            <p className="text-lg font-light"> Done</p>
           </div>
+          <TaskList status="Done"/>
         </div>
       </div>
       <ModalTaskForm />

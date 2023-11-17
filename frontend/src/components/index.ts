@@ -4,4 +4,5 @@ export * from './ProjectForm';
 export * from './ProjectPreview';
 export * from './Sidebar';
 export * from './Task';
+export * from './TaskList';
 export * from './Toaster';

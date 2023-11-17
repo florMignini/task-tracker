@@ -5,6 +5,8 @@ import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
 import { ModalTaskForm } from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
+import { Task } from "../../components/Task";
+import { ITask } from "../../../interfaces";
 
 export const Project = () => {
 
@@ -42,20 +44,25 @@ export const Project = () => {
       {/* card section */}
       <div className="w-full h-screen bg-white grid grid-cols-3 gap-2 text-slate-500">
         {/* each card */}
-        <div className="bg-slate-100 m-2 rounded-lg">
-          <div className="flex items-center justify-center p-1 bg-white border rounded-lg">
+        <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
+        <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
             <p className="text-lg font-light"> Pending</p>
           </div>
         </div>
         {/* each card */}
-        <div className="bg-slate-100 m-2 rounded-lg">
-        <div className="flex items-center justify-center p-1 bg-white border rounded-lg">
+        <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
+        <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
             <p className="text-lg font-light"> In progress</p>
           </div>
+          {
+              project?.tasks.map((task:ITask) => (
+                <Task {...task} />
+              ))
+            }
         </div>
         {/* each card */}
-        <div className="bg-slate-100 m-2 rounded-lg">
-        <div className="flex items-center justify-center p-1 bg-white border rounded-lg">
+        <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
+        <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">
             <p className="text-lg font-light"> Completed</p>
           </div>
         </div>

@@ -14,6 +14,7 @@ export interface IProject {
   description?: string;
   deadline?: string;
   client?: string;
+  tasks: ITask[]
 }
 export interface IProjectProvider {
   projects?: IProject[];

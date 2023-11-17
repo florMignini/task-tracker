@@ -36,7 +36,7 @@ const projectSchema = new Schema(
     tasks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "task"
+        ref: "Task"
       }
     ],
   },

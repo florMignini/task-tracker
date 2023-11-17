@@ -3,4 +3,5 @@ export * from './ModalTaskForm';
 export * from './ProjectForm';
 export * from './ProjectPreview';
 export * from './Sidebar';
+export * from './Task';
 export * from './Toaster';

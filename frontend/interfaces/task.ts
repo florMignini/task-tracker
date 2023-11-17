@@ -1,6 +1,7 @@
 import {IProject} from "../src/context/ProjectProvider"
 export interface ITask {
 _id: string;
+name:string;
 description: string;
 deadline: string;
 status: TaskStatus;

@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { DragEvent, FC, useMemo } from "react";
 import { Task } from ".";
 import { ITask, TaskStatus } from "../../interfaces";
 import { useProjects } from "../hooks";
@@ -12,9 +12,17 @@ export const TaskList:FC<Props> = ({status}) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const taskByStatus = useMemo(()=>project?.tasks?.filter((task:ITask)=> task.status === status), [project?.tasks]);
-    
+    const onDropTask = (event:DragEvent) => {
+      const id = event.dataTransfer.getData('item')
+    }
+    const allowDrop = (event: DragEvent) => {
+      event.preventDefault()
+    }
   return (
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center"
+    onDrop={onDropTask}
+    onDragOver={allowDrop}
+    >
         {/* list */}
       {
      taskByStatus && taskByStatus.length > 0 ? (

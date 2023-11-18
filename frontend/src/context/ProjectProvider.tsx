@@ -3,7 +3,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ITask } from "../../interfaces";
+import { ITask, TaskStatus } from "../../interfaces";
 type Props = {
   children: ReactNode;
 };
@@ -14,20 +14,24 @@ export interface IProject {
   description?: string;
   deadline?: string;
   client?: string;
-  tasks: ITask[]
+  tasks: ITask[];
 }
 export interface IProjectProvider {
   projects?: IProject[];
   loading?: boolean;
   showAlert?: any;
   alert?: alertType;
+  isDragging?: boolean;
   submitProject?: any;
   EditProject?: any;
   getSingleProject?: any;
-  submitTask?:any;
+  submitTask?: any;
   project?: IProject;
   modalTask?: boolean;
   handleModalTask?: any;
+  startDragging?: any;
+  endDragging?: any;
+  updateTaskStatus?: any;
 }
 const ProjectContext = createContext({});
 
@@ -38,13 +42,14 @@ export const ProjectProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<alertType>();
   const [project, setProject] = useState<IProject>();
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   //task states
   const [modalTask, setModalTask] = useState(false);
 
-  const handleModalTask = ()=>{
-  setModalTask(!modalTask);
-  }
+  const handleModalTask = () => {
+    setModalTask(!modalTask);
+  };
 
   const showAlert = (alert: alertType) => {
     setAlert(alert);
@@ -203,7 +208,7 @@ export const ProjectProvider = ({ children }: Props) => {
   };
 
   //CREATE NEW TASK
-  const submitTask = async(task: ITask) => {
+  const submitTask = async (task: ITask) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -213,13 +218,32 @@ export const ProjectProvider = ({ children }: Props) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/tasks`, task, config)
-      console.log(data)
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/tasks`,
+        task,
+        config
+      );
+      console.log(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
+  const startDragging = () => {
+    setIsDragging(true);
+  };
+  const endDragging = () => {
+    setIsDragging(false);
+  };
+  const updateTaskStatus = (draggedTask: ITask) => {
+    console.log(draggedTask)
+    const tasks = project?.tasks.map((task: ITask) => {
+      if (task._id === draggedTask._id) {
+        return draggedTask;
+      }
+      return task;
+    });
+    return tasks;
+  };
   return (
     <ProjectContext.Provider
       value={{
@@ -237,8 +261,13 @@ export const ProjectProvider = ({ children }: Props) => {
         //modal state
         modalTask,
         handleModalTask,
+        //task state
+        isDragging,
         //task actions
         submitTask,
+        startDragging,
+        endDragging,
+        updateTaskStatus,
       }}
     >
       {children}

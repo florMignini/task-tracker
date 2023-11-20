@@ -3,7 +3,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ITask, TaskStatus } from "../../interfaces";
+import { ITask } from "../../interfaces";
 type Props = {
   children: ReactNode;
 };
@@ -22,6 +22,7 @@ export interface IProjectProvider {
   showAlert?: any;
   alert?: alertType;
   isDragging?: boolean;
+  getProjectsByUser?:any;
   submitProject?: any;
   EditProject?: any;
   getSingleProject?: any;
@@ -58,7 +59,7 @@ export const ProjectProvider = ({ children }: Props) => {
     }, 3000);
   };
   // GET ALL PROJECTS
-  useEffect(() => {
+
     const getProjectsByUser = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -79,8 +80,7 @@ export const ProjectProvider = ({ children }: Props) => {
         console.log(error);
       }
     };
-    getProjectsByUser();
-  }, []);
+
 
   // CREATE NEW PROJECT
   const submitProject = async (project: IProject) => {
@@ -254,6 +254,7 @@ export const ProjectProvider = ({ children }: Props) => {
         project,
         alert,
         //project actions
+        getProjectsByUser,
         submitProject,
         EditProject,
         getSingleProject,

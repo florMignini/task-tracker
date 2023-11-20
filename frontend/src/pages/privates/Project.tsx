@@ -19,11 +19,11 @@ export const Project = () => {
   }, []);
   const onDropTask = (event: DragEvent) => {
     const id = event.dataTransfer.getData("item");
-    console.log(id)
+  
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const draggedTask = project?.tasks.find((e) => e._id === id)!;
     // draggedTask.status = status;
-    console.log(draggedTask)
+
     updateTaskStatus(draggedTask);
     endDragging();
   };

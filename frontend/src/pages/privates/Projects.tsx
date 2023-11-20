@@ -2,13 +2,17 @@ import { Link } from "react-router-dom";
 import { useProjects } from "../../hooks";
 import { HashLoader } from "react-spinners";
 import { ProjectPreview } from "../../components";
-import { IProject } from "../../context/ProjectProvider";
+import { IProject, IProjectProvider } from "../../context/ProjectProvider";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
+import { useEffect } from "react";
 
 const Projects = () => {
-  const { projects, loading } = useProjects();
-
+  const { projects, loading, getProjectsByUser }:IProjectProvider = useProjects();
+  useEffect(() => {
+    getProjectsByUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <main className="w-full flex flex-col items-center justify-center gap-1">
       {/* add & search project section */}
@@ -38,14 +42,10 @@ const Projects = () => {
           </div>
         ) : (
           <div className="w-[95%] flex flex-wrap items-center justify-start">
-            {projects.length > 0 ? (
+            {projects && (
               projects.map((project: IProject) => (
                 <ProjectPreview key={project._id} {...project} />
               ))
-            ) : (
-              <h1 className="text-start pt-10 capitalize text-gray-600 font-thin text-2xl">
-                No projects yet? Let's create!
-              </h1>
             )}
           </div>
         )}
@@ -55,3 +55,7 @@ const Projects = () => {
 };
 
 export default Projects;
+function getProjectsByUser() {
+  throw new Error("Function not implemented.");
+}
+

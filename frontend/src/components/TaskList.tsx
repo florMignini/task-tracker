@@ -1,4 +1,4 @@
-import { DragEvent, FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { Task } from ".";
 import { ITask, TaskStatus } from "../../interfaces";
 import { useProjects } from "../hooks";

@@ -17,7 +17,7 @@ export const Task = ({ _id, name, description, deadline, priority }: ITask) => {
   };
   return (
     <div
-      className="w-[95%] lg:w-[70%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 p-2"
+      className="w-[99%] lg:w-[70%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 p-2"
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}

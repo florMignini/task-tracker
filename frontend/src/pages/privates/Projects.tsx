@@ -55,7 +55,4 @@ const Projects = () => {
 };
 
 export default Projects;
-function getProjectsByUser() {
-  throw new Error("Function not implemented.");
-}
 

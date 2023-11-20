@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

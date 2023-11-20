@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, DragEvent } from "react";
 import { Task } from ".";
 import { ITask, TaskStatus } from "../../interfaces";
 import { useProjects } from "../hooks";
@@ -7,8 +7,12 @@ interface Props {
   status: TaskStatus;
 }
 export const TaskList: FC<Props> = ({ status }) => {
-  const { project, isDragging }: IProjectProvider =
-    useProjects();
+  const {
+    project,
+    isDragging,
+    updateTaskStatus,
+    endDragging,
+  }: IProjectProvider = useProjects();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const taskByStatus = useMemo(
@@ -16,13 +20,29 @@ export const TaskList: FC<Props> = ({ status }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [project?.tasks]
   );
- 
+
+  const onDropTask = (event: DragEvent<HTMLDivElement>) => {
+    const id = event.dataTransfer.getData("item");
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const draggedTask = project?.tasks.find((e) => e._id === id)!;
+    draggedTask.status = status;
+
+    updateTaskStatus(draggedTask);
+    endDragging();
+  };
+  const allowDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   return (
     <div
-      className="w-full flex items-center justify-center"
+      className="w-full h-[100%] flex items-start justify-start"
+      onDragOver={allowDrop}
+      onDrop={onDropTask}
     >
-      {/* list */}
+      {/*task list by status */}
       {taskByStatus && (
         <div
           className={`w-full flex flex-col gap-2 items-center justify-center ${

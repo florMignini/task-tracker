@@ -235,7 +235,6 @@ export const ProjectProvider = ({ children }: Props) => {
     setIsDragging(false);
   };
   const updateTaskStatus = (draggedTask: ITask) => {
-    console.log(draggedTask)
     const tasks = project?.tasks.map((task: ITask) => {
       if (task._id === draggedTask._id) {
         return draggedTask;

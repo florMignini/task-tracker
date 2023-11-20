@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useProjects } from "../../hooks";
-import { useEffect } from "react";
+import { DragEvent, useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
 import { ModalTaskForm, TaskList } from "../../components";
@@ -11,13 +11,26 @@ export const Project = () => {
   // get single project ID from params;
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { getSingleProject, project, loading, handleModalTask }:IProjectProvider = useProjects();
+  const { getSingleProject, project, loading, handleModalTask, updateTaskStatus, endDragging }:IProjectProvider = useProjects();
 
   useEffect(() => {
     getSingleProject(id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const onDropTask = (event: DragEvent) => {
+    const id = event.dataTransfer.getData("item");
+    console.log(id)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const draggedTask = project?.tasks.find((e) => e._id === id)!;
+    // draggedTask.status = status;
+    console.log(draggedTask)
+    updateTaskStatus(draggedTask);
+    endDragging();
+  };
+  const allowDrop = (event: DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation()
+  };
   if (loading)
     return (
       <div className="w-full h-screen flex items-center justify-center">
@@ -40,7 +53,10 @@ export const Project = () => {
       </button>
       </div>
       {/* card section */}
-      <div className="w-full h-screen bg-white grid grid-cols-3 gap-2 text-slate-500">
+      <div 
+       onDragOver={allowDrop}
+       onDrop={onDropTask}
+      className="w-full h-screen bg-white grid grid-cols-3 gap-2 text-slate-500">
         {/* each card */}
         <div className=" bg-slate-100 flex flex-col items-center m-2 rounded-lg">
         <div className="w-[90%] flex items-center justify-center m-1 p-1 bg-white border rounded-lg">

@@ -47,8 +47,9 @@ if(task.project.creator.toString() !== req.user._id.toString()){
 
 const updateTask = async (req:any, res:Response) => {
 
-    const {id} = req.params;
-const task = await Task.findById(id).populate("project")
+    const {taskId}= req.params;
+
+const task = await Task.findById(taskId).populate("project")
 if(!task){
     const error = new Error(`Task not found`)
     return res.status(404).json({msg: error.message})

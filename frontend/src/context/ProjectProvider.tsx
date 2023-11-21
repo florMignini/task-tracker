@@ -234,15 +234,29 @@ export const ProjectProvider = ({ children }: Props) => {
   const endDragging = () => {
     setIsDragging(false);
   };
-  const updateTaskStatus = (draggedTask: ITask) => {
-    const tasks = project?.tasks.map((task: ITask) => {
-      if (task._id === draggedTask._id) {
-        return draggedTask;
-      }
-      return task;
-    });
-    return tasks;
-  };
+
+  const updateTaskStatus = async(draggedTask: ITask) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      /* const { data }: any = */ await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/tasks/${draggedTask._id}`,
+        draggedTask,
+        config
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+ 
   return (
     <ProjectContext.Provider
       value={{

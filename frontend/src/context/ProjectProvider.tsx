@@ -223,7 +223,9 @@ export const ProjectProvider = ({ children }: Props) => {
         task,
         config
       );
-      console.log(data);
+      const updatedProject = {...project}
+      updatedProject.tasks = [project?.tasks, ...data]
+      setProjects(updatedProject)
     } catch (error) {
       console.log(error);
     }
@@ -245,12 +247,13 @@ export const ProjectProvider = ({ children }: Props) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      /* const { data }: any = */ await axios.put(
+      const { data }: any = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/tasks/${draggedTask._id}`,
         draggedTask,
         config
       );
-
+      const projectUpdated = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
+      setProjects(projectUpdated)
     } catch (error) {
       console.log(error);
     }

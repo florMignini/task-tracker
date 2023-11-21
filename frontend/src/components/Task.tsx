@@ -15,26 +15,27 @@ export const Task = ({ _id, name, description, deadline, priority }: ITask) => {
   const handleDragEnd = () => {
     endDragging();
   };
+
   return (
     <div
-      className="w-full lg:w-[70%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 p-2"
+      className="w-[95%] lg:w-[80%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 py-5 px-2"
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <div className="w-[100%] h-[100px] flex flex-col gap-2">
-        <h3 className="text-sm lg:text-lg font-bold">{name}</h3>
-        <p className="text-sm font-thin">{description}</p>
+        <h3 className="text-xs lg:text-lg font-bold mx-auto">{name}</h3>
+        <p className="truncate text-sm font-thin px-1">{description}</p>
       </div>
       <div className="w-[100%] flex items-center justify-between pt-2">
         {/* priority */}
-        <div className="w-[30%] rounded-md border text-center border-yellow-400 bg-yellow-300 text-yellow-500">
+        <div className="w-[30%] rounded-md border text-center text-xs truncate border-yellow-400 bg-yellow-300 text-yellow-500">
           <p>{priority}</p>
         </div>
         {/* deadline */}
-        <div className="w-[50%] flex items-center justify-evenly text-end lg:gap-2">
+        <div className="w-[50%] flex items-center justify-evenly text-end text-xs lg:gap-2">
           <BsCalendar2Date />
-          <p className="text-xs text-gray-400">
+          <p className="text-gray-400">
             {format(parseISO(deadline.split("T")[0]), "MM/dd/yyyy")}
           </p>
         </div>

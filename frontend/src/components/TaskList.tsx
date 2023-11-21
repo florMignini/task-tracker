@@ -33,7 +33,7 @@ export const TaskList: FC<Props> = ({ status }) => {
   };
   const allowDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    event.stopPropagation();
+
   };
 
   return (

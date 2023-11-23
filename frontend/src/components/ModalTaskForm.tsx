@@ -1,4 +1,4 @@
-import { Fragment, useState /* useEffect */ } from "react";
+import { Fragment, useEffect, useState /* useEffect */ } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,6 +8,7 @@ import { /* ITask,  */ TaskPriority, TaskStatus } from "../../interfaces";
 import { Toaster } from ".";
 import { BsCalendar2Date } from "react-icons/bs";
 import { useParams } from "react-router-dom";
+import { format, parseISO } from "date-fns";
 
 //status
 const STATUS: TaskStatus[] = ["To do", "In-Progress", "Done"];
@@ -22,9 +23,9 @@ export const ModalTaskForm = () => {
     showAlert,
     alert,
     submitTask,
+    task,
   }: IProjectProvider = useProjects();
 
-  //task form states
   //form states
 
   const [name, setName] = useState<string>("");
@@ -46,9 +47,30 @@ const params = useParams()
       });
       return;
     }
-   const result = await submitTask({ name, priority, status, description, deadline, project: params.id });
-   console.log(result);
+    await submitTask({ name, priority, status, description, deadline, project: params.id });
+  
   };
+
+  useEffect(() => {
+  if(task?._id){
+  setName(task?.name);
+  setDescription(task?.description);
+  setStatus(task?.status);
+  setPriority(task?.priority);
+  setDeadline(
+    new Date(
+      format(parseISO(task?.deadline.split("T")[0]), "MM-dd-yyyy")
+    )
+  );
+  return
+  }
+  setName("");
+  setDescription("");
+  setStatus("To do");
+  setPriority("Low");
+  setDeadline(Date);
+  }, [task])
+  
 
   return (
     <Transition.Root show={modalTask} as={Fragment}>
@@ -57,7 +79,7 @@ const params = useParams()
         className="fixed z-10 backdrop-blur-sm inset-0 overflow-y-auto"
         onClose={handleModalTask}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex items-end justify-center pt-2 px-2 pb-10 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -67,7 +89,7 @@ const params = useParams()
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay className="h-screen fixed inset-0 bg-gray-700 bg-opacity-20 transition-opacity" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -110,16 +132,16 @@ const params = useParams()
                 </button>
               </div>
 
-              <div className="sm:flex sm:items-start pt-4">
+              <div className="sm:flex sm:items-start pt-3">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                   <Dialog.Title
                     as="h3"
-                    className="text-3xl leading-6 font-light text-gray-700 pl-10"
+                    className="text-2xl leading-6 font-light text-gray-700 pl-10"
                   >
-                    Create task
+                   {task?._id ? `Edit Task` : `Create Task`}
                   </Dialog.Title>
                   <form
-                    className="w-full bg-white py-10 px-5 md:w-[90%] rounded-lg"
+                    className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
                     onSubmit={handleSubmit}
                   >
                     {alert?.msg && <Toaster {...alert} />}
@@ -140,7 +162,7 @@ const params = useParams()
                       />
                     </div>
                     {/* description */}
-                    <div className="mt-5">
+                    <div className="mt-3">
                       <label
                         className="text-gray-700 capitalize font-thin text-lg"
                         htmlFor="description"
@@ -222,7 +244,7 @@ const params = useParams()
                     </div>
                     <input
                       type="submit"
-                      value="Create task"
+                      value={task ? `Edit Task` : `Create Task`}
                       className="w-full mt-3 p-2 uppercase text-white rounded cursor-pointer bg-[#3dcbb1] hover:bg-[#5dc7b3] transition-colors"
                     />
                   </form>

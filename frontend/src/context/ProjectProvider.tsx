@@ -21,6 +21,7 @@ export interface IProjectProvider {
   loading?: boolean;
   showAlert?: any;
   alert?: alertType;
+  task?: ITask;
   isDragging?: boolean;
   getProjectsByUser?:any;
   submitProject?: any;
@@ -33,6 +34,7 @@ export interface IProjectProvider {
   startDragging?: any;
   endDragging?: any;
   updateTaskStatus?: any;
+  handleEditTask?: any;
 }
 const ProjectContext = createContext({});
 
@@ -47,6 +49,7 @@ export const ProjectProvider = ({ children }: Props) => {
 
   //task states
   const [modalTask, setModalTask] = useState(false);
+  const [task, setTask] = useState({});
 
   const handleModalTask = () => {
     setModalTask(!modalTask);
@@ -258,8 +261,11 @@ export const ProjectProvider = ({ children }: Props) => {
       console.log(error);
     }
 }
+const handleEditTask = (task:ITask)=>{
+  setTask(task)
+  setModalTask(true)
+} 
 
- 
   return (
     <ProjectContext.Provider
       value={{
@@ -278,6 +284,7 @@ export const ProjectProvider = ({ children }: Props) => {
         //modal state
         modalTask,
         handleModalTask,
+        task,
         //task state
         isDragging,
         //task actions
@@ -285,6 +292,7 @@ export const ProjectProvider = ({ children }: Props) => {
         startDragging,
         endDragging,
         updateTaskStatus,
+        handleEditTask
       }}
     >
       {children}

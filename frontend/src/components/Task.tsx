@@ -1,13 +1,19 @@
-import { DragEvent } from "react";
+import { DragEvent/* , useEffect */ } from "react";
 import { format, parseISO } from "date-fns";
 import { BsCalendar2Date } from "react-icons/bs";
 import { ITask } from "../../interfaces";
 import { useProjects } from "../hooks";
 import { IProjectProvider } from "../context/ProjectProvider";
+import { PencilSquare } from "../icons/PencilSquare";
 
-export const Task = ({ _id, name, description, deadline, priority }: ITask) => {
-  const { startDragging, endDragging }: IProjectProvider = useProjects();
-
+export const Task = (task: ITask) => {
+  const {
+    startDragging,
+    endDragging,
+    handleEditTask,
+    // handleModalTask,
+  }: IProjectProvider = useProjects();
+const { _id, name, description, deadline, priority } = task;
   const handleDragStart = (e: DragEvent) => {
     e.dataTransfer?.setData("item", _id);
     startDragging();
@@ -16,15 +22,26 @@ export const Task = ({ _id, name, description, deadline, priority }: ITask) => {
     endDragging();
   };
 
+ /*  useEffect(()=>{
+
+  }, [task]) */
+
   return (
     <div
-      className="w-[95%] lg:w-[80%] h-[200px] flex flex-col items-end justify-between rounded-lg shadow-md mt-2 text-gray-500 py-5 px-2"
+      className="w-[95%] lg:w-[80%] h-[200px] flex flex-col items-center justify-between rounded-lg shadow-md mt-2 text-gray-500 py-5 px-3"
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <div className="w-[100%] h-[100px] flex flex-col gap-2">
-        <h3 className="text-xs lg:text-lg font-bold mx-auto">{name}</h3>
+        <div className="flex items-start justify-between">
+          <h3 className="text-xs lg:text-lg font-bold">{name}</h3>
+          <button
+          onClick={()=> handleEditTask(task)}
+          >
+            <PencilSquare />
+          </button>
+        </div>
         <p className="truncate text-sm font-thin px-1">{description}</p>
       </div>
       <div className="w-[100%] flex items-center justify-between pt-2">
@@ -33,7 +50,7 @@ export const Task = ({ _id, name, description, deadline, priority }: ITask) => {
           <p>{priority}</p>
         </div>
         {/* deadline */}
-        <div className="w-[50%] flex items-center justify-evenly text-end text-xs lg:gap-2">
+        <div className="w-[50%] gap-1 flex items-center justify-center text-end text-xs lg:gap-2">
           <BsCalendar2Date />
           <p className="text-gray-400">
             {format(parseISO(deadline.split("T")[0]), "MM/dd/yyyy")}

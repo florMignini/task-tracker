@@ -1,3 +1,4 @@
+export * from './DeleteModal';
 export { default as Header } from './Header';
 export * from './ModalTaskForm';
 export * from './ProjectForm';

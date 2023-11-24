@@ -11,7 +11,6 @@ export const Task = (task: ITask) => {
     startDragging,
     endDragging,
     handleEditTask,
-    // handleModalTask,
   }: IProjectProvider = useProjects();
 const { _id, name, description, deadline, priority } = task;
   const handleDragStart = (e: DragEvent) => {

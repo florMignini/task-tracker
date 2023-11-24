@@ -9,6 +9,7 @@ import { Toaster } from ".";
 import { BsCalendar2Date } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { format, parseISO } from "date-fns";
+import { DeleteIcon } from "../icons";
 
 //status
 const STATUS: TaskStatus[] = ["To do", "In-Progress", "Done"];
@@ -27,7 +28,7 @@ export const ModalTaskForm = () => {
   }: IProjectProvider = useProjects();
 
   //form states
-
+const [id, setId] = useState<string>('')
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,12 +48,12 @@ const params = useParams()
       });
       return;
     }
-    await submitTask({ name, priority, status, description, deadline, project: params.id });
+    await submitTask({id, name, priority, status, description, deadline, project: params.id });
   
   };
-
   useEffect(() => {
   if(task?._id){
+    setId(task?._id);
   setName(task?.name);
   setDescription(task?.description);
   setStatus(task?.status);
@@ -64,6 +65,7 @@ const params = useParams()
   );
   return
   }
+  setId("")
   setName("");
   setDescription("");
   setStatus("To do");
@@ -71,6 +73,7 @@ const params = useParams()
   setDeadline(Date);
   }, [task])
   
+  console.log(task)
 
   return (
     <Transition.Root show={modalTask} as={Fragment}>
@@ -110,7 +113,10 @@ const params = useParams()
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+              <div className="hidden sm:flex absolute top-0 right-0 pt-4 pr-4 gap-2">
+            {
+            id ?   <DeleteIcon/> : null
+            }
                 <button
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -138,7 +144,7 @@ const params = useParams()
                     as="h3"
                     className="text-2xl leading-6 font-light text-gray-700 pl-10"
                   >
-                   {task?._id ? `Edit Task` : `Create Task`}
+                   {id ? `Edit Task` : `Create Task`}
                   </Dialog.Title>
                   <form
                     className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
@@ -244,7 +250,7 @@ const params = useParams()
                     </div>
                     <input
                       type="submit"
-                      value={task ? `Edit Task` : `Create Task`}
+                      value={id ? `Edit Task` : `Create Task`}
                       className="w-full mt-3 p-2 uppercase text-white rounded cursor-pointer bg-[#3dcbb1] hover:bg-[#5dc7b3] transition-colors"
                     />
                   </form>

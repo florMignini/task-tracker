@@ -3,10 +3,11 @@ import { IProject } from "../context/ProjectProvider";
 import { FaRegComments } from "react-icons/fa";
 import { BsCalendarWeek, BsPencilSquare } from "react-icons/bs";
 import { format, parseISO } from "date-fns";
-export const ProjectPreview = (project: IProject) => {
-  const { _id, name, description, client, deadline } = project;
 
-  
+
+
+export const ProjectPreview = (project: IProject) => {
+  const { _id, name, description, client, deadline }:IProject = project;  
   return (
     <Link
       to={`${_id}`}
@@ -29,7 +30,7 @@ export const ProjectPreview = (project: IProject) => {
         </Link>
       </div>
       {/* description */}
-      <div className="w-full h-[120px]">
+      <div className="w-full h-[150px]">
         <p className="px-3 py-2 text-sm font-light text-gray-500">
           {description}
         </p>

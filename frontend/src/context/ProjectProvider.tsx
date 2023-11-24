@@ -30,7 +30,9 @@ export interface IProjectProvider {
   submitTask?: any;
   project?: IProject;
   modalTask?: boolean;
+  modalDeleteTask?: boolean;
   handleModalTask?: any;
+  handleDeleteModalTask?: any;
   startDragging?: any;
   endDragging?: any;
   updateTaskStatus?: any;
@@ -49,12 +51,15 @@ export const ProjectProvider = ({ children }: Props) => {
 
   //task states
   const [modalTask, setModalTask] = useState(false);
+  const [modalDeleteTask, setDeleteModalTask] = useState(false);
   const [task, setTask] = useState({});
 
   const handleModalTask = () => {
     setModalTask(!modalTask);
   };
-
+const handleDeleteModalTask = ()=>{
+setDeleteModalTask(!modalDeleteTask);
+}
   const showAlert = (alert: alertType) => {
     setAlert(alert);
     setTimeout(() => {
@@ -210,8 +215,16 @@ export const ProjectProvider = ({ children }: Props) => {
     }
   };
 
-  //CREATE NEW TASK
+  //HANDLE NEW/UPDATE TASK
   const submitTask = async (task: ITask) => {
+    if(task?.id){
+   await editTask(task)
+    }else{
+   await createTask(task)
+    }
+  };
+//create task
+  const createTask = async (task: ITask) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -226,13 +239,13 @@ export const ProjectProvider = ({ children }: Props) => {
         task,
         config
       );
-      const updatedProject = {...project}
+      const updatedProject:any = {...project}
       updatedProject.tasks = [project?.tasks, ...data]
-      setProjects(updatedProject)
+      setProject(updatedProject)
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   const startDragging = () => {
     setIsDragging(true);
   };
@@ -255,8 +268,10 @@ export const ProjectProvider = ({ children }: Props) => {
         draggedTask,
         config
       );
-      const projectUpdated = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
-      setProjects(projectUpdated)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const projectUpdated:any = {...project}
+       projectUpdated.tasks = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
+      setProject(projectUpdated)
     } catch (error) {
       console.log(error);
     }
@@ -266,6 +281,31 @@ const handleEditTask = (task:ITask)=>{
   setModalTask(true)
 } 
 
+//edit task
+const editTask = async(task:ITask)=>{
+try {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const { data }: any = await axios.put(
+    `${import.meta.env.VITE_SERVER_URL}/tasks/${task.id}`,
+    task,
+    config
+  );
+  const updatedProject:any = {...project}
+  updatedProject.tasks = updatedProject?.tasks?.map((stateTask:ITask)=> stateTask._id === data._id ? data : stateTask);
+  setProject(updatedProject)
+  setAlert({})
+  setModalTask(false)
+} catch (error) {
+  console.log(error)
+}
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -283,7 +323,9 @@ const handleEditTask = (task:ITask)=>{
         deleteProject,
         //modal state
         modalTask,
+        modalDeleteTask,
         handleModalTask,
+        handleDeleteModalTask,
         task,
         //task state
         isDragging,
@@ -292,7 +334,8 @@ const handleEditTask = (task:ITask)=>{
         startDragging,
         endDragging,
         updateTaskStatus,
-        handleEditTask
+        handleEditTask,
+        
       }}
     >
       {children}

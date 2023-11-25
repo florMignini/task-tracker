@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState /* useEffect */ } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useProjects } from "../hooks";
 import { IProjectProvider } from "../context/ProjectProvider";
@@ -9,7 +9,7 @@ import { Toaster } from ".";
 import { BsCalendar2Date } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { format, parseISO } from "date-fns";
-import { DeleteIcon } from "../icons";
+
 
 //status
 const STATUS: TaskStatus[] = ["To do", "In-Progress", "Done"];
@@ -28,15 +28,15 @@ export const ModalTaskForm = () => {
   }: IProjectProvider = useProjects();
 
   //form states
-const [id, setId] = useState<string>('')
+  const [id, setId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [deadline, setDeadline] = useState<any>(new Date());
+  const [deadline, setDeadline] = useState<any>("");
   const [status, setStatus] = useState<TaskStatus>();
   const [priority, setPriority] = useState<TaskPriority>();
   // get project id from params
-const params = useParams()
+  const params = useParams();
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -48,32 +48,35 @@ const params = useParams()
       });
       return;
     }
-    await submitTask({id, name, priority, status, description, deadline, project: params.id });
-  
+    await submitTask({
+      id,
+      name,
+      priority,
+      status,
+      description,
+      deadline,
+      project: params.id,
+    });
   };
   useEffect(() => {
-  if(task?._id){
-    setId(task?._id);
-  setName(task?.name);
-  setDescription(task?.description);
-  setStatus(task?.status);
-  setPriority(task?.priority);
-  setDeadline(
-    new Date(
-      format(parseISO(task?.deadline.split("T")[0]), "MM-dd-yyyy")
-    )
-  );
-  return
-  }
-  setId("")
-  setName("");
-  setDescription("");
-  setStatus("To do");
-  setPriority("Low");
-  setDeadline(Date);
-  }, [task])
-  
-  console.log(task)
+    if (task?._id) {
+      setId(task?._id);
+      setName(task?.name);
+      setDescription(task?.description);
+      setStatus(task?.status);
+      setPriority(task?.priority);
+      setDeadline(
+        new Date(format(parseISO(task?.deadline.split("T")[0]), "MM-dd-yyyy"))
+      );
+      return;
+    }
+    setId("");
+    setName("");
+    setDescription("");
+    setStatus("To do");
+    setPriority("Low");
+    setDeadline("");
+  }, [task]);
 
   return (
     <Transition.Root show={modalTask} as={Fragment}>
@@ -114,12 +117,9 @@ const params = useParams()
           >
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div className="hidden sm:flex absolute top-0 right-0 pt-4 pr-4 gap-2">
-            {
-            id ?   <DeleteIcon/> : null
-            }
                 <button
                   type="button"
-                  className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
                   onClick={handleModalTask}
                 >
                   <span className="sr-only">Cerrar</span>
@@ -140,12 +140,14 @@ const params = useParams()
 
               <div className="sm:flex sm:items-start pt-3">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-2xl leading-6 font-light text-gray-700 pl-10"
-                  >
-                   {id ? `Edit Task` : `Create Task`}
-                  </Dialog.Title>
+                  <div className="w-[90%] flex items-center justify-between pt-3">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-2xl leading-6 font-light text-gray-700 pl-10"
+                    >
+                      {id ? `Edit Task` : `Create Task`}
+                    </Dialog.Title>
+                  </div>
                   <form
                     className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
                     onSubmit={handleSubmit}
@@ -192,12 +194,12 @@ const params = useParams()
                         Deadline
                       </label>
                       <div className="border flex items-center justify-between w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600">
-                        <DatePicker
+                        <input
                           id="deadline"
-                          dateFormat="dd-MM-yyyy"
-                          selected={deadline}
+                          value={deadline}
+                          type="date"
                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                          onChange={(date: any) => setDeadline(date)}
+                          onChange={({ target }) => setDeadline(target.value)}
                         />
                         <BsCalendar2Date />
                       </div>
@@ -215,7 +217,7 @@ const params = useParams()
                         className="border capitalize w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
                         value={status}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={({ target }:any) => setStatus(target.value)}
+                        onChange={({ target }: any) => setStatus(target.value)}
                       >
                         <option value=""> -- select -- </option>
                         {STATUS.map((status) => (
@@ -238,7 +240,9 @@ const params = useParams()
                         className="border capitalize w-full p-2 mt-2 placeholder-gray-400 rounded-md outline-none text-slate-600"
                         value={priority}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={({ target }:any) => setPriority(target.value)}
+                        onChange={({ target }: any) =>
+                          setPriority(target.value)
+                        }
                       >
                         <option value="">-- select --</option>
                         {PRIORITY.map((priority) => (

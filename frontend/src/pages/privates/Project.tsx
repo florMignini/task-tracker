@@ -3,7 +3,7 @@ import { useProjects } from "../../hooks";
 import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
-import { ModalTaskForm, TaskList } from "../../components";
+import { DeleteModal, ModalTaskForm, TaskList } from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
 
 export const Project = () => {
@@ -67,6 +67,7 @@ export const Project = () => {
         </div>
       </div>
       <ModalTaskForm />
+      <DeleteModal/>
     </main>
   );
 };

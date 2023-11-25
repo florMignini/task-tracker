@@ -37,6 +37,7 @@ export interface IProjectProvider {
   endDragging?: any;
   updateTaskStatus?: any;
   handleEditTask?: any;
+  deleteTask?:any;
 }
 const ProjectContext = createContext({});
 
@@ -56,9 +57,11 @@ export const ProjectProvider = ({ children }: Props) => {
 
   const handleModalTask = () => {
     setModalTask(!modalTask);
+    // setTask({})
   };
-const handleDeleteModalTask = ()=>{
+const handleDeleteModalTask = (task:ITask)=>{
 setDeleteModalTask(!modalDeleteTask);
+setTask(task)
 }
   const showAlert = (alert: alertType) => {
     setAlert(alert);
@@ -306,6 +309,33 @@ try {
   console.log(error)
 }
 }
+
+const deleteTask = async()=>{
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data }: any = await axios.delete(
+      `${import.meta.env.VITE_SERVER_URL}/tasks/${task._id}`,
+      config
+    );
+    showAlert({
+    msg: data.msg,
+    error: false
+    })
+    const updatedProject:any = {...project}
+    updatedProject.tasks = updatedProject?.tasks?.filter((stateTask:ITask)=> stateTask._id !== task?._id);
+    setProject(updatedProject)
+    setDeleteModalTask(false)
+  } catch (error) {
+    console.log(error)
+  }
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -335,7 +365,7 @@ try {
         endDragging,
         updateTaskStatus,
         handleEditTask,
-        
+        deleteTask
       }}
     >
       {children}

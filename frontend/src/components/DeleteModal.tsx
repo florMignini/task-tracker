@@ -1,17 +1,13 @@
-
 import { Fragment } from "react";
 import { useProjects } from "../hooks";
 import { Dialog, Transition } from "@headlessui/react";
 import { IProjectProvider } from "../context/ProjectProvider";
-
+import { WarningIcon } from "../icons";
 
 export const DeleteModal = () => {
-  const {
-    handleDeleteModalTask,
-    modalDeleteTask,
-  }: IProjectProvider = useProjects();
+  const { handleDeleteModalTask, modalDeleteTask, deleteTask }: IProjectProvider =
+    useProjects();
 
- 
   return (
     <Transition.Root show={modalDeleteTask} as={Fragment}>
       <Dialog
@@ -72,15 +68,36 @@ export const DeleteModal = () => {
                 </button>
               </div>
 
-              <div className="sm:flex sm:items-start pt-3">
+              <div className="sm:flex sm:items-start pt-3 text-red-600">
+                <div className="">
+                  <WarningIcon/>
+                </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl leading-6 font-light text-gray-700 pl-10"
+                    className="text-3xl font-thin leading-6 pl-10"
                   >
-                        Delete task
+                    Delete task
                   </Dialog.Title>
-                {/* Main Content */}
+                  {/* Main Content */}
+                  <div>
+                    {/* top section */}
+                  <div className="h-[150px] font-light text-xl pt-5 mx-auto text-gray-600">
+                    <p className="w-[90%]">This action cannot be undone</p>
+                    <h3 className="w-[90%] uppercase pt-2 font-bold">
+                      are you sure to delete the task?
+                    </h3>
+                  </div>
+                  {/* button section */}
+                  <div className="flex items-start justify-end gap-5">
+                    <button className="border-2 border-gray-700 text-gray-700 bg-slate-500/80 hover:bg-slate-400 rounded-lg px-4 py-1 capitalize text-lg font-semibold"
+                    onClick={handleDeleteModalTask}
+                    >Cancel</button>
+                    <button className="border-2 border-red-500 bg-red-400/80 hover:bg-red-300 rounded-lg px-4 py-1 capitalize text-lg font-semibold"
+                    onClick={deleteTask}
+                    >Delete</button>
+                  </div>
+                  </div>
                 </div>
               </div>
             </div>

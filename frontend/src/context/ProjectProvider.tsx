@@ -57,7 +57,7 @@ export const ProjectProvider = ({ children }: Props) => {
 
   const handleModalTask = () => {
     setModalTask(!modalTask);
-    // setTask({})
+    setTask({})
   };
 const handleDeleteModalTask = (task:ITask)=>{
 setDeleteModalTask(!modalDeleteTask);
@@ -220,7 +220,8 @@ setTask(task)
 
   //HANDLE NEW/UPDATE TASK
   const submitTask = async (task: ITask) => {
-    if(task?.id){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    if(task?.id !== ''){
    await editTask(task)
     }else{
    await createTask(task)
@@ -228,6 +229,8 @@ setTask(task)
   };
 //create task
   const createTask = async (task: ITask) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {id, ...rest} = task
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -239,12 +242,15 @@ setTask(task)
       };
       const { data } = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/tasks`,
-        task,
+        rest,
         config
       );
+
       const updatedProject:any = {...project}
-      updatedProject.tasks = [project?.tasks, ...data]
+      updatedProject.tasks = [...project?.tasks, data]
       setProject(updatedProject)
+      setTask({})
+      setModalTask(false)
     } catch (error) {
       console.log(error);
     }
@@ -275,6 +281,7 @@ setTask(task)
       const projectUpdated:any = {...project}
        projectUpdated.tasks = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
       setProject(projectUpdated)
+
     } catch (error) {
       console.log(error);
     }
@@ -303,6 +310,7 @@ try {
   const updatedProject:any = {...project}
   updatedProject.tasks = updatedProject?.tasks?.map((stateTask:ITask)=> stateTask._id === data._id ? data : stateTask);
   setProject(updatedProject)
+  setTask({})
   setAlert({})
   setModalTask(false)
 } catch (error) {
@@ -321,7 +329,7 @@ const deleteTask = async()=>{
       },
     };
     const { data }: any = await axios.delete(
-      `${import.meta.env.VITE_SERVER_URL}/tasks/${task._id}`,
+      `${import.meta.env.VITE_SERVER_URL}/tasks/${task?._id}`,
       config
     );
     showAlert({

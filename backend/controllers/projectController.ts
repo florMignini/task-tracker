@@ -4,9 +4,8 @@ import { Task } from "../models/Task";
 import { User } from "../models/User";
 
 const createProject = async (req: any, res: Response) => {
-
   const newProject = new Project(req.body);
-  newProject.creator = req.user._id
+  newProject.creator = req.user._id;
 
   try {
     const newProjectSaved = await newProject.save();
@@ -17,14 +16,17 @@ const createProject = async (req: any, res: Response) => {
 };
 
 const getAllProjects = async (req: any, res: Response) => {
-  const projectsByUser = await Project.find().where("creator").equals(req.user).select("-tasks");
+  const projectsByUser = await Project.find()
+    .where("creator")
+    .equals(req.user)
+    .select("-tasks");
   res.status(200).json(projectsByUser);
 };
 
 const getSingleProjectServer = async (req: any, res: Response) => {
   const { id } = req.params;
 
-  const singleProject = await Project.findById(id).populate("tasks");
+  const singleProject = await Project.findById(id).populate("tasks").populate("collaborator", "name email");
   if (!singleProject) {
     const error = new Error(`Project not found`);
     return res.status(404).json({ msg: error.message });
@@ -89,19 +91,69 @@ const deleteProject = async (req: any, res: Response) => {
   }
 };
 
-const addCollaborator = async (req: Request, res: Response) => {};
-const searchCollaborator = async (req: Request, res: Response) =>{
-  const {email} = req.body
+const addCollaborator = async (req: any, res: Response) => {
+  const { id } = req.params;
+  const { email } = req.body;
+  const projectById: any = await Project.findById(id);
+  //project validation
+  if (!projectById) {
+    const error = new Error("Project not found");
+    return res.status(404).json({
+      msg: error.message,
+    });
+  }
+  if (projectById?.creator.toString() !== req.user._id.toString()) {
+    const error = new Error(`User not allowed to add collaborators`);
+    return res.status(403).json({
+      msg: error.message,
+    });
+  }
+  //email validation
+  const userByEmail = await User.findOne({ email }).select(
+    "-password -__v -token"
+  );
 
-const userByEmail = await User.findOne({email}).select("-password -__v -token")
-console.log(userByEmail)
-if(!userByEmail){
-const error = new Error(`User not found`)
-return res.status(404).json({
-  msg:error.message
-})
-}
-return res.status(200).json(userByEmail)
+  if (!userByEmail) {
+    const error = new Error(`User not found`);
+    return res.status(404).json({
+      msg: error.message,
+    });
+  }
+  //admin user can not be a added as collaborator  
+  if(projectById.creator.toString() === userByEmail._id.toString()){
+    const error = new Error(`Owner can not be added as collaborators`)
+    return res.status(403).json({
+      msg: error.message
+    })
+  }
+  //collaborators only can be added once
+  if(projectById.collaborator.includes(userByEmail._id)){
+    const error = new Error(`User ${userByEmail.name} is already a collaborator`)
+    return res.status(404).json({
+      msg: error.message
+    })
+  }
+  //success path
+  projectById.collaborator.push(userByEmail._id)
+  await projectById.save()
+  return res.status(200).json({
+    msg: `${userByEmail.name} is now a collaborator`
+  })
+};
+const searchCollaborator = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const userByEmail = await User.findOne({ email }).select(
+    "-password -__v -token"
+  );
+
+  if (!userByEmail) {
+    const error = new Error(`User not found`);
+    return res.status(404).json({
+      msg: error.message,
+    });
+  }
+  return res.status(200).json(userByEmail);
 };
 const deleteCollaborator = async (req: Request, res: Response) => {};
 
@@ -115,7 +167,6 @@ export {
   searchCollaborator,
   deleteCollaborator,
 };
-  function ISODate(): any {
-    throw new Error("Function not implemented.");
-  }
-
+function ISODate(): any {
+  throw new Error("Function not implemented.");
+}

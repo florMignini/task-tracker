@@ -13,9 +13,10 @@ export const ModalSearchCollaborators = () => {
     alert,
     collaborators,
     searchCollaborators,
+    addCollaborator,
     showAlert,
   }: IProjectProvider = useProjects();
-console.log(collaborators)
+
   const [email, setEmail] = useState<string>("");
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -73,7 +74,10 @@ console.log(collaborators)
                 <button
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={handleCollaboratorsModal}
+                  onClick={()=>{
+                    handleCollaboratorsModal()
+                    setEmail('')
+                  }}
                 >
                   <span className="sr-only">Cerrar</span>
                   <svg
@@ -128,7 +132,7 @@ console.log(collaborators)
                     ?.email}</p>
                     </div>
                     <button className="flex items-center gap-1 justify-center rounded-xl p-2 text-white bg-[#3dcbb1] hover:bg-[#3dcbb1]/80"
-                    onClick={}
+                    onClick={() => addCollaborator(email)}
                     >Add <BsPlusCircle /> </button>
                     </div>
                   </div>

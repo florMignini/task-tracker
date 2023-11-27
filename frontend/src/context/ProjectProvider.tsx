@@ -358,8 +358,34 @@ const deleteTask = async()=>{
   }
 }
 //*COLLABORATORS
-const addCollaborator = async() => {
-  
+const addCollaborator = async(email:string) => {
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data }: any = await axios.post(
+      `${import.meta.env.VITE_SERVER_URL}/projects/collaborators/${project?._id}`,
+      {email},
+      config
+    );
+    showAlert({
+       msg: data.msg,
+       error: false
+    })
+    setCollaborators({})
+    setCollaboratorsModal(false)
+  } catch (error:any) {
+    showAlert({
+      msg: error?.response?.data?.msg,
+      error: true
+    })
+  }
 };
 
 const searchCollaborators = async(email:string) => {

@@ -4,27 +4,33 @@ import { Dialog, Transition } from "@headlessui/react";
 import { IProjectProvider } from "../context/ProjectProvider";
 import { Toaster } from ".";
 import { MagnifyingGlass } from "../icons";
+import { BsPlusCircle } from "react-icons/bs";
 
 export const ModalSearchCollaborators = () => {
-  const { handleCollaboratorsModal, collaboratorsModal, alert, collaborators,searchCollaborators, showAlert }: IProjectProvider =
-    useProjects();
-    console.log(collaborators)
-const [email, setEmail] = useState<string>('')
+  const {
+    handleCollaboratorsModal,
+    collaboratorsModal,
+    alert,
+    collaborators,
+    searchCollaborators,
+    showAlert,
+  }: IProjectProvider = useProjects();
+console.log(collaborators)
+  const [email, setEmail] = useState<string>("");
 
-const handleSubmit = async(e: { preventDefault: () => void; }) => {
-  e.preventDefault();
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
 
-  // form validations
-  if (email === " ") {
-    showAlert({
-      msg: `All fields are required`,
-      error: true,
-    });
-    return;
-  }
-  await searchCollaborators(email);
-
-}
+    // form validations
+    if ([email].includes("")) {
+      showAlert({
+        msg: `All fields are required`,
+        error: true,
+      });
+      return;
+    }
+    await searchCollaborators(email);
+  };
   return (
     <Transition.Root show={collaboratorsModal} as={Fragment}>
       <Dialog
@@ -86,24 +92,48 @@ const handleSubmit = async(e: { preventDefault: () => void; }) => {
               </div>
               {/* CONTENT */}
               <form
-                  className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
-                  onSubmit={handleSubmit}
-                >
-                  {alert?.msg && <Toaster {...alert} />}
-                  <div className="flex items-center justify-center mt-5">
-                    <MagnifyingGlass/>
-                    <input
-                      id="email"
-                      type="search"
-                      placeholder="Enter collaborator email"
-                      className="flex items-start justify-start border-none w-full p-2  placeholder-gray-400 rounded-md outline-none text-gray-950"
-                      autoComplete="off"
-                      value={email}
-                      onChange={({ target }) => setEmail(target.value)}
-                    />
+                className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
+                onSubmit={handleSubmit}
+              >
+                {alert?.msg && <Toaster {...alert} />}
+                <div className="flex items-center justify-center mt-5">
+                  <MagnifyingGlass />
+                  <input
+                    id="email"
+                    type="search"
+                    placeholder="Enter collaborator email"
+                    className="flex items-start justify-start border-none w-full p-2  placeholder-gray-400 rounded-md outline-none text-gray-950"
+                    autoComplete="off"
+                    value={email}
+                    onChange={({ target }) => setEmail(target.value)}
+                  />
+                <input
+                  type="submit"
+                  value="find member"
+                  className="w-auto p-1 text-xs border-[1px] border-[#3dcbb1] rounded-lg cursor-pointer text-[#3dcbb1] hover:bg-[#a6ecdf] transition-colors"
+                />
+                </div>
+              </form>
+              {/* Search content */}
+              <div className="flex justify-start items-start mt-10">
+                {collaborators && collaborators?._id && (
+                  <div className="w-full h-[10%]  flex gap-2 p-5 hover:border-slate-400/20 border-b-[1px] border-black">
+                    {/* avatar */}
+                    <div className="w-8 h-8 rounded-full bg-[#3dcbb1]" />
+                    {/* content */}
+                    <div className="w-[90%] flex items-center justify-between">
+                    <div className="flex-col">
+                    <h3 className="capitalize font-semibold text-xl text-gray-500/90">{collaborators?.name}</h3>
+                    <p className="font-light text-gray-500">{collaborators
+                    ?.email}</p>
+                    </div>
+                    <button className="flex items-center gap-1 justify-center rounded-xl p-2 text-white bg-[#3dcbb1] hover:bg-[#3dcbb1]/80"
+                    onClick={}
+                    >Add <BsPlusCircle /> </button>
+                    </div>
                   </div>
-
-                </form>
+                )}
+              </div>
             </div>
           </Transition.Child>
         </div>

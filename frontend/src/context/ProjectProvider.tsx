@@ -28,6 +28,7 @@ export interface IProjectProvider {
   EditProject?: any;
   getSingleProject?: any;
   submitTask?: any;
+  searchCollaborators?:any;
   project?: IProject;
   modalTask?: boolean;
   modalDeleteTask?: boolean;
@@ -38,6 +39,10 @@ export interface IProjectProvider {
   updateTaskStatus?: any;
   handleEditTask?: any;
   deleteTask?:any;
+  handleCollaboratorsModal?: any;
+  collaboratorsModal?: boolean;
+  //!TODO: create collaborators interface
+  collaborators?:any;
 }
 const ProjectContext = createContext({});
 
@@ -54,6 +59,9 @@ export const ProjectProvider = ({ children }: Props) => {
   const [modalTask, setModalTask] = useState(false);
   const [modalDeleteTask, setDeleteModalTask] = useState(false);
   const [task, setTask] = useState({});
+  //collaborators state
+  const [collaborators, setCollaborators] = useState({});
+  const [collaboratorsModal, setCollaboratorsModal] = useState<boolean>(false);
 
   const handleModalTask = () => {
     setModalTask(!modalTask);
@@ -62,6 +70,9 @@ export const ProjectProvider = ({ children }: Props) => {
 const handleDeleteModalTask = (task:ITask)=>{
 setDeleteModalTask(!modalDeleteTask);
 setTask(task)
+}
+const handleCollaboratorsModal = () => {
+setCollaboratorsModal(!collaboratorsModal);
 }
   const showAlert = (alert: alertType) => {
     setAlert(alert);
@@ -344,6 +355,33 @@ const deleteTask = async()=>{
     console.log(error)
   }
 }
+//*COLLABORATORS
+
+const searchCollaborators = async(email:string) => {
+  setLoading(true)
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data }: any = await axios.post(
+      `${import.meta.env.VITE_SERVER_URL}/projects/collaborators`,
+      {email},
+      config
+    );
+    console.log(data);
+    setCollaborators(data);
+    setCollaboratorsModal(false)
+  } catch (error) {
+    console.log(error)
+  }finally{
+  setLoading(false)
+  }
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -359,12 +397,18 @@ const deleteTask = async()=>{
         EditProject,
         getSingleProject,
         deleteProject,
+        //collaborators actions
+        searchCollaborators,
         //modal state
         modalTask,
         modalDeleteTask,
         handleModalTask,
         handleDeleteModalTask,
         task,
+        //collaborators
+        handleCollaboratorsModal,
+        collaboratorsModal,
+        collaborators,
         //task state
         isDragging,
         //task actions

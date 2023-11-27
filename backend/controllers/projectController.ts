@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Project from "../models/Project";
 import { Task } from "../models/Task";
+import { User } from "../models/User";
 
 const createProject = async (req: any, res: Response) => {
 
@@ -89,7 +90,17 @@ const deleteProject = async (req: any, res: Response) => {
 };
 
 const addCollaborator = async (req: Request, res: Response) => {};
-
+const searchCollaborator = async (req: Request, res: Response) =>{
+  const {email} = req.body
+// console.log(email)
+const userByEmail = await User.findOne({email}).select("-password -__v -token")
+if(!userByEmail){
+const error = new Error(`User ${userByEmail} not found`)
+return res.status(404).json({
+  msg:error.message
+})
+}
+};
 const deleteCollaborator = async (req: Request, res: Response) => {};
 
 export {
@@ -99,6 +110,7 @@ export {
   editProject,
   deleteProject,
   addCollaborator,
+  searchCollaborator,
   deleteCollaborator,
 };
   function ISODate(): any {

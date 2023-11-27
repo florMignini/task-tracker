@@ -3,8 +3,9 @@ import { useProjects } from "../../hooks";
 import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
-import { DeleteModal, ModalTaskForm, TaskList } from "../../components";
+import { DeleteModal, ModalSearchCollaborators, ModalTaskForm, TaskList } from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
+import { UserPlus } from "../../icons";
 
 export const Project = () => {
   // get single project ID from params;
@@ -15,14 +16,15 @@ export const Project = () => {
     project,
     loading,
     handleModalTask,
+    handleCollaboratorsModal,
   }: IProjectProvider = useProjects();
 
   useEffect(() => {
     getSingleProject(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading){
+  if (loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <HashLoader color="#39c7ad" />
@@ -31,8 +33,18 @@ export const Project = () => {
   }
   return (
     <main className="w-full flex flex-col items-center justify-center">
-      <div className="w-full flex items-center justify-between px-4 h-10 text-slate-500">
-        <h3 className="font-bold text-xl"> {project?.name}</h3>
+      <div className="w-full flex items-start justify-between px-4 py-2 h-auto text-slate-500">
+        <div className="flex flex-col h-auto items-center justify-center gap-1">
+          <h3 className="font-bold text-xl"> {project?.name}</h3>
+          <button
+          onClick={handleCollaboratorsModal}
+          className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
+        >
+          <p className="flex font-light text-xs w-auto"> invite collaborator</p>
+
+          <UserPlus />
+        </button>
+        </div>
         <button
           onClick={handleModalTask}
           className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
@@ -67,7 +79,8 @@ export const Project = () => {
         </div>
       </div>
       <ModalTaskForm />
-      <DeleteModal/>
+      <DeleteModal />
+      <ModalSearchCollaborators/>
     </main>
   );
 };

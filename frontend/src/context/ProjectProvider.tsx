@@ -3,7 +3,7 @@ import { ReactNode, createContext, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ITask } from "../../interfaces";
+import { ICollaborator, ITask } from "../../interfaces";
 type Props = {
   children: ReactNode;
 };
@@ -15,6 +15,7 @@ export interface IProject {
   deadline?: string;
   client?: string;
   tasks: ITask[];
+  collaborator?: ICollaborator[]
 }
 export interface IProjectProvider {
   projects?: IProject[];
@@ -41,8 +42,7 @@ export interface IProjectProvider {
   deleteTask?:any;
   handleCollaboratorsModal?: any;
   collaboratorsModal?: boolean;
-  //!TODO: create collaborators interface
-  collaborators?:any;
+  collaborators?:ICollaborator;
   addCollaborator?:any;
 }
 const ProjectContext = createContext({});

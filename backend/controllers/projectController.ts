@@ -27,6 +27,7 @@ const getSingleProjectServer = async (req: any, res: Response) => {
   const { id } = req.params;
 
   const singleProject = await Project.findById(id).populate("tasks").populate("collaborator", "name email");
+
   if (!singleProject) {
     const error = new Error(`Project not found`);
     return res.status(404).json({ msg: error.message });

@@ -6,9 +6,25 @@ import { Toaster } from ".";
 import { MagnifyingGlass } from "../icons";
 
 export const ModalSearchCollaborators = () => {
-  const { handleCollaboratorsModal, collaboratorsModal, alert }: IProjectProvider =
+  const { handleCollaboratorsModal, collaboratorsModal, alert, collaborators,searchCollaborators, showAlert }: IProjectProvider =
     useProjects();
+    console.log(collaborators)
 const [email, setEmail] = useState<string>('')
+
+const handleSubmit = async(e: { preventDefault: () => void; }) => {
+  e.preventDefault();
+
+  // form validations
+  if (email === " ") {
+    showAlert({
+      msg: `All fields are required`,
+      error: true,
+    });
+    return;
+  }
+  await searchCollaborators(email);
+
+}
   return (
     <Transition.Root show={collaboratorsModal} as={Fragment}>
       <Dialog
@@ -71,7 +87,7 @@ const [email, setEmail] = useState<string>('')
               {/* CONTENT */}
               <form
                   className="w-full bg-white py-3 px-5 md:w-[90%] rounded-lg"
-                  // onSubmit={handleSubmit}
+                  onSubmit={handleSubmit}
                 >
                   {alert?.msg && <Toaster {...alert} />}
                   <div className="flex items-center justify-center mt-5">

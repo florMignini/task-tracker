@@ -358,6 +358,7 @@ const deleteTask = async()=>{
 //*COLLABORATORS
 
 const searchCollaborators = async(email:string) => {
+
   setLoading(true)
   try {
     const token = localStorage.getItem("token");
@@ -370,14 +371,17 @@ const searchCollaborators = async(email:string) => {
     };
     const { data }: any = await axios.post(
       `${import.meta.env.VITE_SERVER_URL}/projects/collaborators`,
-      {email},
+     {email},
       config
     );
-    console.log(data);
+    // console.log(data);
     setCollaborators(data);
     setCollaboratorsModal(false)
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    showAlert({
+      msg: error?.response?.data?.msg,
+      error: true
+    })
   }finally{
   setLoading(false)
   }

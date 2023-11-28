@@ -3,10 +3,11 @@ import { ProjectForm } from "../../components";
 import { useEffect } from "react";
 import { useProjects } from "../../hooks";
 import { BsTrash } from "react-icons/bs";
+import { IProjectProvider } from "../../context/ProjectProvider";
 
 export const EditProject = () => {
   const params = useParams();
-  const { getSingleProject, deleteProject, project, loading } = useProjects();
+  const { getSingleProject, deleteProject, project }:IProjectProvider = useProjects();
   useEffect(() => {
     getSingleProject(params?.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps

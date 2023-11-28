@@ -138,7 +138,8 @@ const addCollaborator = async (req: any, res: Response) => {
   projectById.collaborator.push(userByEmail._id)
   await projectById.save()
   return res.status(200).json({
-    msg: `${userByEmail.name} is now a collaborator`
+    msg: `${userByEmail.name} is now a collaborator`,
+    userByEmail
   })
 };
 const searchCollaborator = async (req: Request, res: Response) => {
@@ -156,7 +157,31 @@ const searchCollaborator = async (req: Request, res: Response) => {
   }
   return res.status(200).json(userByEmail);
 };
-const deleteCollaborator = async (req: Request, res: Response) => {};
+const deleteCollaborator = async (req: any, res: Response) => {
+  const { id } = req.params;
+
+  const projectById: any = await Project.findById(id);
+  //project validation
+  if (!projectById) {
+    const error = new Error("Project not found");
+    return res.status(404).json({
+      msg: error.message,
+    });
+  }
+  if (projectById?.creator.toString() !== req.user._id.toString()) {
+    const error = new Error(`User not allowed to add collaborators`);
+    return res.status(403).json({
+      msg: error.message,
+    });
+  }
+  //delete collaborator
+  projectById.collaborator.pull(req.body.id)
+
+  await projectById.save()
+  return res.status(200).json({
+  msg: `Collaborator deleted successfully`
+  })
+};
 
 export {
   createProject,

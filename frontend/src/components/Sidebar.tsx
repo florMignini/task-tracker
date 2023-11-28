@@ -6,8 +6,12 @@ import { IProjectProvider } from "../context/ProjectProvider";
 import { ICollaborator } from "../../interfaces";
 import { SignOutIcon } from "../icons";
 export const Sidebar = () => {
-  const { project }: IProjectProvider = useProjects();
-
+  const { project, deleteCollaborator }: IProjectProvider = useProjects();
+  const handleDelete = async (collaborator:ICollaborator) => {
+    if (confirm(`Are you sure to delete collaborator?`)) {
+      deleteCollaborator(collaborator);
+    }
+  };
   return (
     <aside className="md:w-56 lg:w-72 pt-5 p-2 bg-[#e9ded8] text-gray-500/80">
       <div className="h-[30%] flex flex-col items-center justify-center ">
@@ -39,19 +43,19 @@ export const Sidebar = () => {
         </h6>
         <div className="mt-5">
           {project?.collaborator?.map((collaborator: ICollaborator) => (
-            <div className="w-[95%] rounded-xl bg-[#F1F5F9] flex items-center justify-between px-2 py-1">
+            <div className="w-full lg:w-[95%] rounded-xl bg-[#F1F5F9] flex items-center justify-between px-2 py-1">
               <div className="flex items-center justify-center gap-1">
                 {/* avatar */}
                 <div className="w-8 h-8 rounded-full bg-[#3dcbb1]" />
                 <div className="flex flex-col items-start justify-center">
                   <p>{collaborator.name}</p>
-                  <p className="font-thin text-sm">{collaborator.email}</p>
+                  <p className="hidden lg:flex font-thin text-sm">{collaborator.email}</p>
                 </div>
               </div>
               <button
                 type="button"
                 className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
-                // onClick={handleModalTask}
+                onClick={()=>handleDelete(collaborator)}
               >
                 <span className="sr-only">Cerrar</span>
                 <svg

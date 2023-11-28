@@ -14,11 +14,12 @@ export interface IProject {
   description?: string;
   deadline?: string;
   client?: string;
-  tasks: ITask[];
+  tasks?: ITask[];
   collaborator?: ICollaborator[]
 }
 export interface IProjectProvider {
   projects?: IProject[];
+  deleteProject?:any;
   loading?: boolean;
   showAlert?: any;
   alert?: alertType;
@@ -32,6 +33,7 @@ export interface IProjectProvider {
   searchCollaborators?:any;
   project?: IProject;
   modalTask?: boolean;
+  deleteCollaborator?: any;
   modalDeleteTask?: boolean;
   handleModalTask?: any;
   handleDeleteModalTask?: any;
@@ -59,7 +61,7 @@ export const ProjectProvider = ({ children }: Props) => {
   //task states
   const [modalTask, setModalTask] = useState(false);
   const [modalDeleteTask, setDeleteModalTask] = useState(false);
-  const [task, setTask] = useState({});
+  const [task, setTask] = useState<any>({});
   //collaborators state
   const [collaborators, setCollaborators] = useState({});
   const [collaboratorsModal, setCollaboratorsModal] = useState<boolean>(false);
@@ -260,7 +262,7 @@ setCollaborators({})
       );
 
       const updatedProject:any = {...project}
-      updatedProject.tasks = [...project?.tasks, data]
+      updatedProject.tasks = [...project?.tasks as [], data]
       setProject(updatedProject)
       setTask({})
       setModalTask(false)
@@ -374,6 +376,10 @@ const addCollaborator = async(email:string) => {
       {email},
       config
     );
+    console.log(data)
+    const updatedProject:any = {...project}
+    updatedProject.collaborator = [...project?.collaborator as [], data.userByEmail]
+    setProject(updatedProject)
     showAlert({
        msg: data.msg,
        error: false
@@ -413,6 +419,36 @@ const searchCollaborators = async(email:string) => {
   
   }
 }
+const deleteCollaborator = async(collaborator:ICollaborator)=>{
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data }: any = await axios.post(
+      `${import.meta.env.VITE_SERVER_URL}/projects/delete-collaborator/${project?._id}`,
+     {id: collaborator._id},
+      config
+    );
+    const updatedProject:any = {...project}
+    updatedProject.collaborator = updatedProject.collaborator.filter((collaboratorUpdate: any) => collaboratorUpdate._id !== collaborator._id);
+    setProject(updatedProject);
+    showAlert({
+    msg: data.msg,
+    error: false,
+    })
+  } catch (error: any) {
+    showAlert({
+      msg: error?.response?.data?.msg,
+      error: true
+    })
+  
+  }
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -438,9 +474,10 @@ const searchCollaborators = async(email:string) => {
         task,
         //collaborators
         handleCollaboratorsModal,
+        addCollaborator,
+        deleteCollaborator,
         collaboratorsModal,
         collaborators,
-        addCollaborator,
         //task state
         isDragging,
         //task actions

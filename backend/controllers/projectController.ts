@@ -16,9 +16,12 @@ const createProject = async (req: any, res: Response) => {
 };
 
 const getAllProjects = async (req: any, res: Response) => {
-  const projectsByUser = await Project.find()
-    .where("creator")
-    .equals(req.user)
+  const projectsByUser = await Project.find({
+    $or: [
+      {collaborator: {$in: req.user}},
+      {creator: {$in: req.user}},
+    ]
+  }) 
     .select("-tasks");
   res.status(200).json(projectsByUser);
 };
@@ -32,8 +35,8 @@ const getSingleProjectServer = async (req: any, res: Response) => {
     const error = new Error(`Project not found`);
     return res.status(404).json({ msg: error.message });
   }
-  //only owner have access
-  if (singleProject.creator.toString() !== req.user._id.toString()) {
+  //only owner & collaborators have access
+  if (singleProject.creator.toString() !== req.user._id.toString() && !singleProject.collaborator.some((collaborator:any) => collaborator._id.toString()===req.user._id.toString())) {
     const error = new Error(`user unauthorized`);
     return res.status(401).json({ msg: error.message });
   }

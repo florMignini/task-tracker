@@ -3,7 +3,13 @@ import { useProjects } from "../../hooks";
 import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { LuFilePlus2 } from "react-icons/lu";
-import { DeleteModal, ModalSearchCollaborators, ModalTaskForm, TaskList } from "../../components";
+import {
+  DeleteModal,
+  ModalSearchCollaborators,
+  ModalTaskForm,
+  TaskList,
+  Toaster,
+} from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
 import { UserPlus } from "../../icons";
 
@@ -17,6 +23,7 @@ export const Project = () => {
     loading,
     handleModalTask,
     handleCollaboratorsModal,
+    alert,
   }: IProjectProvider = useProjects();
 
   useEffect(() => {
@@ -31,19 +38,24 @@ export const Project = () => {
       </div>
     );
   }
-  return (
+  return alert?.msg ? (
+    <Toaster {...alert} />
+  ) : (
     <main className="w-full flex flex-col items-center justify-center">
       <div className="w-full flex items-start justify-between px-4 py-2 h-auto text-slate-500">
         <div className="flex flex-col h-auto items-center justify-center gap-1">
           <h3 className="font-bold text-xl"> {project?.name}</h3>
           <button
-          onClick={handleCollaboratorsModal}
-          className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
-        >
-          <p className="flex font-light text-xs w-auto"> invite collaborator</p>
+            onClick={handleCollaboratorsModal}
+            className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
+          >
+            <p className="flex font-light text-xs w-auto">
+              {" "}
+              invite collaborator
+            </p>
 
-          <UserPlus />
-        </button>
+            <UserPlus />
+          </button>
         </div>
         <button
           onClick={handleModalTask}
@@ -80,7 +92,7 @@ export const Project = () => {
       </div>
       <ModalTaskForm />
       <DeleteModal />
-      <ModalSearchCollaborators/>
+      <ModalSearchCollaborators />
     </main>
   );
 };

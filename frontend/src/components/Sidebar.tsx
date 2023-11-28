@@ -13,7 +13,7 @@ export const Sidebar = () => {
     }
   };
   return (
-    <aside className="md:w-56 lg:w-72 pt-5 p-2 bg-[#e9ded8] text-gray-500/80">
+    <aside className="md:w-56 lg:w-72 pt-5 p-2 bg-[#f3e8e2] text-gray-500/80">
       <div className="h-[30%] flex flex-col items-center justify-center ">
       <h2 className="text-3xl lg:text-4xl font-medium px-2">Task Tracker</h2>
       {/* links section */}

@@ -13,6 +13,7 @@ export interface IProject {
   name?: string;
   description?: string;
   deadline?: string;
+  creator?: string;
   client?: string;
   tasks?: ITask[];
   collaborator?: ICollaborator[]
@@ -449,6 +450,7 @@ const deleteCollaborator = async(collaborator:ICollaborator)=>{
   
   }
 }
+
   return (
     <ProjectContext.Provider
       value={{

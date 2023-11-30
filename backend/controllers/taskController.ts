@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import { Task } from "../models/Task";
 import Project from "../models/Project";
+import { Promise } from "mongoose";
 
 
 const addTask = async (req:any, res:Response) => {
@@ -88,7 +89,10 @@ const deleteTask = async (req:any, res:Response) => {
         return res.status(403).json({msg: error.message})
     }
     try {
-        await task.deleteOne()
+        const project = await Project.findById(task.project) 
+        project.tasks.pull(task._id)
+        Promise.allSettled([await project.save(),await task.deleteOne()])
+        
         res.status(200).json({msg:`task successfully deleted`})
     } catch (error) {
         

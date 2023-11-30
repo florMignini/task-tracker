@@ -3,11 +3,13 @@ import { IProject } from "../context/ProjectProvider";
 import { FaRegComments } from "react-icons/fa";
 import { BsCalendarWeek, BsPencilSquare } from "react-icons/bs";
 import { format, parseISO } from "date-fns";
-
-
+import { useAuth } from "../hooks";
+import { useAuthType } from "../hooks/useAuth";
 
 export const ProjectPreview = (project: IProject) => {
-  const { _id, name, description, client, deadline }:IProject = project;  
+  const { _id, name, description, client, deadline, creator }: IProject =
+    project;
+  const { auth }: useAuthType = useAuth();
   return (
     <Link
       to={`${_id}`}
@@ -17,6 +19,15 @@ export const ProjectPreview = (project: IProject) => {
       <div className="w-full h-[100px] flex items-center justify-between p-2 ">
         <div className="w-[80%] flex flex-col items-start justify-between">
           <p className="text-sm font-semibold">{name}</p>
+          {auth?._id !== creator ? (
+            <p className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-green-300/80 border-green-400">
+              collaborator
+            </p>
+          ) : (
+            <p className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-gray-300/80 border-gray-400">
+              owner
+            </p>
+          )}
           <span className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-violet-300/80 border-violet-400">
             {client}
           </span>

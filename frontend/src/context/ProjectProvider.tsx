@@ -297,6 +297,7 @@ setCollaborators({})
       const projectUpdated:any = {...project}
        projectUpdated.tasks = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
       setProject(projectUpdated)
+      setTask({})
 
     } catch (error) {
       console.log(error);

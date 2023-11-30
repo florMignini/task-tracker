@@ -12,11 +12,13 @@ import {
 } from "../../components";
 import { IProjectProvider } from "../../context/ProjectProvider";
 import { UserPlus } from "../../icons";
+import { useAdmin } from "../../hooks";
 
 export const Project = () => {
   // get single project ID from params;
   const { id } = useParams();
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const admin  = useAdmin();
   const {
     getSingleProject,
     project,
@@ -45,26 +47,30 @@ export const Project = () => {
       <div className="w-full flex items-start justify-between px-4 py-2 h-auto text-slate-500">
         <div className="flex flex-col h-auto items-center justify-center gap-1">
           <h3 className="font-bold text-xl"> {project?.name}</h3>
+          {admin && (
+            <button
+              onClick={handleCollaboratorsModal}
+              className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
+            >
+              <p className="flex font-light text-xs w-auto">
+                {" "}
+                invite collaborator
+              </p>
+
+              <UserPlus />
+            </button>
+          )}
+        </div>
+        {admin && (
           <button
-            onClick={handleCollaboratorsModal}
+            onClick={handleModalTask}
             className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
           >
-            <p className="flex font-light text-xs w-auto">
-              {" "}
-              invite collaborator
-            </p>
+            <p className="flex font-light text-xs w-auto"> New task</p>
 
-            <UserPlus />
+            <LuFilePlus2 className="flex" />
           </button>
-        </div>
-        <button
-          onClick={handleModalTask}
-          className="flex items-center justify-end p-1 mb-2 gap-2 border border-slate-500 rounded-xl hover:bg-slate-200"
-        >
-          <p className="flex font-light text-sm w-auto"> New task</p>
-
-          <LuFilePlus2 className="flex" />
-        </button>
+        )}
       </div>
       {/* card section */}
       <div className="w-full overflow-x-auto h-screen bg-white grid grid-cols-3 gap-2 text-slate-500">

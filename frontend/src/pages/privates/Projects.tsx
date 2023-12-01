@@ -41,7 +41,7 @@ const Projects = () => {
             <HashLoader color="#39c7ad" />
           </div>
         ) : (
-          <div className="w-[95%] flex flex-wrap items-center justify-start">
+          <div className="w-[95%] md:w-[99%] flex flex-wrap items-center justify-start">
             {projects && (
               projects.map((project: IProject) => (
                 <ProjectPreview key={project._id} {...project} />

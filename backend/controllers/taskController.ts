@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 
 import { Task } from "../models/Task";
 import Project from "../models/Project";
-import { Promise } from "mongoose";
-
 
 const addTask = async (req:any, res:Response) => {
 

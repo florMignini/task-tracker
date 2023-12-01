@@ -67,6 +67,7 @@ task.description = req.body.description || task.description;
 task.priority = req.body.priority || task.priority;
 task.status = req.body.status || task.status;
 task.deadline = req.body.deadline || task.deadline;
+// task.completedBy = req.user._id;
 
 try {
     const saveUpdatedTask = await task.save();

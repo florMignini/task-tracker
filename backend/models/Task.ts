@@ -14,29 +14,32 @@ const taskSchema = new mongoose.Schema(
       require: true,
     },
     deadline: {
-    type: Date,
-    required: true,
-    default: new Date(),
+      type: Date,
+      required: true,
+      default: new Date(),
     },
     status: {
       type: String,
-      enum: ["To do", "In-Progress", "Done"]
+      enum: ["To do", "In-Progress", "Done"],
     },
     priority: {
-        type: String,
-        enum: ["Low", "High", "Medium"],
-        require: true,
-      },
+      type: String,
+      enum: ["Low", "High", "Medium"],
+      require: true,
+    },
+    completedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     project: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Project",
     },
-    
   },
   {
     timestamps: true,
   }
 );
 
-
-export const Task = mongoose.models.Task || mongoose.model<task>("Task", taskSchema);
+export const Task =
+  mongoose.models.Task || mongoose.model<task>("Task", taskSchema);

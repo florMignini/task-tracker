@@ -29,7 +29,7 @@ const getAllProjects = async (req: any, res: Response) => {
 const getSingleProjectServer = async (req: any, res: Response) => {
   const { id } = req.params;
 
-  const singleProject = await Project.findById(id).populate("tasks").populate("collaborator", "name email");
+  const singleProject = await Project.findById(id).populate({path:"tasks", populate: {path: "completedBy", select:"-__v -password"}}).populate("collaborator", "name email");
 
   if (!singleProject) {
     const error = new Error(`Project not found`);

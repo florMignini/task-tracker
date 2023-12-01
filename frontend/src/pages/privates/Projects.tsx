@@ -35,7 +35,7 @@ const Projects = () => {
         </Link>
       </div>
       {/* show projects section */}
-      <div className="w-[99%] h-screen bg-white flex items-start justify-center py-2 pt-5 rounded-lg">
+      <div className="w-[99%] h-auto bg-white flex items-start justify-center py-2 pt-5 rounded-lg">
         {loading ? (
           <div className="w-full h-screen flex items-center justify-center">
             <HashLoader color="#39c7ad" />

@@ -26,7 +26,7 @@ export const Sidebar = () => {
         {/* mobile sizes */}
         <aside className="MOBILE-MENU bg-white w-full flex md:hidden">
           <div
-            className="HAMBURGER-ICON bg-inherit space-y-2 mt-5 ml-5 cursor-pointer"
+            className="HAMBURGER-ICON bg-inherit space-y-2 mt-5 ml-5 cursor-pointer transition-all duration-1000"
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
             <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
@@ -56,7 +56,7 @@ export const Sidebar = () => {
               <Link
                 to=""
                 className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 
-               text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all animate-bounce duration-300 h-0.5
+               text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5
                "
                 onClick={() => setIsNavOpen((prev) => !prev)}
               >
@@ -65,7 +65,7 @@ export const Sidebar = () => {
               </Link>
               <Link
                 to="projects"
-                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2  text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all animate-bounce duration-300 h-0.5"
+                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2  text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5"
                 onClick={() => setIsNavOpen((prev) => !prev)}
               >
                 <AiOutlineProject className="h-10 w-10" />

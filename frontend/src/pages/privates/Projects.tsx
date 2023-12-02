@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { useProjects } from "../../hooks";
+import { useEffect } from "react";
 import { HashLoader } from "react-spinners";
 import { ProjectPreview } from "../../components";
 import { IProject, IProjectProvider } from "../../context/ProjectProvider";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
-import { useEffect } from "react";
 
 const Projects = () => {
   const { projects, loading, getProjectsByUser }:IProjectProvider = useProjects();
@@ -16,19 +15,10 @@ const Projects = () => {
   return (
     <main className="w-full flex flex-col items-center justify-center gap-1">
       {/* add & search project section */}
-      <div className="w-[99%] bg-white flex items-center justify-between p-2 rounded-lg">
-        {/* input search */}
-        <div className="bg-slate-200/90 flex h-[50%] p-2 items-center justify-center gap-2 rounded-xl lg:w-80 text-gray-500">
-          <CiSearch />
-          <input
-            type="search"
-            placeholder="search projects..."
-            className="outline-none bg-transparent text-sm font-thin"
-          />
-        </div>
+      <div className="w-[99%] bg-white flex items-center justify-end p-2 rounded-lg">
         <Link
           to="new-project"
-          className="w-[150px] flex items-center justify-center py-2 gap-2 rounded-lg bg-[#39c7ad] hover:bg-[#0bcfab] transition-colors text-white text-center font-md"
+          className="w-[150px] flex items-center justify-center py-2 gap-2 rounded-lg border-[1px] border-[#39c7ad] text-[#39c7ad] hover:bg-[#0bcfab] hover:text-white transition-colors text-center font-md"
         >
           <AiOutlinePlusCircle className="text-lg" />
           Create new

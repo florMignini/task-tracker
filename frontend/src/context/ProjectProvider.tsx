@@ -67,6 +67,8 @@ export const ProjectProvider = ({ children }: Props) => {
   const [collaborators, setCollaborators] = useState({});
   const [collaboratorsModal, setCollaboratorsModal] = useState<boolean>(false);
 
+  
+
   const handleModalTask = () => {
     setModalTask(!modalTask);
     setTask({})

@@ -2,7 +2,6 @@
 import axios from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-
 type Props = {
   children: ReactNode;
 };
@@ -11,7 +10,6 @@ const AuthContext = createContext({});
 const AuthProvider = ({ children }: Props) => {
   const [auth, setAuth] = useState({});
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const authUser = async () => {
@@ -34,7 +32,6 @@ const AuthProvider = ({ children }: Props) => {
         );
 
         setAuth(data);
-
       } catch (error: any) {
         setAuth({});
       }
@@ -43,8 +40,12 @@ const AuthProvider = ({ children }: Props) => {
     authUser();
   }, []);
 
+  const logOutSession = () => {
+    setAuth({});
+  };
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth, loading }}>
+    <AuthContext.Provider value={{ auth, setAuth, loading, logOutSession }}>
       {children}
     </AuthContext.Provider>
   );

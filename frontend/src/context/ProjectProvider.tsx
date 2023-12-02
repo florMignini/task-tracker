@@ -48,6 +48,7 @@ export interface IProjectProvider {
   collaborators?:ICollaborator;
   addCollaborator?:any;
   resetSingleProjectState?:any;
+  logOut?:any;
 }
 const ProjectContext = createContext({});
 
@@ -457,6 +458,11 @@ const deleteCollaborator = async(collaborator:ICollaborator)=>{
   
   }
 }
+const logOut = () => {
+  setProjects([])
+  setProject({} as IProject)
+  showAlert({})
+}
 
   return (
     <ProjectContext.Provider
@@ -496,7 +502,9 @@ const deleteCollaborator = async(collaborator:ICollaborator)=>{
         endDragging,
         updateTaskStatus,
         handleEditTask,
-        deleteTask
+        deleteTask,
+        //session actions
+        logOut
       }}
     >
       {children}

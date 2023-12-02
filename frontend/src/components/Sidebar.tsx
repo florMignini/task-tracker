@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineProject } from "react-icons/ai";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { useAdmin, useProjects } from "../hooks";
+import { useAdmin, useAuth, useProjects } from "../hooks";
 import { IProjectProvider } from "../context/ProjectProvider";
 import { ICollaborator } from "../../interfaces";
 import { SignOutIcon } from "../icons";
@@ -10,7 +10,10 @@ import { SignOutIcon } from "../icons";
 export const Sidebar = () => {
   //sidebar state
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const { project, deleteCollaborator }: IProjectProvider = useProjects();
+  const { project, deleteCollaborator, logOut }: IProjectProvider =
+    useProjects();
+
+    const {logOutSession } = useAuth()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const admin = useAdmin();
 
@@ -18,6 +21,12 @@ export const Sidebar = () => {
     if (confirm(`Are you sure to delete collaborator?`)) {
       deleteCollaborator(collaborator);
     }
+  };
+
+  const handleLogOutSession = () => {
+    logOutSession()
+    logOut();
+    localStorage.removeItem("token")
   };
   return (
     <>
@@ -59,7 +68,7 @@ export const Sidebar = () => {
                "
                 onClick={() => setIsNavOpen((prev) => !prev)}
               >
-                <LuLayoutDashboard className="h-10 w-10"/>
+                <LuLayoutDashboard className="h-10 w-10" />
                 Dashboard
               </Link>
               <Link
@@ -145,7 +154,9 @@ export const Sidebar = () => {
             )}
           </div>
           {/* log out */}
-          <button className="w-[95%] h-[10%] flex items-center justify-center  gap-1">
+          <button className="w-[95%] h-[10%] flex items-center justify-center  gap-1"
+          onClick={handleLogOutSession}
+          >
             <SignOutIcon />
             <p>Sign out</p>
           </button>

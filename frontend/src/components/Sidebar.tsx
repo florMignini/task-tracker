@@ -6,6 +6,7 @@ import { useAdmin, useAuth, useProjects } from "../hooks";
 import { IProjectProvider } from "../context/ProjectProvider";
 import { ICollaborator } from "../../interfaces";
 import { SignOutIcon } from "../icons";
+import { useAuthType } from "../hooks/useAuth";
 
 export const Sidebar = () => {
   //sidebar state
@@ -13,7 +14,7 @@ export const Sidebar = () => {
   const { project, deleteCollaborator, logOut }: IProjectProvider =
     useProjects();
 
-    const {logOutSession } = useAuth()
+    const {logOutSession }:useAuthType = useAuth()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const admin = useAdmin();
 

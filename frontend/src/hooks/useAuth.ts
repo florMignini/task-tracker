@@ -14,6 +14,7 @@ export interface useAuthType {
   loading?: boolean;
   setAuth?: any;
   setLoading?: any;
+  logOutSession?:any;
 }
 
 const useAuth = () => {

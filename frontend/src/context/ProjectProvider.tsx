@@ -203,7 +203,7 @@ setCollaborators({})
     }
   };
   const resetSingleProjectState = () => {
-    setProject({})
+    setProject({} as IProject)
   }
 
   //DELETE PROJECT

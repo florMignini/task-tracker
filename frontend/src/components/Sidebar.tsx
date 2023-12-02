@@ -19,7 +19,6 @@ export const Sidebar = () => {
       deleteCollaborator(collaborator);
     }
   };
-  console.log(isNavOpen);
   return (
     <>
       <nav className="bg-[#f3e8e2] text-gray-500/80">
@@ -75,7 +74,7 @@ export const Sidebar = () => {
           </div>
         </aside>
         {/* desktop sizes */}
-        <aside className="hidden h-screen md:flex md:flex-col md:w-60 pt-5 p-2 ">
+        <aside className="hidden h-screen md:flex md:flex-col md:w-60 xl:w-80 pt-5 p-2 ">
           <div className="h-[30%] flex flex-col items-center justify-center ">
             <h2 className="text-3xl lg:text-4xl font-medium px-2">
               Task Tracker

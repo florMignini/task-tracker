@@ -47,6 +47,7 @@ export interface IProjectProvider {
   collaboratorsModal?: boolean;
   collaborators?:ICollaborator;
   addCollaborator?:any;
+  resetSingleProjectState?:any;
 }
 const ProjectContext = createContext({});
 
@@ -201,6 +202,9 @@ setCollaborators({})
       console.log(error);
     }
   };
+  const resetSingleProjectState = () => {
+    setProject({})
+  }
 
   //DELETE PROJECT
   const deleteProject = async (id: string) => {
@@ -469,6 +473,7 @@ const deleteCollaborator = async(collaborator:ICollaborator)=>{
         EditProject,
         getSingleProject,
         deleteProject,
+        resetSingleProjectState,
         //collaborators actions
         searchCollaborators,
         //modal state

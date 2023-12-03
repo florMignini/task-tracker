@@ -24,7 +24,11 @@ const userSchema = new mongoose.Schema({
     confirm: {
         type: Boolean,
         default: false
-    }
+    },
+    profilePicture: {
+        type: String,
+        default: 'https://ichiidev.github.io/profile/assets/img/profile_picture.png' // Set a default URL for the profile picture
+      },
 },{
     timestamps: true
 })

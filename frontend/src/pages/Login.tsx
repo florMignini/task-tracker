@@ -4,7 +4,9 @@ import { alertType } from "./Register";
 import { Toaster } from "../components/Toaster";
 import axios from "axios";
 //importing auth context hook 
-import useAuth from "../hooks/useAuth";
+import useAuth, { useAuthType } from "../hooks/useAuth";
+import { useProjects } from "../hooks";
+import { IProjectProvider } from "../context/ProjectProvider";
 
 const Login = () => {
 const navigate = useNavigate()
@@ -14,7 +16,8 @@ const [alert, setAlert] = useState<alertType>({})
 
 //auth context hook
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const {setAuth}:any = useAuth();
+const {setAuth}:useAuthType = useAuth();
+const {showAlert}:IProjectProvider = useProjects()
 
 //Login form submit action
 const handleSubmit = async(e: { preventDefault: () => void; }) => {
@@ -42,7 +45,8 @@ try {
     }/user/login`,
     {email, password }
   );
-  setAlert({
+
+  showAlert({
   msg: data.msg,
   error: false,
   })
@@ -53,7 +57,7 @@ try {
   navigate("/dashboard")
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
-  setAlert({
+  showAlert({
     msg: error.response.data.msg,
     error: true,
   });

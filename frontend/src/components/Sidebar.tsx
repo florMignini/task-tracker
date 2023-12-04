@@ -14,7 +14,10 @@ export const Sidebar = () => {
   const { project, deleteCollaborator, logOut }: IProjectProvider =
     useProjects();
 
-    const {logOutSession }:useAuthType = useAuth()
+  //user profile
+  const { auth }: useAuthType = useAuth();
+
+  const { logOutSession }: useAuthType = useAuth();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const admin = useAdmin();
 
@@ -25,9 +28,9 @@ export const Sidebar = () => {
   };
 
   const handleLogOutSession = () => {
-    logOutSession()
+    logOutSession();
     logOut();
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
   };
   return (
     <>
@@ -155,12 +158,23 @@ export const Sidebar = () => {
             )}
           </div>
           {/* log out */}
-          <button className="w-[95%] h-[10%] flex items-center justify-center  gap-1"
-          onClick={handleLogOutSession}
+          <button
+            className="w-[95%] h-[10%] flex items-center justify-center  gap-1"
+            onClick={handleLogOutSession}
           >
             <SignOutIcon />
             <p>Sign out</p>
           </button>
+          {/* user avatar section */}
+          <div className="w-[90%] flex items-center justify-start gap-2 p-1  bg-gray-400/10 ">
+            <img src={auth?.profilePicture} alt="profileAvatar" 
+            className="rounded-full h-9 w-9"
+            />
+            <div>
+              <p className="text-sm font-semibold">{auth?.name}</p>
+              <p className="text-xs">{auth?.email}</p>
+            </div>
+          </div>
         </aside>
       </nav>
       <style>{`

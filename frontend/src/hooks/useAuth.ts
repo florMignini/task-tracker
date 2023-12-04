@@ -8,6 +8,7 @@ export interface useAuthType {
     createdAt: string;
     email: string;
     name: string;
+    profilePicture: string;
     updatedAt: string;
     _id?: string;
   };

@@ -12,6 +12,7 @@ const register = async (req: Request, res: Response) => {
   //aviod duplicated register user
   const { email } = req.body;
   const userAlreadyExist = await User.findOne({ email });
+  console.log(userAlreadyExist)
   if (userAlreadyExist) {
     const error = new Error(`User ${email} already exists`);
     return res.status(400).json({
@@ -44,6 +45,7 @@ const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   //confirm if user exist
   const userExist = await User.findOne({ email });
+  
   if (!userExist) {
     const error = new Error(`User with email: ${email} is not registered`);
     res.status(403).json({ message: error.message });

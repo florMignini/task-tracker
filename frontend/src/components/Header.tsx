@@ -7,7 +7,7 @@ import { IProjectProvider } from "../context/ProjectProvider";
 import { useProjects } from "../hooks";
 import { Link } from "react-router-dom";
 
-function classNames(...classes: string[]):void {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 const Header = () => {

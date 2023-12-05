@@ -32,6 +32,7 @@ export const Project = () => {
     handleCollaboratorsModal,
     alert,
     submitTaskProject,
+    deleteTaskProject,
   }: IProjectProvider = useProjects();
 
   useEffect(() => {
@@ -51,6 +52,12 @@ export const Project = () => {
         submitTaskProject(newTask)
       }
     
+    })
+
+    socket.on("task deleted", (taskDeleted)=>{
+      if(taskDeleted.project === project?._id){
+        deleteTaskProject(taskDeleted)
+      }
     })
   })
   

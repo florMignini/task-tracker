@@ -55,6 +55,7 @@ export interface IProjectProvider {
   resetSingleProjectState?:any;
   logOut?:any;
   submitTaskProject?:any;
+  deleteTaskProject?:any;
 }
 const ProjectContext = createContext({});
 
@@ -369,12 +370,11 @@ const deleteTask = async()=>{
       config
     );
     showAlert({
-    msg: data.msg,
-    error: false
+      msg: data.msg,
+      error: false
     })
-    const updatedProject:any = {...project}
-    updatedProject.tasks = updatedProject?.tasks?.filter((stateTask:ITask)=> stateTask._id !== task?._id);
-    setProject(updatedProject)
+    //SOCKET
+    socket.emit(`delete task`, task)
     setDeleteModalTask(false)
   } catch (error) {
     console.log(error)
@@ -397,7 +397,7 @@ const addCollaborator = async(email:string) => {
       {email},
       config
     );
-    console.log(data)
+
     const updatedProject:any = {...project}
     updatedProject.collaborator = [...project?.collaborator as [], data.userByEmail]
     setProject(updatedProject)
@@ -482,6 +482,11 @@ const submitTaskProject = (newTask:ITask) => {
   updatedProject.tasks = [...updatedProject?.tasks as [], newTask]
   setProject(updatedProject)
 }
+const deleteTaskProject = (taskToDelete:ITask)=>{
+  const updatedProject:any = {...project}
+  updatedProject.tasks = updatedProject?.tasks.filter((taskState:ITask) => taskState._id !== taskToDelete._id)
+  setProject(updatedProject)
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -525,6 +530,7 @@ const submitTaskProject = (newTask:ITask) => {
         logOut,
         //socket.io
         submitTaskProject,
+        deleteTaskProject,
       }}
     >
       {children}

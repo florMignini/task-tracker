@@ -1,17 +1,21 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProjects } from "../../hooks";
-import { useEffect } from "react";
-import { HashLoader } from "react-spinners";
-import { ProjectPreview } from "../../components";
 import { IProject, IProjectProvider } from "../../context/ProjectProvider";
+import { ProjectPreview } from "../../components";
+import { HashLoader } from "react-spinners";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const Projects = () => {
   const { projects, loading, getProjectsByUser }:IProjectProvider = useProjects();
+
+
   useEffect(() => {
     getProjectsByUser();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
   return (
     <main className="w-full flex flex-col items-center justify-center gap-1">
       {/* add & search project section */}
@@ -31,7 +35,7 @@ const Projects = () => {
             <HashLoader color="#39c7ad" />
           </div>
         ) : (
-          <div className="w-[95%] md:w-[99%] flex flex-wrap items-center justify-start">
+          <div className="w-[95%] md:w-[99%] flex flex-wrap items-center justify-around lg:justify-evenly">
             {projects && (
               projects.map((project: IProject) => (
                 <ProjectPreview key={project._id} {...project} />

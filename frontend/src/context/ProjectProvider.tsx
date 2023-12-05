@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { alertType } from "../pages/Register";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ICollaborator, ITask } from "../../interfaces";
+import io, { Socket } from "socket.io-client"
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+
+let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
+
 type Props = {
   children: ReactNode;
 };
@@ -49,6 +54,7 @@ export interface IProjectProvider {
   addCollaborator?:any;
   resetSingleProjectState?:any;
   logOut?:any;
+  submitTaskProject?:any;
 }
 const ProjectContext = createContext({});
 
@@ -69,6 +75,11 @@ export const ProjectProvider = ({ children }: Props) => {
   const [collaborators, setCollaborators] = useState({});
   const [collaboratorsModal, setCollaboratorsModal] = useState<boolean>(false);
 
+  //create socket connection
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SERVER_URL)
+  }, [])
+  
   
 
   const handleModalTask = () => {
@@ -250,6 +261,8 @@ setCollaborators({})
    await createTask(task)
     }
   };
+
+  
 //create task
   const createTask = async (task: ITask) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -269,11 +282,10 @@ setCollaborators({})
         config
       );
 
-      const updatedProject:any = {...project}
-      updatedProject.tasks = [...project?.tasks as [], data]
-      setProject(updatedProject)
       setTask({})
       setModalTask(false)
+      //SOCKET IO
+      socket.emit("new task", data)
     } catch (error) {
       console.log(error);
     }
@@ -464,6 +476,12 @@ const logOut = () => {
   showAlert({})
 }
 
+//SOCKET IO ACTIONS
+const submitTaskProject = (newTask:ITask) => {
+  const updatedProject:any = {...project}
+  updatedProject.tasks = [...updatedProject?.tasks as [], newTask]
+  setProject(updatedProject)
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -504,7 +522,9 @@ const logOut = () => {
         handleEditTask,
         deleteTask,
         //session actions
-        logOut
+        logOut,
+        //socket.io
+        submitTaskProject,
       }}
     >
       {children}

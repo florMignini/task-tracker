@@ -13,11 +13,11 @@ export const ProjectPreview = (project: IProject) => {
   return (
     <Link
       to={`${_id}`}
-      className="w-1/2 lg:w-1/3 xl:w-1/4 h-auto flex flex-col rounded-lg shadow-md hover:scale-[1.01] transition-transform text-gray-500"
+      className="w-1/3 xl:w-1/4 h-auto flex flex-col rounded-lg shadow-md hover:scale-[1.01] transition-transform text-gray-500"
     >
       {/* title */}
       <div className="w-full h-[100px] flex items-center justify-between p-2 ">
-        <div className="w-[80%] flex flex-col items-start justify-between">
+        <div className="truncate w-[80%] gap-1 flex flex-col lg:flex-row items-start lg:items-center justify-start over">
           <p className="text-sm font-semibold">{name}</p>
           {auth?._id !== creator ? (
             <p className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-green-300/80 border-green-400">
@@ -35,7 +35,7 @@ export const ProjectPreview = (project: IProject) => {
 
         <Link
           to={`/dashboard/projects/edit/${_id}`}
-          className="w-[20%] h-[50%] flex items-start justify-end text-violet-400"
+          className="w-[20%] h-[50%] flex items-center justify-end text-violet-400"
         >
           <BsPencilSquare className="flex items-center justify-center text-violet-400" />
         </Link>

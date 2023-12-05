@@ -13,7 +13,12 @@ import {
 import { IProjectProvider } from "../../context/ProjectProvider";
 import { UserPlus } from "../../icons";
 import { useAdmin } from "../../hooks";
+import { Socket, io } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
+//socket variable 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 export const Project = () => {
   // get single project ID from params;
   const { id } = useParams();
@@ -26,12 +31,29 @@ export const Project = () => {
     handleModalTask,
     handleCollaboratorsModal,
     alert,
+    submitTaskProject,
   }: IProjectProvider = useProjects();
 
   useEffect(() => {
     getSingleProject(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    //open connection
+    socket = io(import.meta.env.VITE_SERVER_URL)
+    socket.emit("from project", id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  useEffect(() => {
+    socket.on("task added", (newTask) =>{
+      if(newTask.project === project?._id){
+        submitTaskProject(newTask)
+      }
+    
+    })
+  })
+  
 
   if (loading) {
     return (

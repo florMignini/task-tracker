@@ -56,6 +56,8 @@ export interface IProjectProvider {
   logOut?:any;
   submitTaskProject?:any;
   deleteTaskProject?:any;
+  updateTaskProject?:any;
+  updateStatusTaskProject?:any;
 }
 const ProjectContext = createContext({});
 
@@ -313,10 +315,8 @@ setCollaborators({})
         draggedTask,
         config
       );
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const projectUpdated:any = {...project}
-       projectUpdated.tasks = project?.tasks?.map((task:ITask)=> task._id !== data._id ? task : data)
-      setProject(projectUpdated)
+      console.log(data)
+      socket.emit('update state', data)
       setTask({})
 
     } catch (error) {
@@ -344,9 +344,7 @@ try {
     task,
     config
   );
-  const updatedProject:any = {...project}
-  updatedProject.tasks = updatedProject?.tasks?.map((stateTask:ITask)=> stateTask._id === data._id ? data : stateTask);
-  setProject(updatedProject)
+  socket.emit("update task", data);
   setTask({})
   setAlert({})
   setModalTask(false)
@@ -487,6 +485,17 @@ const deleteTaskProject = (taskToDelete:ITask)=>{
   updatedProject.tasks = updatedProject?.tasks.filter((taskState:ITask) => taskState._id !== taskToDelete._id)
   setProject(updatedProject)
 }
+const updateTaskProject = (taskUpdated:ITask) => {
+  const updatedProject:any = {...project}
+  updatedProject.tasks = updatedProject?.tasks?.map((stateTask:ITask)=> stateTask._id === taskUpdated._id ? taskUpdated : stateTask);
+  setProject(updatedProject)
+}
+const updateStatusTaskProject = (taskUpdated:ITask) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const projectUpdated:any = {...project}
+projectUpdated.tasks = project?.tasks?.map((task:ITask)=> task._id !== taskUpdated._id ? task : taskUpdated)
+setProject(projectUpdated)
+}
   return (
     <ProjectContext.Provider
       value={{
@@ -531,6 +540,8 @@ const deleteTaskProject = (taskToDelete:ITask)=>{
         //socket.io
         submitTaskProject,
         deleteTaskProject,
+        updateTaskProject,
+        updateStatusTaskProject,
       }}
     >
       {children}

@@ -33,6 +33,8 @@ export const Project = () => {
     alert,
     submitTaskProject,
     deleteTaskProject,
+    updateTaskProject,
+    updateStatusTaskProject,
   }: IProjectProvider = useProjects();
 
   useEffect(() => {
@@ -58,6 +60,19 @@ export const Project = () => {
       if(taskDeleted.project === project?._id){
         deleteTaskProject(taskDeleted)
       }
+    })
+
+    socket.on("task updated", (taskUpdated)=>{
+    if(taskUpdated.project._id === project?._id){
+    updateTaskProject(taskUpdated)
+    }
+    })
+
+    socket.on("state updated", (stateUpdated)=>{
+      console.log(stateUpdated)
+    if(stateUpdated.project._id === project?._id){
+      updateStatusTaskProject(stateUpdated);
+    }
     })
   })
   

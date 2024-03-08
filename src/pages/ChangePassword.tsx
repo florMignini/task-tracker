@@ -110,7 +110,6 @@ const ChangePassword = () => {
                         className="bg-blue-500 w-full text-white text-sm font-bold rounded-md px-2 py-1 hover:cursor-pointer
 							hover:bg-blue-600 transition-colors uppercase"
                         type="submit"
-                        placeholder="submit"
                       >
                         save new password
                       </button>

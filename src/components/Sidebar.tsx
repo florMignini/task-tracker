@@ -34,7 +34,7 @@ export const Sidebar = () => {
   };
   return (
     <>
-      <nav className="bg-[#f3e8e2] text-gray-500/80">
+      <nav className="bg-[#5E1914] text-gray-500/80">
         {/* mobile sizes */}
         <aside className="MOBILE-MENU bg-white w-full flex md:hidden">
           <div
@@ -89,22 +89,22 @@ export const Sidebar = () => {
         {/* desktop sizes */}
         <aside className="hidden h-screen md:flex md:flex-col md:w-60 xl:w-80 pt-5 p-2 ">
           <div className="h-[30%] flex flex-col items-center justify-center ">
-            <h2 className="text-3xl lg:text-4xl font-medium px-2">
+            <h2 className="text-3xl text-[#ED1703] lg:text-4xl font-medium px-2">
               Task Tracker
             </h2>
             {/* links section */}
-            <div className="w-full h-[150px] mt-10 py-2 gap-2 flex items-center justify-start flex-col text-white">
+            <div className="w-full text-[#FF908B] h-[150px] mt-10 py-2 gap-2 flex items-center justify-start flex-col">
               <Link
                 to=""
                 className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md 
-            hover:border-[1px] hover:border-[#ecc8b4] text-gray-500/80"
+            hover:bg-[#572522]"
               >
                 <LuLayoutDashboard />
                 Dashboard
               </Link>
               <Link
                 to="projects"
-                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md hover:border-[1px] hover:border-[#ecc8b4] text-gray-500/80"
+                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md hover:bg-[#572522]"
               >
                 <AiOutlineProject />
                 Projects
@@ -159,14 +159,14 @@ export const Sidebar = () => {
           </div>
           {/* log out */}
           <button
-            className="w-[95%] h-[10%] flex items-center justify-center  gap-1"
+            className="w-[90%] h-[10%] text-[#FF908B] flex items-center justify-center gap-2"
             onClick={handleLogOutSession}
           >
             <SignOutIcon />
             <p>Sign out</p>
           </button>
           {/* user avatar section */}
-          <div className="w-[90%] flex items-center justify-start gap-2 p-1  bg-gray-400/10 ">
+          <div className="w-[90%] flex items-center justify-center gap-2 p-1 ">
             <img src={auth?.profilePicture} alt="profileAvatar" 
             className="rounded-full h-9 w-9"
             />

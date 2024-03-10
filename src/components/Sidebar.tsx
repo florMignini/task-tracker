@@ -34,25 +34,27 @@ export const Sidebar = () => {
   };
   return (
     <>
-      <nav className="bg-[#5E1914] text-gray-500/80">
+      <nav className="bg-[#5E1914] ">
         {/* mobile sizes */}
-        <aside className="MOBILE-MENU bg-white w-full flex md:hidden">
+        <aside className="MOBILE-MENU w-full flex md:hidden">
+          {/* hamburguer icon */}
           <div
-            className="HAMBURGER-ICON bg-inherit space-y-2 mt-5 ml-5 cursor-pointer transition-all duration-1000"
+            className="HAMBURGER-ICON bg-inherit space-y-2 mt-5 ml-5 mb-5 cursor-pointer transition-all duration-1000"
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
+            <span className="block h-0.5 w-8 animate-pulse bg-[#FF908B]"></span>
+            <span className="block h-0.5 w-8 animate-pulse bg-[#FF908B]"></span>
+            <span className="block h-0.5 w-8 animate-pulse bg-[#FF908B]"></span>
           </div>
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
+            {/* close button */}
             <button
               className="absolute top-4 right-4"
               onClick={() => setIsNavOpen(false)}
             >
               <svg
-                className="h-8 w-8 text-gray-600"
+                className="h-8 w-8 text-[#FF908B]"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -64,11 +66,11 @@ export const Sidebar = () => {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <ul className="NAVIGATION-MOBILE-OPEN flex flex-col text-2xl md:text-3xl items-center justify-around min-h-[350px]">
+            <ul className="NAVIGATION-MOBILE-OPEN flex flex-col text-2xl text-[#FF908B] md:text-3xl items-center justify-around min-h-[350px]">
               <Link
                 to=""
                 className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 
-               text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5
+             hover:shadow-black hover:shadow-xl max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5
                "
                 onClick={() => setIsNavOpen((prev) => !prev)}
               >
@@ -77,7 +79,7 @@ export const Sidebar = () => {
               </Link>
               <Link
                 to="projects"
-                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2  text-gray-500/80 hover:underline max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5"
+                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 hover:shadow-black hover:shadow-xl max-w-10 group-hover:max-w-full transition-all duration-300 h-0.5"
                 onClick={() => setIsNavOpen((prev) => !prev)}
               >
                 <AiOutlineProject className="h-10 w-10" />
@@ -170,7 +172,7 @@ export const Sidebar = () => {
             <img src={auth?.profilePicture} alt="profileAvatar" 
             className="rounded-full h-9 w-9"
             />
-            <div>
+            <div className="text-[#FF908B]">
               <p className="text-sm font-semibold">{auth?.name}</p>
               <p className="text-xs">{auth?.email}</p>
             </div>
@@ -188,7 +190,7 @@ export const Sidebar = () => {
        height: 100vh;
        top: 0;
        left: 0;
-       background: white;
+       background: #5E1914;
        z-index: 10;
        display: flex;
        flex-direction: column;

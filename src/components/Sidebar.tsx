@@ -37,7 +37,7 @@ export const Sidebar = () => {
   };
   return (
     <>
-      <nav className="bg-[#5E1914] ">
+      <nav className="bg-[#5E1914]/60 ">
         {/* mobile sizes */}
         <aside className="MOBILE-MENU w-full flex md:hidden">
           {/* hamburguer icon */}
@@ -104,18 +104,18 @@ export const Sidebar = () => {
             />
             </Link>
             {/* links section */}
-            <div className="w-full text-[#FF908B] h-[150px] mt-10 py-2 gap-2 flex items-center justify-start flex-col">
+            <div className="w-full text-[#5E1914] h-[150px] mt-10 py-2 gap-2 flex items-center justify-start flex-col">
               <Link
                 to=""
                 className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md 
-            hover:bg-[#572522]"
+            hover:bg-[#572522]/20"
               >
                 <LuLayoutDashboard />
                 Dashboard
               </Link>
               <Link
                 to="projects"
-                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md hover:bg-[#572522]"
+                className="w-[90%] flex items-center justify-center p-2 mb-2 gap-2 rounded-md hover:bg-[#572522]/20"
               >
                 <AiOutlineProject />
                 Projects
@@ -170,7 +170,7 @@ export const Sidebar = () => {
           </div>
           {/* log out */}
           <button
-            className="w-[90%] h-[10%] text-[#FF908B] flex items-center justify-center gap-2"
+            className="w-[90%] h-[10%] text-[#5E1914] flex items-center justify-center gap-2"
             onClick={handleLogOutSession}
           >
             <SignOutIcon />
@@ -181,7 +181,7 @@ export const Sidebar = () => {
             <img src={auth?.profilePicture} alt="profileAvatar" 
             className="rounded-full h-9 w-9"
             />
-            <div className="text-[#FF908B]">
+            <div className="text-[#5E1914]">
               <p className="text-sm font-semibold">{auth?.name}</p>
               <p className="text-xs">{auth?.email}</p>
             </div>

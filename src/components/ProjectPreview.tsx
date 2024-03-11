@@ -13,7 +13,7 @@ export const ProjectPreview = (project: IProject) => {
   return (
     <Link
       to={`${_id}`}
-      className="w-1/3 xl:w-1/4 h-auto flex flex-col rounded-lg shadow-md hover:scale-[1.01] transition-transform text-gray-500"
+      className="w-[35%] xl:w-1/3 h-[210px] px-2 flex flex-col rounded-lg shadow-2xl hover:scale-[1.01] transition-transform text-gray-500 border-[1px]"
     >
       {/* title */}
       <div className="w-full h-[100px] flex items-center justify-between p-2 ">

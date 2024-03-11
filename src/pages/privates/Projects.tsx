@@ -37,7 +37,7 @@ const Projects = () => {
       <div className="w-[99%] h-auto flex items-start justify-center py-2 pt-5 rounded-lg">
         {loading ? (
           <div className="w-full h-screen flex items-center justify-center">
-            <HashLoader color="#39c7ad" />
+            <HashLoader color="#5E1914" />
           </div>
         ) : (
           <div className="w-[95%] md:w-[99%] flex flex-wrap items-center justify-around lg:justify-evenly">

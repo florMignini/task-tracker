@@ -8,6 +8,9 @@ import { ICollaborator } from "../../interfaces";
 import { SignOutIcon } from "../icons";
 import { useAuthType } from "../hooks/useAuth";
 
+// image import
+import LogoImport from "../assets/logo-transparent.png"
+
 export const Sidebar = () => {
   //sidebar state
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -91,9 +94,15 @@ export const Sidebar = () => {
         {/* desktop sizes */}
         <aside className="hidden h-screen md:flex md:flex-col md:w-60 xl:w-80 pt-5 p-2 ">
           <div className="h-[30%] flex flex-col items-center justify-center ">
-            <h2 className="text-3xl text-[#ED1703] lg:text-4xl font-medium px-2">
-              Task Tracker
-            </h2>
+            <Link
+            to=""
+            className="w-[90%]"
+            >
+            <img
+            src={LogoImport}
+            alt="logo-image"
+            />
+            </Link>
             {/* links section */}
             <div className="w-full text-[#FF908B] h-[150px] mt-10 py-2 gap-2 flex items-center justify-start flex-col">
               <Link

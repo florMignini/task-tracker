@@ -21,16 +21,16 @@ const Dashboard = () => {
     resetSingleProjectState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(projects);
+
   return (
     <main className="w-full flex flex-col items-center justify-center gap-1">
-      {/* add & search project section */}
+      {/* project section */}
       <div className="w-[99%] flex items-center justify-between p-2 rounded-lg">
         <div className="w-[50%] pl-5 ">
           <h1 className="text-xl font-bold text-[#5E1914]">Projects</h1>
         </div>
       </div>
-      {/* show projects section */}
+      {/* show projects preview section */}
       <div className="w-[99%] h-auto flex items-start justify-center py-2 pt-5 rounded-lg">
         {loading ? (
           <div className="w-full h-screen flex items-center justify-center">

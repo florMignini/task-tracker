@@ -21,7 +21,7 @@ const Dashboard = () => {
     resetSingleProjectState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+console.log(projects)
   return (
     <main className="w-full flex flex-col items-center justify-center gap-1">
       {/* project section */}

@@ -96,7 +96,7 @@ export const Sidebar = () => {
           <div className="h-[30%] flex flex-col items-center justify-center ">
             <Link
             to=""
-            className="w-[90%]"
+            className="w-[90%] mt-4"
             >
             <img
             src={LogoImport}

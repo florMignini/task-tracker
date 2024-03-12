@@ -14,11 +14,11 @@ const ProtectedLayout = () => {
   return (
     <>
       {auth && auth._id ? (
-        <div className="text-gray-600 md:flex h-full bg-[#E1BDB5]/40">
+        <div className="text-gray-600 md:flex h-screen bg-[#E1BDB5]/40">
           <Sidebar />
           <main className="text-black rounded-xl flex-1 flex-col mt-5 ">
             <Header />
-           <div className="p-5 rounded-lg">
+           <div className="p-5 rounded-lg ">
            <Outlet />
            </div>
           </main>

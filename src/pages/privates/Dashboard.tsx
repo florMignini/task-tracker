@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useProjects } from "../../hooks";
 import { IProject, IProjectProvider } from "../../context/ProjectProvider";
 import { HashLoader } from "react-spinners";
-import { differenceInBusinessDays, getDay, getDayOfYear } from "date-fns";
+import { differenceInBusinessDays } from "date-fns";
 
 
 const Dashboard = () => {
@@ -22,7 +22,7 @@ const Dashboard = () => {
     resetSingleProjectState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log(projects);
+  console.log(projects);
 // today date
 const date = new Date();
 
@@ -55,7 +55,7 @@ const date = new Date();
                     <div className="w-[80%] flex flex-col items-center justify-start gap-2 py-2">
                       <p className="flex text-xs">
                         remaining days:{" "}
-                        {differenceInBusinessDays(new Date(project?.deadline!.split('T')[0].split('-')[0], project?.deadline!.split('T')[0].split('-')[1], project?.deadline!.split('T')[0].split('-')[2]), new Date(date.toJSON().split('T')[0].split('-')[0], date.toJSON().split('T')[0].split('-')[1], date.toJSON().split('T')[0].split('-')[2]))}
+                        {differenceInBusinessDays(new Date(Number(project?.deadline!.split('T')[0].split('-')[0]), Number(project?.deadline!.split('T')[0].split('-')[1]), Number(project?.deadline!.split('T')[0].split('-')[2])), new Date(Number(date.toJSON().split('T')[0].split('-')[0]), Number(date.toJSON().split('T')[0].split('-')[1]), Number(date.toJSON().split('T')[0].split('-')[2])))}
                       </p>
                       <p className="flex text-xs">
                         tasks to complete: {project?.tasks?.length}

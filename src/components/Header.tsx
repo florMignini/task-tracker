@@ -23,7 +23,7 @@ const Header = () => {
     setSearch("");
   };
   return (
-    <header className="lg:flex items-center lg:justify-between px-10 py-3">
+    <header className="lg:flex items-center text-[#5E1914] lg:justify-between px-10 py-3">
       {/* user welcome */}
       <div className="flex ">
         <div className="w-[90%] flex flex-col ">
@@ -39,12 +39,12 @@ const Header = () => {
                 onChange={({ target }) => setSearch(target.value)}
               />
             </div>
-            <h5 className="text-xs font-semibold text-end text-gray-400">
+            <h5 className="text-xs font-semibold text-end ">
               {format(new Date(), "PPP")}
             </h5>
           </div>
           {filteredProjects && filteredProjects?.length > 0 && (
-            <div className="flex items-center justify-start scroll-py-2 overflow-y-auto p-2 text-sm text-gray-700">
+            <div className="flex items-center justify-start scroll-py-2 overflow-y-auto p-2 text-sm text-[#5E1914]">
               {filteredProjects.map((project) => (
                 <Link
                   to={`/dashboard/projects/${project._id}`}
@@ -58,7 +58,7 @@ const Header = () => {
             </div>
           )}
         </div>
-        <div className="hidden lg:flex  gap-2 items-center  lg:text-xl justify-end lg:w-96 text-gray-500">
+        <div className="hidden lg:flex  gap-2 items-center  lg:text-xl justify-end lg:w-96 text-[#5E1914]">
           <strong>Hello,</strong>
           <h3 className="capitalize">{auth?.name}!</h3>
         </div>

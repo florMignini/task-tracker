@@ -8,7 +8,7 @@ export const PencilSquare = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-4 h-4 lg:w-5 lg:h-5 text-gray-300 hover:text-gray-400 "
+        className="w-4 h-4 lg:w-5 lg:h-5 text-red-300 hover:text-red-500"
       >
         <path
           strokeLinecap="round"

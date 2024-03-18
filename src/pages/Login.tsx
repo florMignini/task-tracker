@@ -38,6 +38,7 @@ if (password.length < 8) {
   });
   return;
 }
+
 try {
   const { data } = await axios.post(
     `${

@@ -48,7 +48,7 @@ const Dashboard = () => {
               projects.map((project: IProject) => (
                 <div
                   key={project?._id}
-                  className="w-[50%] xl:w-1/4 h-[160px] bg-[#5E1914]/60 px-2 flex flex-col rounded-lg items-center shadow-2xl hover:scale-[1.01] transition-transform text-[#5E1914] border-[1px]"
+                  className="w-[50%] xl:w-1/4 h-auto bg-[#5E1914]/60 px-2 flex flex-col rounded-lg items-center shadow-2xl hover:scale-[1.01] transition-transform text-[#5E1914] border-[1px]"
                 >
                   <div className="w-[90%] h-[90%] flex items-center justify-start flex-col">
                     <h1 className="w-[90%] flex items-center justify-start text-2xl font-semibold py-2 capitalize">

@@ -315,10 +315,8 @@ setCollaborators({})
         draggedTask,
         config
       );
-      console.log(data)
       socket.emit('update state', data)
       setTask({})
-
     } catch (error) {
       console.log(error);
     }

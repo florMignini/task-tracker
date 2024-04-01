@@ -18,7 +18,7 @@ export const TaskList: FC<Props> = ({ status }) => {
   const taskByStatus = useMemo(
     () => project?.tasks?.filter((task: ITask) => task.status === status),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [project?.tasks]
+    [project?.tasks, status]
   );
 
   const onDropTask = (event: DragEvent<HTMLDivElement>) => {

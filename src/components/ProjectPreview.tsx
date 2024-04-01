@@ -13,13 +13,14 @@ export const ProjectPreview = (project: IProject) => {
   return (
     <Link
       to={`${_id}`}
-      className="w-[35%] xl:w-1/3 h-[210px] px-2 flex flex-col rounded-lg shadow-2xl hover:scale-[1.01] transition-transform text-gray-500 border-[1px]"
+      className="w-[30%] xl:w-1/3 h-[210px] px-2 flex flex-col rounded-lg shadow-2xl hover:scale-[1.01] transition-transform text-gray-500 border-[1px]"
     >
       {/* title */}
       <div className="w-full h-[100px] flex items-center justify-between p-2 ">
-        <div className="truncate w-[80%] gap-1 flex flex-col lg:flex-row items-start lg:items-center justify-start over">
-          <p className="text-sm font-semibold">{name}</p>
-          {auth?._id !== creator ? (
+        <div className="truncate w-[80%] gap-1 flex flex-col items-center justify-start over">
+          <p className="w-[80%] text-sm text-left font-semibold">{name}</p>
+         <div className="w-[80%] flex gap-1 items-center justify-start h-auto">
+         {auth?._id !== creator ? (
             <p className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-green-300/80 border-green-400">
               collaborator
             </p>
@@ -31,6 +32,7 @@ export const ProjectPreview = (project: IProject) => {
           <span className="w-auto text-violet-400 text-[11px] border rounded-xl p-1 bg-violet-300/80 border-violet-400">
             {client}
           </span>
+         </div>
         </div>
 
         <Link

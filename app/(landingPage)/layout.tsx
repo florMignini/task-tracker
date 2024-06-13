@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-full bg-slate-100">
-      <main className="pt-40 pb-20 ">{children}</main>
+    <div className="h-full bg-gradient-to-r from-gray-700 to-gray-900 text-white">
+    <main className="pt-40 pb-20 ">{children}</main>
     </div>
   );
 }

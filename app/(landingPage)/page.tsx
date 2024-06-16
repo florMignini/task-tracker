@@ -14,10 +14,10 @@ const LandingPage = () => {
           </div>
           {/* button section */}
           <div className="w-[80%] h-[100px] mx-auto flex items-center justify-center gap-5">
-              <button className="bg-gradient-to-r from-purple-500 to-purple-900 p-2 h-11 rounded-lg shadow-slate-300 shadow-sm text-white font-semibold hover:opacity-80 hover:shadow-inner">
+              <button className="bg-gradient-to-r from-slate-400 to-slate-600 p-2 h-11 rounded-lg shadow-slate-300 shadow-sm text-white font-semibold hover:opacity-80 hover:shadow-inner">
                   Get started for free
               </button>
-              <button className="bg-gradient-to-r from-purple-500 to-purple-900 p-2 h-11 rounded-lg shadow-slate-300 shadow-sm text-white font-semibold hover:opacity-80 hover:shadow-inner">
+              <button className="bg-gradient-to-r from-slate-400 to-slate-600 p-2 h-11 rounded-lg shadow-slate-300 shadow-sm text-white font-semibold hover:opacity-80 hover:shadow-inner">
                   See demo
               </button>
           </div>
